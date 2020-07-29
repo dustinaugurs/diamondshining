@@ -1,0 +1,1 @@
+[10-Jul-2020 13:55:42 UTC] PHP Parse error:  syntax error, unexpected '?', expecting variable (T_VARIABLE) in /home/augurstech/diamonds.augurstech.com/vendor/zendframework/zend-diactoros/src/functions/marshal_uri_from_sapi.php on line 83

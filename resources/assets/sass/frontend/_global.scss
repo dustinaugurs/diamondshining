@@ -1,0 +1,11 @@
+// Header Styles
+.logged-in-as {
+  margin:0;
+  border-radius:0;
+}
+.control-label.required::after {
+  padding-left: 3px;
+  color: red;
+  content: "*";
+  display: inline-block;
+}

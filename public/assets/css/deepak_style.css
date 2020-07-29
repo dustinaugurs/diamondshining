@@ -1,0 +1,231 @@
+/*====Deepak Kumar Custom CSS=====*/
+.dkfilter{text-align:left}
+.dkfilter .dkf{padding: 2px 20px; border-radius: 0px 0px 5px 5px;}
+.dkfilter .dkf span{display: block;height: 18px;}
+.dkadvancefilter{text-align:center}
+.dkadvancefilter .dkaf{padding: 2px 20px; border-radius: 0px 0px 5px 5px;}
+.dkadvancefilter .dkaf span{display: block;height: 18px;}
+.dkresetfilter{text-align:right;}
+.dkresetfilter .dkreset{padding: 10px 20px;}
+
+.dkFilterbox{ margin: 0 0 15px 0;}
+
+#showAdvanceFilterBox, #shortFilterBox{display: none;}
+
+.hideFilter, .showAfilter, .hideAfilter{display: none;}
+.Search-for-Diamonds-wrp .shape-filter{float: left !important;}
+
+.Search-for-Diamonds-wrp .heading-text{
+    margin: 0px 0 10px 0;
+    text-transform: uppercase;
+    font-size: 17px;}
+.Search-for-Diamonds-wrp .gaye-box{padding: 10px 10px 0 10px;}
+.Search-for-Diamonds-wrp .shape-filter-btn{width:60px;}
+.Search-for-Diamonds-wrp .shape-filter-btn .checkbox33{font-size: 10px;}
+.Search-for-Diamonds-wrp .shape-filter-btn .checkmark {
+    top: 37px; background-position: 54% !important;
+    height: 51px;
+    width: 55px;}
+.Search-for-Diamonds-wrp .price-range-block .price-range-field{height: 36px;}
+.tab-content h4{margin: 0px !important;
+    padding: 10px 30px !important;
+    text-transform: uppercase;
+    font-size: 15px;}
+.table-accordion-wrp .table-responsive .table th{    
+    padding: 5px 5px;
+    font-size: 13px;
+    background: #007bff;
+    color: #f2f2f2;} 
+.table-accordion-wrp .table-responsive .table td{padding: 5px 5px; font-size: 13px;} 
+.table-accordion-wrp .table-responsive .table td p{width: 35px; height: 35px; overflow: hidden;}
+.table-accordion-wrp .table-responsive .table td p img, .table-accordion-wrp .table-responsive .table td p img{max-width: 100%;} 
+.table-accordion-wrp .table-responsive .table td a.detail-order-btn{padding: 6px 10px !important; display: block; margin: 0px auto;}    
+
+.dkpsearchbox{ margin: 15px 0 !important;} 
+.totaldimondbox h5{padding: 10px 0;
+    margin: 0px;
+    font-size: 15px;
+    text-transform: uppercase;}
+
+.totaldimondbox h5 span{display: inline-block;}
+.totaldimondbox h5 span:nth-child(2){margin: 0 5px;} 
+.totaldimondbox h5 span:nth-child(2), .totaldimondbox h5 span:last-child{color:#007bff; font-weight: 900;}   
+.diamondserachbox{}
+.diamondserachbox .form-group{margin-bottom: 0px; position: relative;}
+.diamondserachbox .form-group button.searchbtn{
+    width: 100%;
+    text-align: center;
+    height: 38px;
+    background: #ced4da;
+    font-size: 15px;
+    line-height: 38px;
+    border-radius: 0 5px 5px 0px;
+}
+
+.shortby_clarity{display: block; padding: 2px; border: 1px solid #f00;}
+
+.diamondserachbox .form-group button.searchbtn:hover{opacity: 0.6;}
+.diamondserachbox .form-group a, .diamondserachbox .form-group button.resetbtn{display: block;
+    border: 1px solid #f00; width: 100%;
+    text-align: center;
+    line-height: 36px;
+    font-size: 25px;
+    color: #f00;
+    border-radius: 5px;}
+.diamondserachbox .form-group a:hover, .diamondserachbox .form-group button.resetbtn:hover{opacity: 0.6;} 
+
+.project-tab .tab-content .tab-pane{border: none !important;}
+
+
+.dataTables_wrapper.form-inline.dt-bootstrap .row{width: 100%;}
+
+.tab-pane.imgbox p{width: auto !important; height: auto !important;}
+
+.table-accordion-wrp .table-responsive .table th a{color: #f2f2f2;}
+
+.header-top.topheader{background: #002853;
+    padding: 5px 0;}
+.header-top.topheader .welcome-message p{color: #f5f5f5;}
+.header-top.topheader .header-top-settings ul li{color: #f5f5f5;}
+.header-main-area.bottomheader{box-shadow: 1px 3px 4px #ccc; background: #f2f2f2;}
+
+.logosection .logo{max-width: 180px;}
+.logosection .logo a{display:block;}
+.customnavbar{width: 100%; margin: 0px; padding: 0px;}
+.customnavbar ul{list-style: none; margin: 0px; padding: 0px;}
+.customnavbar ul li{display: inline-block;}
+.customnavbar ul li a{display: block;
+    text-align: center;
+    padding: 17px 15px;
+    font-size: 15px;
+    color: #000;}
+
+.mobile-header.headermobile{background: #002853;
+    padding: 5px 0;} 
+    
+.footerbox .footer-top {
+        background-color: #f7f7f7;
+        box-shadow: 2px -1px 4px #ccc;
+        padding: 30px 0;
+    }
+.footerbox .footer-bottom {
+        padding: 10px 0;
+        background: #002853;
+        color: #f2f2f2;}    
+
+.contentbox{min-height: 38.59vh;}  
+
+.signupbox .signup{
+    width: 100%;
+    margin: 25px;
+    padding: 20px;
+    box-shadow: 0px 0px 0px 2px #002853;
+    background: #f2f2f2;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.signupbox .signup2 {
+    width: 100%;
+    margin: 25px;
+    padding: 20px 0;
+    box-shadow: 0px 0px 0px 2px #002853;
+    background: #f2f2f2;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.signupbox .signup h2, .signupbox .signup2 h2{background: #002853;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    padding: 15px 15px 15px 25px;
+    color: #f2f2f2;
+    text-transform: uppercase;
+    font-size: 25px;
+    background-image: linear-gradient(to right, #002853, #f2f2f2);
+    z-index: 9;
+    }
+#product_div .header-area{display:none;}
+
+.changecurrencybox .nice-select{background: transparent;
+  border: none; position: relative;
+  width: 100px;}
+.changecurrencybox .nice-select ul.list li{color: #002853;}
+.changecurrencybox  .-select ul.list li.option.selected.focus{padding-left: 39px !important; padding-right:18px;}
+.header-top-settings .changecurrencybox ul.list li:first-child {
+  padding-left: 38px !important;}
+    
+
+.signupbox .login-btn{margin: 20px auto;}
+
+.signupbox .signup form{margin-top:60px;}
+.signupbox .signup2 form{margin-top:0px}
+.signupbox .panel.panel-default.firstbox {padding-top: 65px;}    
+.signupbox .panel.panel-default.secondbox {padding-top: 65px;} 
+
+
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+  }
+
+  .pagebox{margin: 30px 0; width: 100%;}
+  .pagebox .tabcontent{min-height: 30vh; padding: 0;
+    border: none;}
+  .pagebox .tab button{padding: 10px 20px;
+    font-size: 15px;}
+
+.dkprealoader{width: 100px; margin: 30px auto;}    
+
+  .pagebox table.table thead tr th {
+    background-color: #ccc; border-color: #ccc;
+    padding: 8px;
+    font-size: 12px;}
+.pagebox table.table tbody tr td{font-size: 12px;}
+  
+  /* Style the buttons inside the tab */
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 17px;
+  }
+  
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    background-color: #ddd;
+  }
+  
+  /* Create an active/current tablink class */
+  .tab button.active {
+    background-color: #ccc;
+  }
+  
+  /* Style the tab content */
+  .tabcontent {
+    display: none;
+    border-top: none;
+  }
+
+  /*--------popup---------------*/
+  .videopopupbox{width: 100%; margin: 0px; padding: 0px;}
+  .videopopupbox video{ width: 100%; height: auto;}
+  button.clsbutton.close{position: absolute !important; top:-17px !important; right: -17px !important; color: #f00 !important;}
+
+
+@media only screen and (max-width: 600px) {
+    .dkfilter, .dkresetfilter, .dkadvancefilter{width: 33%; overflow: hidden; padding: 2px 3px}
+    
+    .diamondserachbox .col-sm-8{width:50%}
+    .diamondserachbox .col-sm-2{width:25%}
+  }
+
