@@ -4,51 +4,112 @@
  
  <table class="table table-bordered" style="border-collapse:collapse;">
  <caption>{{$cancelled}}</caption>
-<thead>
+ <thead>
 <tr>
 <th>Date 
         <div class="changedatabox">
-            <select name="date" id="">
-                <option value="">All</option>
-                <option value="">26 july</option>
-                <option value="">27 july</option>
+            <select name="changedateCancelled" id="changedateCancelled">
+            <option value="00_00">All</option>    
+            <?php
+            $dateTime = new DateTime('first day of this month');
+            for ($i = 1; $i <= 56; $i++) {
+            echo '<option value="'.$dateTime->format('m_Y').'">'.$dateTime->format('M-y').'</option>';
+            $dateTime->modify('-1 month');
+            }
+            ?>
             </select>
         </div>
     </th>
     <th>Ref/Name/Contact No.</th>
-    <th>Staff 
-    <div class="changedatabox">
-            <select name="staff" id="">
-                <option value="">All</option>
-                <option value="">26 july</option>
-                <option value="">27 july</option>
-            </select>
-        </div>
-    </th>
     <th>Order Status</th>
     <th>Items</th>
     <th>Cost (Ex VAT)</th>
     <th>Multiplier</th>
     <th>SalePrice (Ex VAT)</th>
     <th>SalePrice (Inc VAT)</th>
+    <th>Payment Status
+    <div class="changedatabox">
+            <select name="paymentCancelled" id="paymentCancelled">
+                <option value="">All</option>
+                <option value="">Deposite Paid</option>
+                <option value="">Fully Paid</option>
+            </select>
+        </div>
+    </th>
     <th>ETA</th>
 </tr>
  </thead>
- <tbody>
- 
-<tr>
-<td>16/07/2020 7:11 AM</td>
-<td>6156</td>
-<td>Store Requested Video or Image for this Stone</td>
-<td>N/A (Dragon Workshop)</td>
-<td>Enquiry</td>
-<td><a class="view_diamond" data-id="6156" target="_blank" href="js;">WL16UIFSEYWDZ3GG</a>
+ <tbody id="dataafterfilterCancelled">
+     @if(!$orders->isEmpty())
+ @foreach($orders as $order)
+<tr id="rowupdateCancelled_{{$order->id}}">
+<td>{{$order->order_date}}</td>
+<td class="reftd">{{$order->ref_name_contact}}</td>
+<td>
+@switch($order->order_status)
+    @case(1)
+        Enquiry
+        @break
+    @case(2)
+        Completed
+        @break
+    @case(3)
+        Cancelled
+        @break
+    @case(4)
+        Order Request
+        @break
+    @case(5)
+        Order Placed
+        @break
+    @default
+        Enquiry
+@endswitch
+<span class="changests changestsCancelled_{{$order->id}}" id="upstatusCancelled_{{$order->id}}"><a class="getstatusvalueCancelled" href="javascript:void(0);" idsCancelled="{{$order->id}}">Change</a></span>
 </td>
-<td class="admin costs" style="display: table-cell;">£192.85</td>
-<td class="no-show costs" style="display: table-cell;">1.400x</td>
-<td class="no-show-admin">£269.99</td>
-<td class="no-show-admin">£323.99</td>
+
+<td><a class="view_diamond" target="_blank" href="{{url('printDetails')}}/{{$order->diamondfeed->stock_id}}">{{$order->diamondfeed->stock_id}}</a>
+</td>
+
+<td>
+    @if($current_currency !== '')
+    {{$symbol}} {{number_format(floor(($current_currency * $order->diamondfeed->price)*100)/100,2, '.', '')}} 
+    @else
+    $ {{number_format(floor(($order->diamondfeed->price)*100)/100,2, '.', '')}}
+    @endif
+    (Ex. VAT)
+    </td>
+
+<td>{{$order->multiplierprice->multiplier_usd}} x</td>
+
+<td>
+    @if($current_currency !== '')
+    {{$symbol}} {{number_format(floor(($current_currency * ($order->diamondfeed->price * $order->multiplierprice->multiplier_usd))*100)/100,2, '.', '')}} 
+    @else
+    $ {{number_format(floor(($order->diamondfeed->price)*100)/100,2, '.', '')}}
+    @endif
+    (Ex. VAT)
+    </td>
+
+    <td>
+    @if($current_currency !== '')
+    {{$symbol}}{{number_format(floor(($current_currency * ((20 / 100 ) * $order->diamondfeed->price + $order->diamondfeed->price))*100)/100,2, '.', '')}}
+    @else
+    $ {{number_format(floor(((20 / 100 ) * $order->diamondfeed->price + $order->diamondfeed->price)*100)/100,2, '.', '')}}
+    @endif
+    (inc. VAT)
+    </td>
+
+<td>Pending
+    <a href="javascript">Change</a>
+</td>
+
+<td>{{$order->ETA}}</td>
 </tr>
+@endforeach
+@else
+<tr><td colspan="10">No Data Found</td></tr>
+@endif
 
                                   
 

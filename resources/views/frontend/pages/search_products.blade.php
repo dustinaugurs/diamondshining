@@ -11,7 +11,7 @@
 <body>
     <main>
           <!--main-menu-area -->
-<section id="tabs" class="project-tab">
+<section id="tabs" class="project-tab searchproductPage">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
@@ -377,43 +377,12 @@
 
 <!-- Search-for-Diamonds-wrp -->
 
-<div class="tab-content" id="nav-tabContent" >
+<div class="tab-content certifieddiamond" id="nav-tabContent" >
 
 <div class="tab-pane fade show active" id="certified-colourless-diamonds" role="tabpanel" aria-labelledby="nav-home-tab"> 
 
 <!-----deepak------>
-<div class="row dkpsearchbox">
-
-<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-<h4>Certified diamonds</h4>
-</div>
-
-<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 totaldimondbox">
-<h5><span>Diamond Found:</span> <span><i class="fa fa-diamond" aria-hidden="true"></i></span> 
-<span>{{$total_diamond_found}}</span> </h5>
-</div>
-
-<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 diamondserachbox">
-<form enctype="multipart/form-data" method="get" action="{{url('search-products')}}"> 
-<div class="form-group">
-  <div class="row">
-    <div class="col-sm-8" style="padding-right:0px;">
-<input type="text" class="form-control" style="border-radius: 5px 0px 0px 5px;" id="search_stock_number" name="search_stock_number" value="{{$stockId}}" placeholder="Search Stock Number" required>
-</div>
-<div class="col-sm-2" style="padding-left:0px; padding-right:0px;">
-<button class="searchbtn" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-</div>
-
-<div class="col-sm-2">
-  <a href="{{url('our-products')}}">&times;</a>
-</div>
-
-</div>
-</div>
-</form>
-</div>
-
-</div>
+<!--------Search-stock------------>
 <!------------->
 
 
@@ -423,7 +392,7 @@
   <span class="sr-only">Loading...</span>
 </div>
 </div>
-<div class="table-responsive" id="product_div">
+<div class="table-responsive searchpage" id="product_div">
                                 
  
 
@@ -437,8 +406,8 @@
 
 <!-- Fancy coloured diamonds -->
 
-<div class="tab-pane fade" id="fancy-coloured-diamonds" role="tabpanel" aria-labelledby="nav-profile-tab">
-<h4>Fancy coloured diamonds</h4>
+<div class="tab-pane fade fancyclrdiamon" id="fancy-coloured-diamonds" role="tabpanel" aria-labelledby="nav-profile-tab">
+<!-- <h4>Fancy coloured diamonds</h4> -->
 
 
 <div class="col-lg-12 table-accordion-wrp">
@@ -448,7 +417,7 @@
 </div>
 </div>
     
-<div class="table-responsive" id="product_div">
+<div class="table-responsive searchpage" id="product_div">
 
 
 @include('frontend.pages.component.product_component')
@@ -468,7 +437,7 @@
   <span class="sr-only">Loading...</span>
 </div>
 </div>
-<div class="table-responsive" id="product_div">
+<div class="table-responsive searchpage" id="product_div">
 
 @include('frontend.pages.component.product_component1')
 </div>
@@ -479,12 +448,12 @@
 
 <!-- canada-mark-diamonds -->
 
-<div class="tab-pane fade" id="lab-Grown-Diamonds" role="tabpanel" aria-labelledby="nav-contact-tab">
-<h4>Lab Grown Diamonds</h4>
+<div class="tab-pane fade labgrowndiamond" id="lab-Grown-Diamonds" role="tabpanel" aria-labelledby="nav-contact-tab">
+<!-- <h4>Lab Grown Diamonds</h4> -->
 
 <div class="col-lg-12 table-accordion-wrp">
     
-<div class="table-responsive" id="product_div">
+<div class="table-responsive searchpage" id="product_div">
  <div  class="text-center loader" style="display: none">
      <div class="spinner-border text-primary" role="status">
   <span class="sr-only">Loading...</span>
@@ -500,8 +469,8 @@
 
 <!-- lab-Grown-Diamonds -->
 
-<div class="tab-pane fade" id="melee-diamonds" role="tabpanel" aria-labelledby="nav-contact-tab">
- <h4>Melee diamonds</h4>
+<div class="tab-pane fade meleediamond" id="melee-diamonds" role="tabpanel" aria-labelledby="nav-contact-tab">
+ <!-- <h4>Melee diamonds</h4> -->
 
  <div class="col-lg-12 table-accordion-wrp">
      <div  class="text-center loader" style="display: none">
@@ -510,7 +479,7 @@
 </div>
 </div>
     
-<div class="table-responsive" id="product_div">
+<div class="table-responsive searchpage" id="product_div">
 
 @include('frontend.pages.component.product_component')
 </div>
@@ -639,11 +608,12 @@ $(document).ready(function(){
 $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
    var href = $(this).attr('href');
     if('#melee-diamonds' ==  href){
-            $('.btn-primary.btn-new2').hide();
-            $('.Search-for-Diamonds-wrp').hide();
+            // $('.btn-primary.btn-new2').hide();
+            // $('.Search-for-Diamonds-wrp').hide();
+            $('.dkFilterbox').hide();
     } else{
         $('.btn-primary.btn-new2').show();
-         $('.Search-for-Diamonds-wrp').show();
+         $('.Search-for-Diamonds-wrp, .dkFilterbox').show();
     }
 })
 </script>

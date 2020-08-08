@@ -3,52 +3,148 @@
 <div class="table-responsive">
  
  <table class="table table-bordered" style="border-collapse:collapse;">
- <caption>{{$order}}</caption>
-<thead>
+ <thead>
 <tr>
+<th>#</th>
 <th>Date 
         <div class="changedatabox">
-            <select name="date" id="">
-                <option value="">All</option>
-                <option value="">26 july</option>
-                <option value="">27 july</option>
+            <select name="changedatetimeOrder" class="changedatetimeOrder">
+            <option value="00_00">All</option>    
+            <?php
+            $dateTime = new DateTime('first day of this month');
+            for ($i = 1; $i <= 56; $i++) {
+            echo '<option value="'.$dateTime->format('m_Y').'">'.$dateTime->format('M-y').'</option>';
+            $dateTime->modify('-1 month');
+            }
+            ?>
             </select>
         </div>
     </th>
-    <th>Ref/Name/Contact No.</th>
-    <th>Staff 
-    <div class="changedatabox">
-            <select name="staff" id="">
-                <option value="">All</option>
-                <option value="">26 july</option>
-                <option value="">27 july</option>
-            </select>
-        </div>
-    </th>
+    <th>Client</th>
+    <th>Reference</th>
     <th>Order Status</th>
-    <th>Items</th>
-    <th>Cost (Ex VAT)</th>
-    <th>Multiplier</th>
+    <th>Stock No.</th>
+    <th>Certificate</th>
+    <th>Shape</th>
+    <th>Tracking ID</th>
+    <th>Status</th>
     <th>SalePrice (Ex VAT)</th>
     <th>SalePrice (Inc VAT)</th>
+    <th>Payment Status
+    <div class="changedataboxpayment">
+            <select name="paymentStatusOrder" class="paymentStatusOrder">
+                <option value="0">All</option>
+                <option value="1">Pending</option>
+                <option value="2">Deposite Paid</option>
+                <option value="3">Fully Paid</option>
+            </select>
+        </div>
+    </th>
     <th>ETA</th>
 </tr>
  </thead>
- <tbody>
- 
-<tr>
-<td>16/07/2020 7:11 AM</td>
-<td>6156</td>
-<td>Store Requested Video or Image for this Stone</td>
-<td>N/A (Dragon Workshop)</td>
-<td>Enquiry</td>
-<td><a class="view_diamond" data-id="6156" target="_blank" href="js;">WL16UIFSEYWDZ3GG</a>
+ <tbody class="dataafterfilterOrder">
+     @if(!$orders->isEmpty())
+ @foreach($orders as $order)
+<tr id="rowupdateOrder_{{$order->id}}">
+<td>{{ $loop->iteration }}</td>
+<td>{{$order->order_date}}</td>
+<td>{{$order->client}}</td>
+<td onclick="updateReferrence({{$order->id}})" class="reftd_{{$order->id}}">
+<textarea class="txtareadisplay textarea_{{$order->id}}">{{$order->ref_name_contact}}</textarea>
 </td>
-<td class="admin costs" style="display: table-cell;">£192.85</td>
-<td class="no-show costs" style="display: table-cell;">1.400x</td>
-<td class="no-show-admin">£269.99</td>
-<td class="no-show-admin">£323.99</td>
+<td>
+@switch($order->order_status)
+    @case(1)
+        Enquiry
+        @break
+    @case(2)
+        Completed
+        @break
+    @case(3)
+        Cancelled
+        @break
+    @case(4)
+        Order Request
+        @break
+    @case(5)
+        Order Placed
+        @break
+    @default
+        Enquiry
+@endswitch
+@if(!($order->order_status==2 || $order->order_status==3))
+<span class="changests changestsOrder_{{$order->id}} upstatusOrder_{{$order->id}}"><a class="getstatusvalueOrder" href="javascript:void(0);" idsOrder="{{$order->id}}">Change</a></span>
+@endif
+</td>
+
+<td><a class="view_diamond" target="_blank" href="{{url('printDetails')}}/{{$order->diamondfeed->stock_id}}">{{$order->diamondfeed->stock_id}}</a>
+</td>
+
+<td><a class="view_diamond" target="_blank" href="{{$order->diamondfeed->pdf}}">{{$order->diamondfeed->lab}}</a>
+</td>
+
+<td>{{$order->diamondfeed->shape}}</td>
+
+<td class="trackingid">{{$order->orderTrackingId}}</td>
+<td class="status">
+@switch($order->checkStatus)
+    @case(1)
+        Checking availability
+        @break
+    @case(2)
+        Order confirmed
+        @break
+    @case(3)
+        Order sent with tracking
+        @break
+    @default
+       Checking availability
+@endswitch
+</td>
+
+<td>
+    @if($current_currency !== '')
+    {{$symbol}} {{number_format(floor(($current_currency * ($order->diamondfeed->price * 1))*100)/100,2, '.', '')}} 
+    @else
+    $ {{number_format(floor(($order->diamondfeed->price)*100)/100,2, '.', '')}}
+    @endif
+    (Ex. VAT)
+    </td>
+
+    <td>
+    @if($current_currency !== '')
+    {{$symbol}}{{number_format(floor(($current_currency * ((20 / 100 ) * $order->diamondfeed->price + $order->diamondfeed->price))*100)/100,2, '.', '')}}
+    @else
+    $ {{number_format(floor(((20 / 100 ) * $order->diamondfeed->price + $order->diamondfeed->price)*100)/100,2, '.', '')}}
+    @endif
+    (inc. VAT)
+    </td>
+
+<td>
+@switch($order->payment_status)
+    @case(1)
+        Pending
+        @break
+    @case(2)
+        Deposit Paid
+        @break
+    @case(3)
+       Fully Paid
+        @break
+    @default
+       Pending
+@endswitch
+
+<span class="changests paymentOrder_{{$order->id}} paystatusOrder_{{$order->id}}"><a class="getpaystatusOrder" href="javascript:void(0);" payOrder="{{$order->id}}">Change</a></span>
+</td>
+
+<td>{{$order->ETA}}</td>
 </tr>
+@endforeach
+@else
+<tr><td colspan="14">No Data Found</td></tr>
+@endif
 
                                   
 

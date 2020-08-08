@@ -1,12 +1,47 @@
 
                                 <!-- product single item start -->
 
+<!-------------Start-search-stock--------------------->
+<div class="row dkpsearchbox">
+
+<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+<h4 class="certifieddiamond_heading">Certified diamonds</h4>
+<h4 class="fancyclrdiamon_heading">Fancy coloured diamonds</h4>
+<h4 class="labgrowndiamond_heading">Lab Grown Diamonds</h4>
+<h4 class="meleediamond_heading">Melee diamonds</h4>
+</div>
+
+<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 totaldimondbox">
+<h5><span>Diamond Found:</span> <span><i class="fa fa-diamond" aria-hidden="true"></i></span> 
+<span>{{$total_diamond_found}}</span> </h5>
+</div>
+
+<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 diamondserachbox">
+<form enctype="multipart/form-data" method="get" action="{{url('search-products')}}"> 
+<div class="form-group">
+  <div class="row">
+    <div class="col-sm-8" style="padding-right:0px;">
+<input type="text" class="form-control" style="border-radius: 5px 0px 0px 5px;" id="search_stock_number" name="search_stock_number" placeholder="Search Stock Number" required>
+</div>
+<div class="col-sm-2" style="padding-left:0px; padding-right:0px;">
+<button class="searchbtn" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+</div>
+
+<div class="col-sm-2 resetvisibility">
+  <a href="{{url('our-products')}}">&times;</a>
+</div>
+
+</div>
+</div>
+</form>
+</div>
+
+</div>
+
+<!--------------End-search-stock----------------------->
  
  <table class="table table-bordered" style="border-collapse:collapse;" id="product_data_table">
 <thead>
-<tr><th colspan="16">Selected/Filtered Diamond Found: 
-<span><i class="fa fa-diamond" aria-hidden="true"></i></span> 
-{{$total_diamond_found}}</th></tr>
 <tr>
     <th>@sortablelink('video')</th>
     <th>@sortablelink('image')</th>
@@ -197,14 +232,21 @@
 $ {{number_format(floor(($product->price)*100)/100,2, '.', '')}}
 @endif</div>
 <div class="price-sub">(EX. VAT)</div>
-<div class="order-btn-wrp"><a href="#" class="order-btn"> ORDER</a></div>
-<div class="enquire-btn-wrp"><a href="#"  data-toggle="modal" data-target="#EnquireModal" class="enquire-btn"> ENQUIRE </a></div>
+
+<div class="order-btn-wrp" onclick="orderPopup({{$product->id}})"><a href="#" data-toggle="modal" data-target="#OrderModal" class="order-btn"> ORDER</a>
+<input type="hidden" class="stocknumo_{{$product->id}}" value="{{$product->stock_id}}">
+</div>
+
+<div class="enquire-btn-wrp" onclick="enquiryPopup({{$product->id}})" ><a href="#" data-toggle="modal" data-target="#EnquiryModal" class="enquire-btn"> ENQUIRE </a>
+<input type="hidden" class="stocknum_{{$product->id}}" value="{{$product->stock_id}}">
+</div>
 </div>
 
 </div>
 </div> 
 </td> 
-</tr>  
+</tr> 
+
 @empty
 <!----------------------------->
 
@@ -224,34 +266,102 @@ $ {{number_format(floor(($product->price)*100)/100,2, '.', '')}}
 </table>              
 							 
 							 
-				<!-- Modal -->
-<div class="modal fade" id="EnquireModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
+       
+        <!-----------start-Enquiry-Model--------------->
+<div class="modal fade" id="EnquiryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm maxwidth650" role="document">
+    <div class="modal-content enquiryboxmodel">
       <div class="modal-header">
-        
+        <h1><strong>Product Enquiry :</strong> Hi <strong><i>{{Auth::user()->name}}</i></strong> Check Your Details</h1>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-<form>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Enter the Email</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter the Email">
-    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-  </div>  
-  <button type="submit" class="btn btn-primary">Submit</button>
+<form method="POST" action="{{url('enquirysend')}}">
+             @csrf
+
+             <div class="row">
+
+             <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="input-group">
+          <span class="input-group-addon">Product ID</span>
+          <input type="text" id="diamondFeed_id" class="form-control" name="diamondFeed_id" value="" readonly required>
+          </div>
+          </div>
+
+          <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="input-group">
+          <span class="input-group-addon">Stock Number</span>
+          <input id="stock_number" type="text" name="stock_number" class="form-control" readonly placeholder="Your Stock Number">
+          </div>
+          </div>
+
+          <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="input-group">
+          <span class="input-group-addon">Email</span>
+          <input id="userEmail" type="email" class="form-control" name="userEmail" value="{{Auth::user()->email}}" placeholder="Enter Your Correct Email Address ">
+          </div>
+          </div>
+
+             </div>
+
+  <button type="submit" class="btn btn-primary custombtn">Submit</button>
 </form>
-
-        ...
-      </div>
-      <div class="modal-footer">
-
       </div>
     </div>
   </div>
 </div>	 
+<!-----------end-Enquiry-Model--------------->
+
+
+<!-----------start-Order-Model--------------->
+<div class="modal fade" id="OrderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm maxwidth650" role="document">
+    <div class="modal-content enquiryboxmodel">
+      <div class="modal-header">
+        <h1><strong>Product Order :</strong> Hi <strong><i>{{Auth::user()->name}}</i></strong> Check Your Details</h1>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+<form method="POST" action="{{url('ordersend')}}">
+             @csrf
+
+             <div class="row">
+
+             <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="input-group">
+          <span class="input-group-addon">Product ID</span>
+          <input type="text" id="diamondFeed_ido" class="form-control" name="diamondFeed_ido" value="" readonly required>
+          </div>
+          </div>
+
+          <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="input-group">
+          <span class="input-group-addon">Stock Number</span>
+          <input id="stock_numbero" type="text" name="stock_numbero" class="form-control" readonly placeholder="Your Stock Number">
+          </div>
+          </div>
+
+          <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="input-group">
+          <span class="input-group-addon">Email</span>
+          <input id="userEmailo" type="email" class="form-control" name="userEmailo" value="{{Auth::user()->email}}" placeholder="Enter Your Correct Email Address ">
+          </div>
+          </div>
+
+             </div>
+
+  <button type="submit" class="btn btn-primary custombtn">Submit</button>
+</form>
+      </div>
+    </div>
+  </div>
+</div>	 
+<!-----------end-Order-Model--------------->
+
 							 
 							 
 							 

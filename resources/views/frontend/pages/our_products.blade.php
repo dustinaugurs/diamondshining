@@ -11,7 +11,7 @@
 <body>
     <main>
           <!--main-menu-area -->
-<section id="tabs" class="project-tab">
+<section id="tabs" class="project-tab ourproductPage">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
@@ -68,7 +68,7 @@
 
             <div class="shape-filter-btn">
              <label class="checkbox33">Cushion
-             <input type="checkbox" value="Cushion" class="shape_checkbox">
+             <input type="checkbox" value="CUSHION" class="shape_checkbox">
              <span class="checkmark Cushion-icon"></span>
             </label>
             </div>
@@ -377,44 +377,13 @@
 
 <!-- Search-for-Diamonds-wrp -->
 
-<div class="tab-content" id="nav-tabContent" >
+<div class="tab-content certifieddiamond" id="nav-tabContent" >
 
 <div class="tab-pane fade show active" id="certified-colourless-diamonds" role="tabpanel" aria-labelledby="nav-home-tab"> 
 
 <!-----deepak------>
-<div class="row dkpsearchbox">
-
-<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-<h4>Certified diamonds</h4>
-</div>
-
-<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 totaldimondbox">
-<h5><span>Diamond Found:</span> <span><i class="fa fa-diamond" aria-hidden="true"></i></span> 
-<span>{{$total_diamond_found}}</span> </h5>
-</div>
-
-<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 diamondserachbox">
-<form enctype="multipart/form-data" method="get" action="{{url('search-products')}}"> 
-<div class="form-group">
-  <div class="row">
-    <div class="col-sm-8" style="padding-right:0px;">
-<input type="text" class="form-control" style="border-radius: 5px 0px 0px 5px;" id="search_stock_number" name="search_stock_number" placeholder="Search Stock Number" required>
-</div>
-<div class="col-sm-2" style="padding-left:0px; padding-right:0px;">
-<button class="searchbtn" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-</div>
-
-<div class="col-sm-2" style="visibility:hidden">
-<button class="resetbtn" type="reset">&times;</button>
-</div>
-
-</div>
-</div>
-</form>
-</div>
-
-</div>
-<!------------->
+<!---search-stock----->
+<!-------------------->
 
 
 <div class="col-lg-12 table-accordion-wrp">
@@ -437,10 +406,8 @@
 
 <!-- Fancy coloured diamonds -->
 
-<div class="tab-pane fade" id="fancy-coloured-diamonds" role="tabpanel" aria-labelledby="nav-profile-tab">
-<h4>Fancy coloured diamonds</h4>
-
-
+<div class="tab-pane fade fancyclrdiamon" id="fancy-coloured-diamonds" role="tabpanel" aria-labelledby="nav-profile-tab">
+<!-- <h4>Fancy coloured diamonds</h4> -->
 <div class="col-lg-12 table-accordion-wrp">
      <div  class="text-center loader" style="display: none">
      <div class="spinner-border text-primary" role="status">
@@ -479,8 +446,8 @@
 
 <!-- canada-mark-diamonds -->
 
-<div class="tab-pane fade" id="lab-Grown-Diamonds" role="tabpanel" aria-labelledby="nav-contact-tab">
-<h4>Lab Grown Diamonds</h4>
+<div class="tab-pane fade labgrowndiamond" id="lab-Grown-Diamonds" role="tabpanel" aria-labelledby="nav-contact-tab">
+<!-- <h4>Lab Grown Diamonds</h4> -->
 
 <div class="col-lg-12 table-accordion-wrp">
     
@@ -500,8 +467,8 @@
 
 <!-- lab-Grown-Diamonds -->
 
-<div class="tab-pane fade" id="melee-diamonds" role="tabpanel" aria-labelledby="nav-contact-tab">
- <h4>Melee diamonds</h4>
+<div class="tab-pane fade meleediamond" id="melee-diamonds" role="tabpanel" aria-labelledby="nav-contact-tab">
+ <!-- <h4>Melee diamonds</h4> -->
 
  <div class="col-lg-12 table-accordion-wrp">
      <div  class="text-center loader" style="display: none">
@@ -541,6 +508,20 @@
 
 
 <script>
+  //=================
+  function enquiryPopup(id){
+    //console.log('id='+id);
+    var stockiid =  $('.stocknum_'+id).val();
+    $('#diamondFeed_id').val(id);
+    $('#stock_number').val(stockiid);
+        }
+
+  function orderPopup(id){
+    //console.log('id='+id);
+    var stockiido =  $('.stocknumo_'+id).val();
+    $('#diamondFeed_ido').val(id);
+    $('#stock_numbero').val(stockiido);
+        }       
 
   //==================
 function myFunction() {
@@ -823,7 +804,8 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
           shape_arr = return_shape_filter();
         // var color = 
         console.log(shape_arr, 'ee' ,max_price , min_price , max_price1 
-             , min_price1,min_depth , max_depth ,min_table , max_table ,min_ratio ,max_ratio, cut_div_val , color_div_val , cla_div_val, certi_div_val ,pol_div_val ,sym_div_val,page)
+             , min_price1,min_depth , max_depth ,min_table , max_table ,min_ratio ,max_ratio, cut_div_val , color_div_val , cla_div_val, certi_div_val ,pol_div_val ,sym_div_val,page);
+
          get_product(shape_arr,max_price , min_price , max_price1 
              , min_price1,min_depth , max_depth ,min_table , max_table ,min_ratio ,max_ratio, cut_div_val , color_div_val , cla_div_val, certi_div_val ,pol_div_val ,sym_div_val,page);
               
@@ -922,18 +904,18 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
              cut_div.attr("data-divvalue",$(this).text()); 
        });
        //-----------------------------
-       
-      
+ 
         $(document).on('click','.div_color',function(e){
              shape_arr =  return_shape_filter();
            // console.log(shape_arr);
             var color_div  = $(this).addClass('div_color_remove active').removeClass('div_color');
             var color_div_val = color_div.data('divvalue');
+
              get_product(shape_arr,max_price , min_price , max_price1 
              , min_price1,min_depth , max_depth ,min_table , max_table ,min_ratio ,max_ratio, cut_div_val , color_div_val , cla_div_val, certi_div_val ,pol_div_val ,sym_div_val, flo_div_val,page);
              color_div.attr("data-divvalue", "");
-            //console.log('colord '+color_div_val);
-            // get_product(shape_arr,max_price , min_price , max_price1 , min_price1,min_price2 , max_price2 ,min_price3 , max_price3,min_price4 ,max_price4, max_price3 , cut_div_val , color_div_val);  
+            console.log(shape_arr,max_price , min_price , max_price1 
+             , min_price1,min_depth , max_depth ,min_table , max_table ,min_ratio ,max_ratio, cut_div_val , color_div_val , cla_div_val, certi_div_val ,pol_div_val ,sym_div_val, flo_div_val,page); 
        });
        //-------deepak---div-color----------
        $(document).on('click','.div_color_remove',function(e){

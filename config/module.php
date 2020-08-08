@@ -29,4 +29,7 @@ return [
 	"diamonds" => [
 	"table" => "diamonds",
 	],
+	"orders" => [
+	"table" => "orders",
+	],
 ];

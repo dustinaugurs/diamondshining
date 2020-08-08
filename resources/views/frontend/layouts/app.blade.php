@@ -67,6 +67,7 @@
     {!! Html::style('assets/css/plugins/nice-select.css') !!}
     <!--Deepak-style-custom--->
     {!! Html::style('assets/css/deepak_style.css') !!}
+    {!! Html::style('assets/css/toastr.min.css') !!}
     {!! Html::style('datatable/css/dataTables.bootstrap.min.css') !!}
 	{!! Html::style('assets/css/style.css') !!}
 	{!! Html::style('assets/css/plugins/jqueryui.min.css') !!}
@@ -81,7 +82,6 @@
     <!-- Bootstrap JS -->
 	{!! Html::script('assets/js/vendor/bootstrap.min.js') !!}
         @yield('after-styles')
-
         <!-- Scripts -->
         <script>
             window.Laravel = <?php echo json_encode([
@@ -94,8 +94,8 @@ if (!empty($google_analytics)) {
 }
 ?>
     </head>
-    <body >   
-        <div id="app">     
+    <body> 
+        <div id="app">      
             @include('includes.partials.logged-in-as')
             <!--================Header Menu Area =================-->
             @include('frontend.includes.nav')
@@ -192,6 +192,7 @@ var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     })
 </script>
 <!-------------------------->
-
     </body>
+{!! Html::script('assets/js/toastr.min.js') !!}
+@toastr_render
 </html>

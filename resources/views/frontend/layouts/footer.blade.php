@@ -288,3 +288,7 @@
         </div>
     </div>
     <!-- offcanvas mini cart end -->
+    
+       
+     
+   

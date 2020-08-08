@@ -16,7 +16,7 @@
 
         <!-- Styles -->
         @yield('before-styles')
-
+        {!! Html::style('assets/css/deepak_style.css') !!}
         <!-- Check if the language is set to RTL, so apply the RTL layouts -->
         <!-- Otherwise apply the normal LTR layouts -->
         @langrtl

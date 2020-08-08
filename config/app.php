@@ -199,6 +199,7 @@ return [
         Laravel\Passport\PassportServiceProvider::class,
         Krgupta\Active\Providers\ActiveServiceProvider::class,
         Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
+        Yoeunes\Toastr\ToastrServiceProvider::class,
     ],
 
     /*

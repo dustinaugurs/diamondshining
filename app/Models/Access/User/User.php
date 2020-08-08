@@ -115,4 +115,11 @@ class User extends Authenticatable
             'updated_at'  => $this->updated_at->toIso8601String(),
         ];
     }
+
+
+    public function template()
+	{
+		return $this->belongsTo('App\Models\DiamondTemplates\DiamondTemplate', 'markup_template', 'id');
+    }
+    
 }

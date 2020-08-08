@@ -20,3 +20,4 @@ require __DIR__.'/LogViewer.php';
 require __DIR__.'/DiamondFeed.php';
 require __DIR__.'/DiamondTemplate.php';
 require __DIR__.'/Diamond.php';
+require __DIR__.'/Order.php';

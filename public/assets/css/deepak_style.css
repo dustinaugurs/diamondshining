@@ -151,6 +151,27 @@
     }
 #product_div .header-area{display:none;}
 
+.searchpage .diamondfbox{display: none;}
+
+.searchproductPage .resetvisibility{visibility: visible;}
+.ourproductPage .resetvisibility{visibility: hidden;}
+
+.certifieddiamond_heading, .fancyclrdiamon_heading, .labgrowndiamond_heading, .meleediamond_heading{display: none;}
+
+/* .fancyclrdiamon .fancyclrdiamon_heading{display: block;} */
+
+.certifieddiamond .certifieddiamond_heading{display: block;}
+.certifieddiamond .fancyclrdiamon_heading{display: none;}
+
+.fancyclrdiamon .certifieddiamond_heading{display: none;}
+.fancyclrdiamon .fancyclrdiamon_heading{display: block;}
+
+.labgrowndiamond .labgrowndiamond_heading{display: block;}
+.labgrowndiamond .fancyclrdiamon_heading, .labgrowndiamond .certifieddiamond_heading, .labgrowndiamond .meleediamond_heading{display: none;}
+
+.meleediamond .meleediamond_heading{display: block;}
+.meleediamond .fancyclrdiamon_heading, .meleediamond .certifieddiamond_heading, .meleediamond .labgrowndiamond_heading{display: none;}
+
 .changecurrencybox .nice-select{background: transparent;
   border: none; position: relative;
   width: 100px;}
@@ -159,6 +180,7 @@
 .header-top-settings .changecurrencybox ul.list li:first-child {
   padding-left: 38px !important;}
     
+.txtareadisplay{display:none; resize:auto;}
 
 .signupbox .login-btn{margin: 20px auto;}
 
@@ -167,7 +189,28 @@
 .signupbox .panel.panel-default.firstbox {padding-top: 65px;}    
 .signupbox .panel.panel-default.secondbox {padding-top: 65px;} 
 
+.changedataboxpayment{display:none}
 
+.maxwidth650{max-width: 650px !important;}
+.enquiryboxmodel .input-group{margin-bottom: 15px;}
+.enquiryboxmodel h1{margin: 20px 0 0 0px;
+  padding: 15px; font-weight: 400;
+  font-size: 15px;
+  border-bottom: 1px solid #DDD;
+  display: block; width:100%;
+}
+.enquiryboxmodel h1 i{font-size: 15px; text-transform: capitalize;}
+.enquiryboxmodel h1 strong{text-transform: uppercase; font-size: 20px;}
+.btn.custombtn{background: #007bff;
+  padding: 12px 15px;
+  color: #fff;
+  text-transform: uppercase;}
+
+  span.changests span{display: inline-block;}
+  span.changests span a.clrred{display: block; color: #f00;}
+  span.changests span:last-child{margin-left: 5px;} 
+  span.changests span select{padding:3px 0; display: block; cursor:pointer}
+  span.changests span select > option{cursor:pointer}
 /* Style the tab */
 .tab {
     overflow: hidden;
@@ -175,11 +218,22 @@
     background-color: #f1f1f1;
   }
 
+  .messageboxall{ position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 9;
+    text-align: center;
+    display: block;
+}
+
   .pagebox{margin: 30px 0; width: 100%;}
   .pagebox .tabcontent{min-height: 30vh; padding: 0;
     border: none;}
   .pagebox .tab button{padding: 10px 20px;
     font-size: 15px;}
+ .pagebox .nice-select{display: none;}  
+ .pagebox select{display: block !important;} 
 
 .dkprealoader{width: 100px; margin: 30px auto;}    
 

@@ -69,5 +69,10 @@ return [
 	"deleted" => "The Diamond was successfully deleted.",
 	"updated" => "The Diamond was successfully updated.",
 	],
+	"orders" => [
+	"created" => "The Order was successfully created.",
+	"deleted" => "The Order was successfully deleted.",
+	"updated" => "The Order was successfully updated.",
+	],
 	],
 ];
