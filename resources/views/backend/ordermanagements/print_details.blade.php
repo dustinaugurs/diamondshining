@@ -114,10 +114,10 @@
 </tr>
 
 <tr>
-<td><b>Cost Price (Excluding VAT)</b></td>
+<td><b>Actual Price (Excluding VAT)</b></td>
 <td><b>
-@if($products->user->currency_code !== '')
-    {{$products->user->currency_symbol}} {{number_format(floor(($current_currency[$products->user->currency_code] * ($products->diamondfeed->price * 1))*100)/100,2, '.', '')}} 
+@if($current_currency !== '')
+    {{$symbol}}{{number_format(floor(($current_currency * ($products->diamondfeed->price))*100)/100,2, '.', '')}} 
     @else
     $ {{number_format(floor(($products->diamondfeed->price)*100)/100,2, '.', '')}}
     @endif
@@ -129,13 +129,31 @@
 <td>
 <b>Price (Including VAT)</b></td>
 <td><b>
-@if($products->user->currency_code !== '')
-    {{$products->user->currency_symbol}}{{number_format(floor(($current_currency[$products->user->currency_code] * ((20 / 100 ) * $products->diamondfeed->price + $products->diamondfeed->price))*100)/100,2, '.', '')}}
+@if($current_currency !== '')
+    {{$symbol}}{{number_format(floor(($current_currency * ($products->diamondfeed->price * $products->multiplier_id))*100)/100,2, '.', '')}} 
     @else
-    $ {{number_format(floor(((20 / 100 ) * $products->diamondfeed->price + $products->diamondfeed->price)*100)/100,2, '.', '')}}
+    $ {{number_format(floor(($products->diamondfeed->price * $products->multiplier_id)*100)/100,2, '.', '')}}
     @endif
-    (inc. VAT)
+    (Ex. VAT)
 </b></td>
+</tr>
+
+<tr>
+<td>
+<b>Final Price (Including VAT)</b></td>
+<td><b>
+ <!----mulipliercost---->
+    @if($current_currency !== '')
+   <?php 
+   $finalprice = ($products->diamondfeed->price * $products->multiplier_id)+($products->diamondfeed->price * $products->multiplier_id)*$setting->VAT/100; 
+   
+   ?>
+    {{$symbol}}{{number_format(floor(($current_currency * ($finalprice))*100)/100,2, '.', '')}} 
+    @else
+    $ {{number_format(floor(($finalprice)*100)/100,2, '.', '')}}
+    @endif
+    (Inc. VAT)
+    </b></td>
 </tr>
 
 </tbody>

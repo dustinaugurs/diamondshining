@@ -229,6 +229,10 @@ return [
                 'google'          => [
                     'analytic' => 'Google Analytics',
                 ],
+                'vat'          => [
+                    'vat' => 'VAT',
+                    'vatsetting' => 'VAT Setting',
+                ],
             ],
             'faqs'           => [
                 'question' => 'Question',

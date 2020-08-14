@@ -4,20 +4,19 @@
 <section class="challange_area">
             <div class="container signupbox">
 
-                <div class="row signup2">
+                <div class="signup2">
                 
                 <h2>{{ trans('labels.frontend.auth.register_box_title') }}</h2> 
+                   {{ Form::open(['route' => 'frontend.auth.saveregister', 'class' => 'form-horizontal']) }}
                    
-
+                      <div class="row">
                     <div class="col-md-6">
-
                         <div class="panel panel-default firstbox">
                             <div class="panel-heading"></div>
 
                             <div class="panel-body register-wrp">
 
-                                {{ Form::open(['route' => 'frontend.auth.register', 'class' => 'form-horizontal']) }}
-
+                    
                                 <div class="form-group ">
                                     <div class="row">
                                     {{ Form::label('first_name', trans('validation.attributes.frontend.register-user.firstName'), ['class' => 'col-md-4 control-label required']) }}
@@ -311,13 +310,18 @@
                                     </div><!--col-md-8-->
                                 </div><!--form-group-->
 
-                                {{ Form::close() }}
+                                
 
                             </div><!-- panel body -->
 
                         </div><!-- panel -->
 
                     </div><!-- col-md-8 -->
+
+                    </div>  <!-------->
+
+                    {{ Form::close() }}
+                  
 
                 </div><!-- row -->
 

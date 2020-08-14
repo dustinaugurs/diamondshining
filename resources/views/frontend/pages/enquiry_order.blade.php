@@ -19,10 +19,10 @@
 <!-------Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5--------->
 <div class="tab">   
   <button class="tablinks active" onclick="openCity(event, 'enquiries', '{{ url('enquiries') }}', 1)">Enquiries</button>
-  <button class="tablinks" onclick="openCity(event, 'orders', '{{ url('orders') }}', 4)">Orders Request</button>
+  <!-- <button class="tablinks" onclick="openCity(event, 'orders', '{{ url('orders') }}', 4)">Orders Request</button> -->
   <button class="tablinks" onclick="openCity(event, 'orders_placed', '{{ url('orders') }}', 5)">Orders Placed</button>
   <button class="tablinks" onclick="openCity(event, 'orders_completed', '{{ url('orders') }}', 2)">Orders Completed</button>
-  <button class="tablinks" onclick="openCity(event, 'orders_cancelled', '{{ url('orders') }}', 3)">Orders Cancelled</button>
+  <!-- <button class="tablinks" onclick="openCity(event, 'orders_cancelled', '{{ url('orders') }}', 3)">Orders Cancelled</button> -->
 </div>
 
 <!-- Tab content -->
@@ -94,7 +94,7 @@ $(document).ready(function(){
 
 //===========---Start-Enquiries-Section---===============
   $('body').on('change', '#changedatetime', function(){
-      var jsondata='', symbol='', currency='', i, outputdata='', orderStatus='', cost_ex_VAT='', salePrice_ex_VAT='', salePrice_inc_VAT='', checkStatus='';  ;
+      var jsondata='', symbol='', currency='', i, outputdata='', orderStatus='', cost_ex_VAT='', salePrice_ex_VAT='', salePrice_inc_VAT='', checkStatus=''; vat='', finalPrice='', setVAT=''  ;
           //console.log('date value_'+$(this).val());
 			var data = 'date='+$(this).val()+'&_token={{ csrf_token() }}';
             $.ajax({
@@ -110,13 +110,16 @@ $(document).ready(function(){
                   //console.log(resultJSON.symbol);
                   jsondata = resultJSON.data;
                   currency = resultJSON.current_currency;
+                  vat = resultJSON.setting.VAT;
                   symbol = resultJSON.symbol; 
+                  setVAT = resultJSON.setting.VAT; 
+                  //console.log('VAT '+setVAT);
                   if(jsondata.length > 0){ 
               for(i = 0; i < jsondata.length; i++) {
-
+                 finalPrice = symbol+''+(currency*((jsondata[i].diamondfeed.price*jsondata[i].multiplier_id)+(jsondata[i].diamondfeed.price*jsondata[i].multiplier_id)*setVAT/100)).toFixed(2); 
                 cost_ex_VAT = symbol+''+(currency*jsondata[i].diamondfeed.price).toFixed(2);
-                salePrice_ex_VAT = symbol+''+(currency*(jsondata[i].diamondfeed.price*1)).toFixed(2);
-salePrice_inc_VAT = symbol+''+(currency*((20 / 100 )*jsondata[i].diamondfeed.price+jsondata[i].diamondfeed.price)).toFixed(2);
+                salePrice_ex_VAT = symbol+''+(currency*(jsondata[i].diamondfeed.price*jsondata[i].multiplier_id)).toFixed(2);
+  salePrice_inc_VAT = symbol+''+(currency*((vat / 100 )*jsondata[i].diamondfeed.price+jsondata[i].diamondfeed.price)).toFixed(2);
 
                           switch (jsondata[i].order_status) {
                             case 1:
@@ -163,7 +166,7 @@ salePrice_inc_VAT = symbol+''+(currency*((20 / 100 )*jsondata[i].diamondfeed.pri
                           '<td>'+jsondata[i].diamondfeed.shape+'</td>'+
                           '<td>'+checkStatus+'</td>'+
                           '<td>'+salePrice_ex_VAT+' (Ex. VAT)'+'</td>'+
-                          '<td>'+salePrice_inc_VAT+' (Inc. VAT)'+'</td>'+
+                          '<td>'+finalPrice+' (Inc. VAT)'+'</td>'+
                           '<td>'+jsondata[i].ETA+'</td>'+
                            '</tr>';
               }}else{ outputdata = "<tr><td colspan='12'>No Data Found</td></tr>";}
@@ -180,8 +183,9 @@ salePrice_inc_VAT = symbol+''+(currency*((20 / 100 )*jsondata[i].diamondfeed.pri
   console.log('pidids +'+$(this).attr('ids'));
   var options = '<span><select id="orderstatupt" prid="'+pid+'">'+
                 '<option value="NULL">--Select--</option>'+
-                '<option value="4">Order Request</option>'+
-                '<option value="3">Order Cancelled</option>'+
+                '<option value="5">Order Placed</option>'+
+                // '<option value="4">Order Request</option>'+
+                // '<option value="3">Order Cancelled</option>'+
                 '</select></span>'+'<span><a class="clrred closestss" ids="'+pid+'" href="javascript:void(0)">X</a></span>';
        $('span.changests_'+pid).css('display', 'block');
        $('#upstatus_'+pid).html(options);
@@ -196,7 +200,7 @@ salePrice_inc_VAT = symbol+''+(currency*((20 / 100 )*jsondata[i].diamondfeed.pri
 //--------------------------------------
 
 $('body').on('change', '#orderstatupt', function(){
-      var jsondata='', symbol='', currency='', i, outputdata='', orderStatus='', cost_ex_VAT='', salePrice_ex_VAT='', salePrice_inc_VAT='', id = '', successMsg = '', checkStatus=''  ;
+      var jsondata='', symbol='', currency='', i, outputdata='', orderStatus='', cost_ex_VAT='', salePrice_ex_VAT='', salePrice_inc_VAT='', id = '', successMsg = '', checkStatus='', vat='', finalPrice='', setVAT=''  ;
       var prid = $(this).attr('prid');
       var date = $("#changedatetime").find("option:selected").val();
       var order_status = $(this).val();
@@ -222,14 +226,18 @@ $('body').on('change', '#orderstatupt', function(){
                   //console.log(resultJSON.symbol);
                   jsondata = resultJSON.data;
                   currency = resultJSON.current_currency;
+                  vat = resultJSON.setting.VAT;
                   symbol = resultJSON.symbol; 
+                  setVAT = resultJSON.setting.VAT;
                   successMsg = resultJSON.successMsg; 
                   if(jsondata.length > 0){ 
               for(i = 0; i < jsondata.length; i++) {
                   id = jsondata[i].id;
+
+                finalPrice = symbol+''+(currency*((jsondata[i].diamondfeed.price*jsondata[i].multiplier_id)+(jsondata[i].diamondfeed.price*jsondata[i].multiplier_id)*setVAT/100)).toFixed(2); 
                 cost_ex_VAT = symbol+''+(currency*jsondata[i].diamondfeed.price).toFixed(2);
-                salePrice_ex_VAT = symbol+''+(currency*(jsondata[i].diamondfeed.price*1)).toFixed(2);
-salePrice_inc_VAT = symbol+''+(currency*((20 / 100 )*jsondata[i].diamondfeed.price+jsondata[i].diamondfeed.price)).toFixed(2);
+                salePrice_ex_VAT = symbol+''+(currency*(jsondata[i].diamondfeed.price*jsondata[i].multiplier_id)).toFixed(2);
+  salePrice_inc_VAT = symbol+''+(currency*((vat / 100 )*jsondata[i].diamondfeed.price+jsondata[i].diamondfeed.price)).toFixed(2);
 
                           switch (jsondata[i].order_status) {
                             case 1:
@@ -276,11 +284,11 @@ salePrice_inc_VAT = symbol+''+(currency*((20 / 100 )*jsondata[i].diamondfeed.pri
                           '<td>'+jsondata[i].diamondfeed.shape+'</td>'+
                           '<td>'+checkStatus+'</td>'+
                           '<td>'+salePrice_ex_VAT+' (Ex. VAT)'+'</td>'+
-                          '<td>'+salePrice_inc_VAT+' (Inc. VAT)'+'</td>'+
+                          '<td>'+finalPrice+' (Inc. VAT)'+'</td>'+
                           '<td>'+jsondata[i].ETA+'</td>'+
                            '</tr>';
               }}else{ outputdata = "<tr><td colspan='12'>No Data Found</td></tr>";}
-              toastr.success(successMsg);
+              toastr.success('Status successfully Updated');
           //console.log('success : '+successMsg);
 					$('#dataafterfilter').html(outputdata);	
                 }
@@ -344,7 +352,7 @@ $('body').on('click', '.getpaystatusOrder', function(){
     //----------------filter-DATE-AND-Payment--status-----------------
 
     $('body').on('change', '.changedatetimeOrder', function(){
-      var jsondata='', symbol='', currency='', i, outputdata='', orderStatus='', cost_ex_VAT='', salePrice_ex_VAT='', salePrice_inc_VAT='', paymentStatus='' , payment_status='', date='', get_order_status='', checkStatus='' ;
+      var jsondata='', symbol='', currency='', i, outputdata='', orderStatus='', cost_ex_VAT='', salePrice_ex_VAT='', salePrice_inc_VAT='', paymentStatus='' , payment_status='', date='', get_order_status='', checkStatus='', vat='', finalPrice='', setVAT=''  ;
           //console.log('date value_'+$(this).val());
           get_order_status = $('#getOrderStatus').val();
            date = $(this).val();
@@ -364,13 +372,16 @@ $('body').on('click', '.getpaystatusOrder', function(){
                   //console.log(resultJSON.symbol);
                   jsondata = resultJSON.data;
                   currency = resultJSON.current_currency;
-                  symbol = resultJSON.symbol; 
+                  vat = resultJSON.setting.VAT;
+                  symbol = resultJSON.symbol;
+                  setVAT = resultJSON.setting.VAT; 
                   if(jsondata.length > 0){ 
               for(i = 0; i < jsondata.length; i++) {
 
+                finalPrice = symbol+''+(currency*((jsondata[i].diamondfeed.price*jsondata[i].multiplier_id)+(jsondata[i].diamondfeed.price*jsondata[i].multiplier_id)*setVAT/100)).toFixed(2); 
                 cost_ex_VAT = symbol+''+(currency*jsondata[i].diamondfeed.price).toFixed(2);
-                salePrice_ex_VAT = symbol+''+(currency*(jsondata[i].diamondfeed.price*jsondata[i].multiplierprice.multiplier_usd)).toFixed(2);
-salePrice_inc_VAT = symbol+''+(currency*((20 / 100 )*jsondata[i].diamondfeed.price+jsondata[i].diamondfeed.price)).toFixed(2);
+                salePrice_ex_VAT = symbol+''+(currency*(jsondata[i].diamondfeed.price*jsondata[i].multiplier_id)).toFixed(2);
+  salePrice_inc_VAT = symbol+''+(currency*((vat / 100 )*jsondata[i].diamondfeed.price+jsondata[i].diamondfeed.price)).toFixed(2);
 
                           switch (jsondata[i].order_status) {
                             case 1:
@@ -432,8 +443,8 @@ salePrice_inc_VAT = symbol+''+(currency*((20 / 100 )*jsondata[i].diamondfeed.pri
                           '<td>'+jsondata[i].orderTrackingId+'</td>'+
                           '<td>'+checkStatus+'</td>'+
                           '<td>'+salePrice_ex_VAT+' (Ex. VAT)'+'</td>'+
-                          '<td>'+salePrice_inc_VAT+' (Inc. VAT)'+'</td>'+
-                          '<td>'+paymentStatus+''+' <span class="changests paymentOrder_'+jsondata[i].id+' paystatusOrder_'+jsondata[i].id+'">'+'<a class="getpaystatusOrder" payOrder="'+jsondata[i].id+'" href="javascript:void(0);">Change</a>'+'</span>'+'</td>'+
+                          '<td>'+finalPrice+' (Inc. VAT)'+'</td>'+
+                          '<td>'+paymentStatus+'</span>'+'</td>'+
                           '<td>'+jsondata[i].ETA+'</td>'+
                            '</tr>';
               }}else{ outputdata = "<tr><td colspan='14'>No Data Found</td></tr>";}
@@ -447,7 +458,7 @@ salePrice_inc_VAT = symbol+''+(currency*((20 / 100 )*jsondata[i].diamondfeed.pri
     //------------------------
 
     $('body').on('change', '.paymentStatusOrder', function(){
-      var jsondata='', symbol='', currency='', i, outputdata='', orderStatus='', cost_ex_VAT='', salePrice_ex_VAT='', salePrice_inc_VAT='', paymentStatus='', payment_status='', date='', get_order_status='', checkStatus=''  ;
+      var jsondata='', symbol='', currency='', i, outputdata='', orderStatus='', cost_ex_VAT='', salePrice_ex_VAT='', salePrice_inc_VAT='', paymentStatus='', payment_status='', date='', get_order_status='', checkStatus='', vat='', finalPrice='', setVAT=''   ;
           get_order_status = $('#getOrderStatus').val();
           payment_status = $(this).val();
           date = $(".changedatetimeOrder").find("option:selected").val();
@@ -467,13 +478,16 @@ salePrice_inc_VAT = symbol+''+(currency*((20 / 100 )*jsondata[i].diamondfeed.pri
                   //console.log(resultJSON.symbol);
                   jsondata = resultJSON.data;
                   currency = resultJSON.current_currency;
-                  symbol = resultJSON.symbol; 
+                  vat = resultJSON.setting.VAT;
+                  symbol = resultJSON.symbol;
+                  setVAT = resultJSON.setting.VAT; 
                   if(jsondata.length > 0){ 
               for(i = 0; i < jsondata.length; i++) {
 
+                finalPrice = symbol+''+(currency*((jsondata[i].diamondfeed.price*jsondata[i].multiplier_id)+(jsondata[i].diamondfeed.price*jsondata[i].multiplier_id)*setVAT/100)).toFixed(2); 
                 cost_ex_VAT = symbol+''+(currency*jsondata[i].diamondfeed.price).toFixed(2);
-                salePrice_ex_VAT = symbol+''+(currency*(jsondata[i].diamondfeed.price*jsondata[i].multiplierprice.multiplier_usd)).toFixed(2);
-salePrice_inc_VAT = symbol+''+(currency*((20 / 100 )*jsondata[i].diamondfeed.price+jsondata[i].diamondfeed.price)).toFixed(2);
+                salePrice_ex_VAT = symbol+''+(currency*(jsondata[i].diamondfeed.price*jsondata[i].multiplier_id)).toFixed(2);
+  salePrice_inc_VAT = symbol+''+(currency*((vat / 100 )*jsondata[i].diamondfeed.price+jsondata[i].diamondfeed.price)).toFixed(2);
 
                           switch (jsondata[i].order_status) {
                             case 1:
@@ -535,8 +549,8 @@ salePrice_inc_VAT = symbol+''+(currency*((20 / 100 )*jsondata[i].diamondfeed.pri
                           '<td>'+jsondata[i].orderTrackingId+'</td>'+
                           '<td>'+checkStatus+'</td>'+
                           '<td>'+salePrice_ex_VAT+' (Ex. VAT)'+'</td>'+
-                          '<td>'+salePrice_inc_VAT+' (Inc. VAT)'+'</td>'+
-                          '<td>'+paymentStatus+''+' <span class="changests paymentOrder_'+jsondata[i].id+' paystatusOrder_'+jsondata[i].id+'">'+'<a class="getpaystatusOrder" payOrder="'+jsondata[i].id+'" href="javascript:void(0);">Change</a>'+'</span>'+'</td>'+
+                          '<td>'+finalPrice+' (Inc. VAT)'+'</td>'+
+                          '<td>'+paymentStatus+'</span>'+'</td>'+
                           '<td>'+jsondata[i].ETA+'</td>'+
                            '</tr>';
               }}else{ outputdata = "<tr><td colspan='14'>No Data Found</td></tr>";}
@@ -551,7 +565,7 @@ salePrice_inc_VAT = symbol+''+(currency*((20 / 100 )*jsondata[i].diamondfeed.pri
     //--------------Start--Update-Payment-AND-ORDER-Status--------------------
 
 $('body').on('change', '.orderstatuptOrder', function(){
-      var jsondata='', symbol='', currency='', i, outputdata='', orderStatus='', cost_ex_VAT='', salePrice_ex_VAT='', salePrice_inc_VAT='', id = '', successMsg = '', paymentStatus='',  get_order_status='', payment_status='', checkStatus=''  ;
+      var jsondata='', symbol='', currency='', i, outputdata='', orderStatus='', cost_ex_VAT='', salePrice_ex_VAT='', salePrice_inc_VAT='', id = '', successMsg = '', paymentStatus='',  get_order_status='', payment_status='', checkStatus='', vat='', finalPrice='', setVAT=''   ;
           get_order_status = $('#getOrderStatus').val();
       var prid = $(this).attr('pridOrder');
       var date = $(".changedatetimeOrder").find("option:selected").val();
@@ -578,14 +592,18 @@ $('body').on('change', '.orderstatuptOrder', function(){
                   //console.log(resultJSON.symbol);
                   jsondata = resultJSON.data;
                   currency = resultJSON.current_currency;
+                  vat = resultJSON.setting.VAT;
                   symbol = resultJSON.symbol; 
+                  setVAT = resultJSON.setting.VAT;
                   successMsg = resultJSON.successMsg; 
                   if(jsondata.length > 0){ 
               for(i = 0; i < jsondata.length; i++) {
                   id = jsondata[i].id;
+
+                  finalPrice = symbol+''+(currency*((jsondata[i].diamondfeed.price*jsondata[i].multiplier_id)+(jsondata[i].diamondfeed.price*jsondata[i].multiplier_id)*setVAT/100)).toFixed(2); 
                 cost_ex_VAT = symbol+''+(currency*jsondata[i].diamondfeed.price).toFixed(2);
-                salePrice_ex_VAT = symbol+''+(currency*(jsondata[i].diamondfeed.price*jsondata[i].multiplierprice.multiplier_usd)).toFixed(2);
-salePrice_inc_VAT = symbol+''+(currency*((20 / 100 )*jsondata[i].diamondfeed.price+jsondata[i].diamondfeed.price)).toFixed(2);
+                salePrice_ex_VAT = symbol+''+(currency*(jsondata[i].diamondfeed.price*jsondata[i].multiplier_id)).toFixed(2);
+  salePrice_inc_VAT = symbol+''+(currency*((vat / 100 )*jsondata[i].diamondfeed.price+jsondata[i].diamondfeed.price)).toFixed(2);
 
                           switch (jsondata[i].order_status) {
                             case 1:
@@ -647,8 +665,8 @@ salePrice_inc_VAT = symbol+''+(currency*((20 / 100 )*jsondata[i].diamondfeed.pri
                           '<td>'+jsondata[i].orderTrackingId+'</td>'+
                           '<td>'+checkStatus+'</td>'+
                           '<td>'+salePrice_ex_VAT+' (Ex. VAT)'+'</td>'+
-                          '<td>'+salePrice_inc_VAT+' (Inc. VAT)'+'</td>'+
-                          '<td>'+paymentStatus+''+' <span class="changests paymentOrder_'+jsondata[i].id+' paystatusOrder_'+jsondata[i].id+'">'+'<a class="getpaystatusOrder" payOrder="'+jsondata[i].id+'" href="javascript:void(0);">Change</a>'+'</span>'+'</td>'+
+                          '<td>'+finalPrice+' (Inc. VAT)'+'</td>'+
+                          '<td>'+paymentStatus+'</span>'+'</td>'+
                           '<td>'+jsondata[i].ETA+'</td>'+
                            '</tr>';
               }}else{ outputdata = "<tr><td colspan='14'>No Data Found</td></tr>";}
@@ -662,7 +680,7 @@ salePrice_inc_VAT = symbol+''+(currency*((20 / 100 )*jsondata[i].diamondfeed.pri
 
 
     $('body').on('change', '.paystatupdateOrder', function(){
-      var jsondata='', symbol='', currency='', i, outputdata='', orderStatus='', cost_ex_VAT='', salePrice_ex_VAT='', salePrice_inc_VAT='', id = '', successMsg = '', paymentStatus='', payment_status='', get_order_status='', order_status='', checkStatus=''  ;
+      var jsondata='', symbol='', currency='', i, outputdata='', orderStatus='', cost_ex_VAT='', salePrice_ex_VAT='', salePrice_inc_VAT='', id = '', successMsg = '', paymentStatus='', payment_status='', get_order_status='', order_status='', checkStatus='', vat='', finalPrice='', setVAT=''   ;
           get_order_status = $('#getOrderStatus').val();
       var prid = $(this).attr('pridOrder');
       var date = $(".changedatetimeOrder").find("option:selected").val();
@@ -689,14 +707,18 @@ salePrice_inc_VAT = symbol+''+(currency*((20 / 100 )*jsondata[i].diamondfeed.pri
                   //console.log(resultJSON.symbol);
                   jsondata = resultJSON.data;
                   currency = resultJSON.current_currency;
+                  vat = resultJSON.setting.VAT;
                   symbol = resultJSON.symbol; 
+                  setVAT = resultJSON.setting.VAT;
                   successMsg = resultJSON.successMsg; 
                   if(jsondata.length > 0){ 
               for(i = 0; i < jsondata.length; i++) {
                   id = jsondata[i].id;
+
+               finalPrice = symbol+''+(currency*((jsondata[i].diamondfeed.price*jsondata[i].multiplier_id)+(jsondata[i].diamondfeed.price*jsondata[i].multiplier_id)*setVAT/100)).toFixed(2); 
                 cost_ex_VAT = symbol+''+(currency*jsondata[i].diamondfeed.price).toFixed(2);
-                salePrice_ex_VAT = symbol+''+(currency*(jsondata[i].diamondfeed.price*jsondata[i].multiplierprice.multiplier_usd)).toFixed(2);
-salePrice_inc_VAT = symbol+''+(currency*((20 / 100 )*jsondata[i].diamondfeed.price+jsondata[i].diamondfeed.price)).toFixed(2);
+                salePrice_ex_VAT = symbol+''+(currency*(jsondata[i].diamondfeed.price*jsondata[i].multiplier_id)).toFixed(2);
+  salePrice_inc_VAT = symbol+''+(currency*((vat / 100 )*jsondata[i].diamondfeed.price+jsondata[i].diamondfeed.price)).toFixed(2);
 
                           switch (jsondata[i].order_status) {
                             case 1:
@@ -758,8 +780,8 @@ salePrice_inc_VAT = symbol+''+(currency*((20 / 100 )*jsondata[i].diamondfeed.pri
                           '<td>'+jsondata[i].orderTrackingId+'</td>'+
                           '<td>'+checkStatus+'</td>'+
                           '<td>'+salePrice_ex_VAT+' (Ex. VAT)'+'</td>'+
-                          '<td>'+salePrice_inc_VAT+' (Inc. VAT)'+'</td>'+
-                          '<td>'+paymentStatus+''+' <span class="changests paymentOrder_'+jsondata[i].id+' paystatusOrder_'+jsondata[i].id+'">'+'<a class="getpaystatusOrder" payOrder="'+jsondata[i].id+'" href="javascript:void(0);">Change</a>'+'</span>'+'</td>'+
+                          '<td>'+finalPrice+' (Inc. VAT)'+'</td>'+
+                          '<td>'+paymentStatus+'</span>'+'</td>'+
                           '<td>'+jsondata[i].ETA+'</td>'+
                            '</tr>';
               }}else{ outputdata = "<tr><td colspan='14'>No Data Found</td></tr>";}

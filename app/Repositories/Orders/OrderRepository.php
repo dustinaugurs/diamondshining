@@ -8,6 +8,7 @@ use App\Models\Access\User\User;
 use App\Models\Orders\Order;
 use Carbon\Carbon;
 use Auth;
+use DB;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\Currency;
 
@@ -29,12 +30,15 @@ class OrderRepository
         $orders = Order::with('user','diamondfeed', 'multiplierprice')
                     ->where('order_status', $orderStatus)
                     ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
+                    ->orderBy('order_date', 'desc')
                     ->get();
        return $orders;             
      }
 
      public function productSingle($stockID = ''){
-        $products = Diamondfeed::where('stock_id', $stockID)
+        $products = DB::table('diamond_feeds')
+                    ->join('orders', 'diamond_feeds.id', '=', 'orders.diamondFeed_id')
+                    ->where('stock_id', $stockID)
                     ->first();
        return $products;             
      }
@@ -43,6 +47,7 @@ class OrderRepository
       $orders = Order::with('user','diamondfeed','multiplierprice')
                   ->where('order_status', $orderStatus)
                   ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
+                  ->orderBy('order_date', 'desc')
                   ->where('date', $date) 
                   ->get();
      return $orders;             
@@ -53,6 +58,7 @@ class OrderRepository
                 ->where('id', $oid)
                 ->where('order_status', $orderStatus)
                 ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
+                ->orderBy('order_date', 'desc')
                 ->where('date', $date) 
                 ->get();
    return $orders;             
@@ -62,6 +68,7 @@ class OrderRepository
   $orders = Order::with('user','diamondfeed','multiplierprice')
               ->where('order_status', $orderStatus)
               ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
+              ->orderBy('order_date', 'desc')
               ->get();
  return $orders;             
 }

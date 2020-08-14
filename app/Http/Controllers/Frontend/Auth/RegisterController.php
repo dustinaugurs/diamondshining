@@ -50,7 +50,7 @@ class RegisterController extends Controller
      */
     public function register(RegisterRequest $request)
     {
-        /*if (config('access.users.confirm_email')) {
+        if (config('access.users.confirm_email')) {
             $user = $this->user->create($request->all());
             event(new UserRegistered($user));
 
@@ -60,7 +60,7 @@ class RegisterController extends Controller
             event(new UserRegistered(access()->user()));
 
             return redirect($this->redirectPath());
-        }*/
+        }
 
         if (config('access.users.confirm_email') || config('access.users.requires_approval')) {
             $user = $this->user->create($request->all());

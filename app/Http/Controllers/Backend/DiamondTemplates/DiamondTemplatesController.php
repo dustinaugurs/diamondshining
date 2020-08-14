@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\DiamondTemplates;
 
 use App\Models\DiamondTemplates\DiamondTemplate;
+use App\Models\AddMultiplePrice\AddMultiplePrice;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\RedirectResponse;
@@ -76,20 +77,76 @@ class DiamondTemplatesController extends Controller
     {
 		$vat_from_usd= $request->vat_from_usd;
 		$vat_to_usd= $request->vat_to_usd;
-		$multiplier_usd = $request->multiplier_usd;
-		$temp_id = $request->temp_id;
+        $multiplier_usd = $request->multiplier_usd;
+        $temp_id = $request->temp_id;
+        $id = $request->temp_id;
+
+        $expvat_from_usd = explode(',', implode(',',$vat_from_usd));
+        $exptemp_id = explode(',', implode(',',$temp_id));
+        $expvat_to_usd = explode(',', implode(',',$vat_to_usd));
+        $multiplier_usd = explode(',', implode(',',$multiplier_usd));
+        
+        $priceEdit = AddMultiplePrice::whereIn('temp_id', $exptemp_id)
+                                    ->whereIn('vat_from_usd', $expvat_from_usd)
+                                    ->whereIn('vat_to_usd', $expvat_to_usd)
+                                    ->whereIn('multiplier_usd', $multiplier_usd)
+                                    ->count();
+        //print_r($priceEdit).'-'; die;
+        if($priceEdit>=1){
+        toastr()->warning($priceEdit.' Record, Price Range already added, Please check'); 
+        return back(); 
+        }
+    
 		foreach($temp_id as $key=>$no){
 		$data = array(
 			'temp_id'       => $no,
 			'vat_from_usd'  => $vat_from_usd[$key],
 			'vat_to_usd'     => $vat_to_usd[$key],
 			'multiplier_usd'  => $multiplier_usd[$key],                    
-		   );
+           );   
 		DB::table('add_multiple_price')->insert($data);
 			
-	    }
-        return new RedirectResponse(route('admin.diamondtemplates.index'), ['flash_success' => trans('alerts.backend.diamondtemplates.created')]);
+        }
+        toastr()->success('Price Successfully Added');
+        //return new RedirectResponse(route('admin.diamondtemplates.index'), ['flash_success' => trans('alerts.backend.diamondtemplates.created')]);
+        return back();
+
     }
+
+
+    public function editAndUpdatePrice(Request $request){
+        $id = $request->editParenttemp_id;
+        $edittemp_id = $request->edittemp_id;
+        $editvat_from_usd = $request->editvat_from_usd;
+        $editvat_to_usd = $request->editvat_to_usd;
+        $editmultiplier_usd = $request->editmultiplier_usd;
+
+        $priceEdit = AddMultiplePrice::where('id', $edittemp_id)->first();
+        $priceEdit->vat_from_usd  = $editvat_from_usd;
+		$priceEdit->vat_to_usd     = $editvat_to_usd;
+		$priceEdit->multiplier_usd  = $editmultiplier_usd;
+        $priceEdit->save();
+
+        //echo '<pre>', print_r($priceEdit->toArray()); die;
+     
+        $all_detail = DB::table('add_multiple_price')->where('temp_id' , $id)->get(); 
+			 $single_detail =  DiamondTemplate::find($id);
+			 
+			 return view('backend.diamondtemplates.price_component',['detail'=> $single_detail,'all_detail'=>$all_detail]);
+          }
+
+    public function deletePrice(Request $request){
+        $id = $request->editParenttemp_id;
+        $edittemp_id = $request->edittemp_id; 
+        $priceEdit = AddMultiplePrice::where('id', $edittemp_id)->first();
+        $priceEdit->delete();
+        $all_detail = DB::table('add_multiple_price')->where('temp_id' , $id)->get(); 
+        $single_detail =  DiamondTemplate::find($id);
+
+        return view('backend.diamondtemplates.price_component',['detail'=> $single_detail,'all_detail'=>$all_detail]);
+            } 
+
+
     /**
      * Store a newly created resource in storage.
      *

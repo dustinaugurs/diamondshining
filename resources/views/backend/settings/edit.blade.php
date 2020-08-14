@@ -39,6 +39,10 @@
 			<li role="presentation">
 				<a href="#tab6" aria-controls="5" role="tab" data-toggle="tab">{{ trans('labels.backend.settings.google') }}</a>
 			</li>
+
+			<li role="presentation">
+				<a href="#tab7" aria-controls="6" role="tab" data-toggle="tab">{{ trans('labels.backend.settings.vatsetting') }}</a>
+			</li>
 		</ul>
 
 		<!-- Tab panes -->
@@ -217,6 +221,19 @@
 
 					<div class="col-lg-10">
 						{{ Form::textarea('google_analytics', null,['class' => 'form-control', 'placeholder' => trans('validation.attributes.backend.settings.google.analytic')])
+						}}
+					</div>
+				</div>
+				<!--form control-->
+				<!--form control-->
+			</div>
+			<div role="tabpanel" class="tab-pane" id="tab7">
+				<div class="form-group">
+					{{ Form::label('google_analytics', trans('validation.attributes.backend.settings.vat.vat'), ['class' => 'col-lg-2
+					control-label']) }}
+
+					<div class="col-lg-10">
+						{{ Form::text('VAT', null,['class' => 'form-control', 'placeholder' => trans('validation.attributes.backend.settings.vat.vat')])
 						}}
 					</div>
 				</div>

@@ -1,0 +1,88 @@
+
+#tabs.project-tab {
+    margin-top: 15px !important;
+  }
+  #shape_shape_div.shape-filter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    /*   padding: 10px; */
+    padding: 0px 10px 20px;
+  }
+  #js_carat_filter .Carat-filter-container,
+  #js_price_filter .price-filter-container {
+    padding: 0 20px 0;
+  }
+  .Search-for-Diamonds-wrp .heading-text {
+   margin: 0px 0 7px 0;
+   font-size: 15px;
+}
+  
+  .Carat-filter-container .price-range-block .price-range-box,
+  .price-filter-container .price-range-block .price-range-box {
+    margin: 15px 0 20px;
+  }
+  .row .gp-btn-wrp {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 10px 2px;
+  }
+  .row .gp-btn-wrp button.btn.gp-btn ~ button {
+    margin-left: 5px;
+  }
+  .gp-btn-wrp .search-btn {
+    margin: 10px 0 10px;
+    font-size: 16px;
+    width: auto;
+    padding: 5px 20px 5px;
+  }
+
+  
+  .shape-filter-btn >label > span.checkmark{
+    background-size: 37px;
+  }
+  #Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Round-icon{
+    background-image: url(http://localhost/augurslp-diamondwtvy/assets/img/diamond/Round-icon.png) !important;
+
+  }
+  #Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Princess-icon{
+    background-image: url(http://localhost/augurslp-diamondwtvy/assets/img/diamond/Princess-icon.png) !important;
+
+  }
+  #Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Emerald-icon{
+    background-image: url(http://localhost/augurslp-diamondwtvy/assets/img/diamond/Emerald-icon.png) !important;
+
+  }
+  #Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Asscher-icon{
+    background-image: url(http://localhost/augurslp-diamondwtvy/assets/img/diamond/Asscher-icon.png) !important;
+
+  }
+  #Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Cushion-icon{
+    background-image: url(http://localhost/augurslp-diamondwtvy/assets/img/diamond/Cushion-icon.png) !important;
+
+  }
+  #Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Marquise-icon{
+    background-image: url(http://localhost/augurslp-diamondwtvy/assets/img/diamond/Marquise-icon.png) !important;
+
+  }
+  #Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Radiant-icon{
+    background-image: url(http://localhost/augurslp-diamondwtvy/assets/img/diamond/Radiant-icon.png) !important;
+
+  }
+  #Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn  .Oval-icon{
+    background-image: url(http://localhost/augurslp-diamondwtvy/assets/img/diamond/Oval-icon.png) !important;
+
+  }
+  #Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Pear-icon{
+    background-image: url(http://localhost/augurslp-diamondwtvy/assets/img/diamond/Pear-icon.png) !important;
+
+  }
+  #Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Heart-icon{
+    background-image: url(http://localhost/augurslp-diamondwtvy/assets/img/diamond/Heart-icon.png) !important;
+  }
+  
+  
+  

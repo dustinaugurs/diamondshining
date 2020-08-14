@@ -27,8 +27,9 @@
     <th>Certificate</th>
     <th>Shape</th>
     <th>Status</th>
-    <th>SalePrice (Ex VAT)</th>
-    <th>SalePrice (Inc VAT)</th>
+    <th>Price (Ex VAT)</th>
+    <!-- <th>Price (Inc VAT)</th> -->
+    <th>Final Price (Inc VAT)</th>
     <th>ETA</th>
 </tr>
  </thead>
@@ -60,7 +61,7 @@
     @default
         Enquiry
 @endswitch
-<!-- <span class="changests changests_{{$order->id}}" id="upstatus_{{$order->id}}"><a class="getstatusvalue" href="javascript:void(0);" ids="{{$order->id}}">Change</a></span> -->
+<span class="changests changests_{{$order->id}}" id="upstatus_{{$order->id}}"><a class="getstatusvalue" href="javascript:void(0);" ids="{{$order->id}}">Change</a></span>
 </td>
 
 <td><a class="view_diamond" target="_blank" href="{{url('printDetails')}}/{{$order->diamondfeed->stock_id}}">{{$order->diamondfeed->stock_id}}</a>
@@ -89,20 +90,32 @@
 
 <td>
     @if($current_currency !== '')
-    {{$symbol}} {{number_format(floor(($current_currency * ($order->diamondfeed->price * 1))*100)/100,2, '.', '')}} 
+    {{$symbol}} {{number_format(floor(($current_currency * ($order->diamondfeed->price * $order->multiplier_id))*100)/100,2, '.', '')}} 
     @else
-    $ {{number_format(floor(($order->diamondfeed->price)*100)/100,2, '.', '')}}
+    $ {{number_format(floor(($order->diamondfeed->price * $order->multiplier_id)*100)/100,2, '.', '')}}
     @endif
     (Ex. VAT)
     </td>
 
-    <td>
+    <!-- <td>
     @if($current_currency !== '')
-    {{$symbol}}{{number_format(floor(($current_currency * ((20 / 100 ) * $order->diamondfeed->price + $order->diamondfeed->price))*100)/100,2, '.', '')}}
+    {{$symbol}}{{number_format(floor(($current_currency * (($setting->VAT / 100 ) * $order->diamondfeed->price + $order->diamondfeed->price))*100)/100,2, '.', '')}}
     @else
-    $ {{number_format(floor(((20 / 100 ) * $order->diamondfeed->price + $order->diamondfeed->price)*100)/100,2, '.', '')}}
+    $ {{number_format(floor((($setting->VAT / 100 ) * $order->diamondfeed->price + $order->diamondfeed->price)*100)/100,2, '.', '')}}
     @endif
     (inc. VAT)
+    </td> -->
+
+    <td> <!----mulipliercost---->
+    @if($current_currency !== '')
+   <?php 
+   $finalprice = ($order->diamondfeed->price * $order->multiplier_id)+($order->diamondfeed->price * $order->multiplier_id)*$setting->VAT/100; 
+   ?>
+    {{$symbol}} {{number_format(floor(($current_currency * ($finalprice))*100)/100,2, '.', '')}} 
+    @else
+    $ {{number_format(floor(($order->diamondfeed->price * $order->multiplier_id)*100)/100,2, '.', '')}}
+    @endif
+    (Inc. VAT)
     </td>
 
 <td>{{$order->ETA}}</td>

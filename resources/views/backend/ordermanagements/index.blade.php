@@ -11,12 +11,72 @@
         <div class="box-header with-border">
             <h3 class="box-title">{{ trans('labels.backend.orders.management') }}</h3>
 
-            <div class="box-tools pull-right">
-                @include('backend.orders.partials.orders-header-buttons')
-            </div>
+            
         </div><!--box-header with-border-->
 
-        <div class="box-body">
+        <!--------status-popup----------->
+        <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+        <div class="modal-content enquiryboxmodel">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Fill Up Details</h4>
+        </div>
+        <div class="modal-body">
+
+        <!----->
+        <div class="row">
+
+             <div class="col-md-12 col-sm-12 col-xs-12">
+             <input type="hidden" value="" id="checkid23" class="checkid23" placeholder="xyz" >
+          <div class="input-group">
+          <span class="input-group-addon">Delivery Cost : </span>
+          <input type="text" value="0.00" id="deliverycost23" class="deliverycost23 form-control" placeholder="Delivery Cost" required>
+          </div>
+          </div>
+
+          <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="input-group">
+          <span class="input-group-addon">Estimated Time of Arrival (ETA) : </span>
+                <?php
+                $date = date('Y-m-d');
+                $eta = date('Y-m-d', strtotime($date. ' + 3 days'));
+                ?>
+          <input type="date" value="{{$eta}}" id="etadate" class="etadate form-control" placeholder="YYYY-MM-DD" required>
+          </div>
+          </div>
+
+          <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="input-group">
+          <span class="input-group-addon">Tracking ID : </span>
+          <input type="text" value="" id="trackingid" class="trackingid form-control" placeholder="Enter Tracking ID" required>
+          </div>
+          </div>
+
+          <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="input-group">
+          <span class="input-group-addon">Select Status : </span>
+          <select name="checkstatustt" class="checkstatustt form-control">
+                <!-- <option value="1">Checking availability</option> -->
+                <option value="2">Order confirmed</option>
+                <option value="3">Order sent with tracking</option>
+            </select>
+          </div>
+          </div>
+
+             </div>
+        <!------>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button class="btn btn-primary checkstatupdatetwothree">Update</button>
+        </div>
+        </div>
+       </div>
+       </div>
+        <!-------------------->
+
+        <div class="box-body enquiryorderbox">
             <div class="table-responsive data-table-wrapper">
                 <table class="table table-condensed table-hover table-bordered">
                 <thead>
@@ -25,7 +85,7 @@
 <th>Date 
         <div class="changedatabox">
             <select name="changedatetimeOrder" class="changedatetimeOrder">
-            <option value="0">All</option>    
+            <option value="all">All</option>    
             <?php
             $dateTime = new DateTime('first day of this month');
             for ($i = 1; $i <= 56; $i++) {
@@ -41,8 +101,8 @@
     <th>Order Status  
     <div class="changedata">
             <select name="checkOrderStatus" class="checkOrderStatus">
-                <option value="0">All</option>
-                <option value="1">Enquiry</option>
+                <option value="all">All</option>
+                <!-- <option value="1">Enquiry</option> -->
                 <option value="2">Completed</option>
                 <option value="3">Cancelled</option>
                 <option value="4">Order Request</option>
@@ -57,7 +117,7 @@
     <th>Status  
     <div class="changedata">
             <select name="checkStatus" class="checkStatus">
-                <option value="0">All</option>
+                <option value="all">All</option>
                 <option value="1">Checking availability</option>
                 <option value="2">Order confirmed</option>
                 <option value="3">Order sent with tracking</option>
@@ -65,13 +125,14 @@
         </div>
     </th>
     <th>Muliplier</th>
+    <th>Final Price(Inc VAT)</th>
     <th>Delivery Cost</th>
-    <th>SalePrice (Ex VAT)</th>
-    <th>SalePrice (Inc VAT)</th>
+    <th>Price (Ex VAT)</th>
+    <th>Actual Price (Ex VAT)</th>
     <th>Payment Status
     <div class="changedata">
             <select name="paymentStatusOrder" class="paymentStatusOrder">
-                <option value="0">All</option>
+                <option value="all">All</option>
                 <option value="1">Pending</option>
                 <option value="2">Deposite Paid</option>
                 <option value="3">Fully Paid</option>
@@ -81,129 +142,25 @@
     <th>ETA</th>
 </tr>
  </thead>
- <tbody class="dataafterfilterOrder">
-     @if(!$orders->isEmpty())
- @foreach($orders as $order)
-<tr id="rowupdateOrder_{{$order->id}}">
-<td>{{ $loop->iteration }}</td>
-<td>{{$order->order_date}}</td>
-<td>{{$order->client}}</td>
-<td class="reftd_{{$order->id}}">
-{{$order->ref_name_contact}}
-</td>
-<td>
-@switch($order->order_status)
-    @case(1)
-        Enquiry
-        @break
-    @case(2)
-        Completed
-        @break
-    @case(3)
-        Cancelled
-        @break
-    @case(4)
-        Order Request
-        @break
-    @case(5)
-        Order Placed
-        @break
-    @default
-        Enquiry
-@endswitch
-@if(!($order->order_status==2 || $order->order_status==3))
-<span class="changests changestsOrder_{{$order->id}} upstatusOrder_{{$order->id}}"><a class="getstatusvalueOrder" href="javascript:void(0);" idsOrder="{{$order->id}}">Change</a></span>
-@endif
-</td>
+ <tbody id="dataafterfilterOrder">
+    
 
-<td><a class="view_diamond" target="_blank" href="{{url('admin/adprintDetails')}}/{{$order->diamondfeed->id}}">{{$order->diamondfeed->stock_id}}</a>
-</td>
-
-<td><a class="view_diamond" target="_blank" href="{{$order->diamondfeed->pdf}}">{{$order->diamondfeed->lab}}</a>
-</td>
-
-<td>{{$order->diamondfeed->shape}}</td>
-
-<td class="trackingid">{{$order->orderTrackingId}}</td>
-<td class="status">
-@switch($order->checkStatus)
-    @case(1)
-        Checking availability
-        @break
-    @case(2)
-        Order confirmed
-        @break
-    @case(3)
-        Order sent with tracking
-        @break
-    @default
-       Checking availability
-@endswitch
-<span class="changests  checkStatus_{{$order->id}} checkstatusOrder_{{$order->id}}"><a class="getcheckstatusOrder" href="javascript:void(0);" checkOrder="{{$order->id}}">Change</a></span>
-</td>
-
-<td>{{$order->user->template->multiplier_usd}}</td>
-
-<td>
-    @if($order->user->currency_code !== '')
-    {{$order->user->currency_symbol}} {{number_format(floor(($current_currency[$order->user->currency_code] * ($order->deliverycost_from_admin * $order->multiplierprice->multiplier_usd))*100)/100,2, '.', '')}} 
-    @else
-    $ {{number_format(floor(($order->deliverycost_from_admin)*100)/100,2, '.', '')}}
-    @endif
-    (Ex. VAT)
-    </td>
-
-
-<td>
-    @if($order->user->currency_code !== '')
-    {{$order->user->currency_symbol}} {{number_format(floor(($current_currency[$order->user->currency_code] * ($order->diamondfeed->price * 1))*100)/100,2, '.', '')}} 
-    @else
-    $ {{number_format(floor(($order->diamondfeed->price)*100)/100,2, '.', '')}}
-    @endif
-    (Ex. VAT)
-    </td>
-
-    <td>
-    @if($order->user->currency_code !== '')
-    {{$order->user->currency_symbol}}{{number_format(floor(($current_currency[$order->user->currency_code] * ((20 / 100 ) * $order->diamondfeed->price + $order->diamondfeed->price))*100)/100,2, '.', '')}}
-    @else
-    $ {{number_format(floor(((20 / 100 ) * $order->diamondfeed->price + $order->diamondfeed->price)*100)/100,2, '.', '')}}
-    @endif
-    (inc. VAT)
-    </td>
-
-<td>
-@switch($order->payment_status)
-    @case(1)
-        Pending
-        @break
-    @case(2)
-        Deposit Paid
-        @break
-    @case(3)
-       Fully Paid
-        @break
-    @default
-       Pending
-@endswitch
-
-<span class="changests paymentOrder_{{$order->id}} paystatusOrder_{{$order->id}}"><a class="getpaystatusOrder" href="javascript:void(0);" payOrder="{{$order->id}}">Change</a></span>
-</td>
-
-<td>{{$order->ETA}}</td>
-</tr>
-@endforeach
-@else
-<tr><td colspan="16">No Data Found</td></tr>
-@endif
-
-                                  
-
+ @include('backend.ordermanagements.order_component')  
+                          
 </tbody>
+<!--------->
+<tr class="paginationblock">
+<td colspan="17">
+{!! $orders->appends(\Request::except('page'))->render() !!}
+</td>
+</tr>
+<!--------->
                 </table>
+                
             </div><!--table-responsive-->
         </div><!-- /.box-body -->
     </div><!--box-->
+
 @endsection
 
 @section('after-scripts')
@@ -256,6 +213,18 @@
 $(document).ready(function(){
 
 
+			// Pagination data Tag //
+			$(document).find('.pagination a').each(function(){
+					var href = $(this).attr('href');
+					$(this).removeAttr('href');
+					$(this).attr('data-target', href);
+			})
+
+			// Pagination click //
+			$(document).find('.pagination a').on('click', function(){
+						var target = $(this).attr('data-target');
+						location.href = target;
+			})
 
 //===========---Start-Order-Section---===============
 
@@ -307,9 +276,10 @@ $('body').on('click', '.getpaystatusOrder', function(){
 
 //--------------------------------------
 $('body').on('click', '.getcheckstatusOrder', function(){
+    console.log('check Status_ '+$(this).attr('checkOrder'));
     var pid = $(this).attr('checkOrder')
-  console.log('check Status_ '+$(this).attr('checkOrder'));
-  var options = '<span><select class="checkstatupdateOrder" prID="'+pid+'">'+
+    var chstatus = $(this).attr('chStatus')  
+  var options = '<span><select class="checkstatupdateOrder" prID="'+pid+'" chhstatus="'+chstatus+'">'+
                 '<option value="NULL">--Select--</option>'+
                 '<option value="1">Checking availability</option>'+
                 '<option value="2">Order confirmed</option>'+
@@ -317,7 +287,9 @@ $('body').on('click', '.getcheckstatusOrder', function(){
                 '</select></span>'+'<span><a class="clrred closecheckOrder" checkOrder="'+pid+'" href="javascript:void(0)">X</a></span>';
        $('span.checkStatus_'+pid).css('display', 'block');
        $('.checkstatusOrder_'+pid).html(options);
-     });
+    }
+     
+     );
 
   $('body').on('click', '.closecheckOrder', function(){
     var pid = $(this).attr('checkOrder')
@@ -335,216 +307,120 @@ $('body').on('click', '.getcheckstatusOrder', function(){
            payment_status = $(".paymentStatusOrder").find("option:selected").val();
            check_status = $(".checkStatus").find("option:selected").val();
            get_order_status = $(".checkOrderStatus").find("option:selected").val();
-			var data = 'date='+date+'&payment_status='+payment_status+'&get_order_status='+get_order_status+'&check_status='+check_status+'&_token={{ csrf_token() }}';
-            console.log('mydatat_'+data); //return false;
+
+           var allordstatus = [2,3,4,5];
+			var data = 'date='+date+'&payment_status='+payment_status+'&get_order_status='+get_order_status+'&check_status='+check_status+'&allordstatus='+allordstatus+'&_token={{ csrf_token() }}';
+            //console.log('mydatat_'+data); return false;
             $.ajax({
                 type:"GET",
                 url:"{{ url('admin/addateAndPaymentFilter') }}",
                 data:data,
                 cache:false,
-				        dataType:'json',
+				       // dataType:'json',
                 beforeSend: function(){
-                    $(".dataafterfilterOrder").html('<tr><td colspan="16"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
+                    $("#dataafterfilterOrder").html('<tr><td colspan="16"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
                 },
-                success: function(resultJSON) {
-                  //console.log(resultJSON.symbol);
-                  jsondata = resultJSON.data;
-                  currency = resultJSON.current_currency;
-                  symbol = resultJSON.symbol; 
-                  if(jsondata.length > 0){ 
-              for(i = 0; i < jsondata.length; i++) {
-
-                cost_ex_VAT = symbol+''+(currency*jsondata[i].diamondfeed.price).toFixed(2);
-                salePrice_ex_VAT = symbol+''+(currency*(jsondata[i].diamondfeed.price*jsondata[i].multiplierprice.multiplier_usd)).toFixed(2);
-salePrice_inc_VAT = symbol+''+(currency*((20 / 100 )*jsondata[i].diamondfeed.price+jsondata[i].diamondfeed.price)).toFixed(2);
-
-                          switch (jsondata[i].order_status) {
-                            case 1:
-                            orderStatus = "Enquiry";
-                            break;
-                            case 2:
-                            orderStatus = "Completed";
-                            break;
-                            case 3:
-                            orderStatus = "Cancelled";
-                            break;
-                            case 4:
-                            orderStatus = "Order Request";
-                            break;
-                            case 5:
-                            orderStatus = "Order Placed";
-                            break;
-                            default:
-                            orderStatus = "Enquiry";
-                            };
-
-                            switch (jsondata[i].payment_status) {
-                            case 1:
-                            paymentStatus = "Pending";
-                            break;
-                            case 2:
-                            paymentStatus = "Deposit Paid";
-                            break;
-                            case 3:
-                            paymentStatus = "Fully Paid";
-                            break;
-                            default:
-                            paymentStatus = "Pending";
-                            };
-
-                            switch (jsondata[i].checkStatus) {
-                            case 1:
-                              checkStatus = "Checking availability";
-                            break;
-                            case 2:
-                              checkStatus = "Order confirmed";
-                            break;
-                            case 3:
-                              checkStatus = "Order sent with tracking";
-                            break;
-                            default:
-                             checkStatus = "Checking availability";
-                            };
-
-                outputdata += '<tr class="rowupdateOrder_'+jsondata[i].id+'">'+
-                          '<td>'+(i+1)+'</td>'+
-                          '<td>'+jsondata[i].order_date+'</td>'+
-                          '<td>'+jsondata[i].client+'</td>'+
-                          '<td>'+jsondata[i].ref_name_contact+'</td>'+
-                          '<td>'+orderStatus+''+' <span class="changests changestsOrder_'+jsondata[i].id+' upstatusOrder_'+jsondata[i].id+'">'+'<a class="getstatusvalueOrder" idsOrder="'+jsondata[i].id+'" href="javascript:void(0);">Change</a>'+'</span>'+'</td>'+
-                          '<td>'+'<a class="view_diamond" target="_blank" href="{{url('printDetails')}}/'+jsondata[i].diamondfeed.stock_id+'">'+jsondata[i].diamondfeed.stock_id+'</a>'+'</td>'+
-                          '<td>'+'<a class="view_diamond" target="_blank" href="'+jsondata[i].diamondfeed.pdf+'">'+jsondata[i].diamondfeed.lab+'</a>'+'</td>'+
-                          '<td>'+jsondata[i].diamondfeed.shape+'</td>'+
-                          '<td>'+jsondata[i].orderTrackingId+'</td>'+
-                          '<td>'+checkStatus+' <span class="changests checkStatus_'+jsondata[i].id+' checkstatusOrder_'+jsondata[i].id+'">'+'<a class="getcheckstatusOrder" checkOrder="'+jsondata[i].id+'" href="javascript:void(0);">Change</a>'+'</span>'+'</td>'+
-                          '<td>'+''+'</td>'+
-                          '<td>'+''+'</td>'+
-                          '<td>'+salePrice_ex_VAT+' (Ex. VAT)'+'</td>'+
-                          '<td>'+salePrice_inc_VAT+' (Inc. VAT)'+'</td>'+
-                          '<td>'+paymentStatus+''+' <span class="changests paymentOrder_'+jsondata[i].id+' paystatusOrder_'+jsondata[i].id+'">'+'<a class="getpaystatusOrder" payOrder="'+jsondata[i].id+'" href="javascript:void(0);">Change</a>'+'</span>'+'</td>'+
-                          '<td>'+jsondata[i].ETA+'</td>'+
-                           '</tr>';
-              }}else{ outputdata = "<tr><td colspan='16'>No Data Found</td></tr>";}
-          //console.log('option_'+outputdata);
-					$('.dataafterfilterOrder').html(outputdata);	
+                success: function(result) {
+                  //console.log('htmdata _'+resultJSON)
+				      	$('#dataafterfilterOrder').html(result);	
                 }
                
             });
 		});
 
-    //------------------------
-
     //--------------Start--Update-Payment-AND-ORDER-Status--------------------
-
-
-
-    $('body').on('change', '.orderstatuptOrder, .paystatupdateOrder, .checkstatupdateOrder', function(){
-      var jsondata='', symbol='', currency='', i, outputdata='', orderStatus='', cost_ex_VAT='', salePrice_ex_VAT='', salePrice_inc_VAT='', id = '', successMsg = '', paymentStatus='', payment_status='', get_order_status='', order_status='', checkStatus='', date='', check_status=''  ;
-         
+    $('body').on('change', '.orderstatuptOrder, .paystatupdateOrder', function(){
+      var  payment_status='',  order_status='', date='', check_status='', prid=''  ;
          prid = $(this).attr('prID');
          date = $(".changedatetimeOrder").find("option:selected").val();
          payment_status = $(".paystatupdateOrder").find("option:selected").val();
          check_status = $(".checkstatupdateOrder").find("option:selected").val();
          order_status = $(".orderstatuptOrder").find("option:selected").val();
-
-           console.log('productID_for_update_'+prid); 
-          // console.log('odate_'+date);
-          // console.log('oorderStatus_'+payment_status);
-           //return false;
-			var data = 'date='+date+'&pid='+prid+'&payment_status='+payment_status+'&order_status='+order_status+'&check_status='+check_status+'&_token={{ csrf_token() }}';
-             console.log('updatedata_'+data); return false;
+         var allordstatus = [2,3,4,5];
+			var data = 'date='+date+'&pid='+prid+'&payment_status='+payment_status+'&order_status='+order_status+'&check_status='+check_status+'&allordstatus='+allordstatus+'&_token={{ csrf_token() }}';
             $.ajax({
                 type:"POST",
                 url:"{{ url('admin/adOrderStatusAndPaymentUpdate') }}",
                 data:data,
                 cache:false,
-				        dataType:'json',
+				        //dataType:'json',
+                beforeSend: function(){
+                    $("#dataafterfilterOrder").html('<tr><td colspan="16"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
+                },
+                success: function(result) {
+              toastr.success('Your Data Successfully Updated');
+					$('#dataafterfilterOrder').html(result);	
+                } 
+            });
+		});
+//--------------Start--Update-CheckStatus-1-------------------
+        $('body').on('change', '.checkstatupdateOrder', function(){
+      var  payment_status='', order_status='', date='', check_status='', prid=''  ;
+         prid = $(this).attr('prID');
+         date = $(".changedatetimeOrder").find("option:selected").val();
+         payment_status = $(".paystatupdateOrder").find("option:selected").val();
+         check_status = $(".checkstatupdateOrder").find("option:selected").val();
+         order_status = $(".orderstatuptOrder").find("option:selected").val();
+         if($('.checkstatupdateOrder').click()){
+        if(check_status != 1){
+            $('#checkid23').val(prid);
+            $('#myModal').modal({
+           show: 'show'
+            });
+            return false;
+        }}
+        var allordstatus = [2,3,4,5];
+			var data = 'date='+date+'&pid='+prid+'&payment_status='+payment_status+'&order_status='+order_status+'&check_status='+check_status+'&allordstatus='+allordstatus+'&_token={{ csrf_token() }}';
+             //console.log('updatedata_'+data); //return false;
+            $.ajax({
+                type:"POST",
+                url:"{{ url('admin/adOrderStatusAndPaymentUpdate') }}",
+                data:data,
+                cache:false,
+				        //dataType:'json',
+                beforeSend: function(){
+                    $("#dataafterfilterOrder").html('<tr><td colspan="16"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
+                },
+                success: function(result) {
+                toastr.success('Your Data Successfully Updated');
+          //console.log('success : '+successMsg);
+					$('#dataafterfilterOrder').html(result);	
+                }
+               
+            });
+		});
+//--------------Start--Update-CheckStatus-2AND3-------------------
+$('body').on('click', '.checkstatupdatetwothree', function(){
+      var payment_status='', order_status='', date='', check_status='', deliveryCost='', prid='', etadate='', trackingid='';
+
+      $('#myModal').modal('hide');
+      
+         prid = $('.checkid23').val();
+         date = $(".changedatetimeOrder").find("option:selected").val();
+         payment_status = $(".paystatupdateOrder").find("option:selected").val();
+         order_status = $(".orderstatuptOrder").find("option:selected").val();
+         
+         check_status = $(".checkstatustt").find("option:selected").val();
+         deliveryCost = $('#deliverycost23').val();
+         trackingid = $('#trackingid').val();
+         etadate = $('#etadate').val();
+
+         var allordstatus = [2,3,4,5];
+      
+			var data = 'date='+date+'&pid='+prid+'&payment_status='+payment_status+'&order_status='+order_status+'&check_status='+check_status+'&deliveryCost='+deliveryCost+'&etadate='+etadate+'&allordstatus='+allordstatus+'&trackingid='+trackingid+'&_token={{ csrf_token() }}';
+             //console.log('clickupdatedata_'+data); return false;
+            $.ajax({
+                type:"POST",
+                url:"{{ url('admin/adOrderStatusAndPaymentUpdate') }}",
+                data:data,
+                cache:false,
+				       // dataType:'json',
                 beforeSend: function(){
                     $(".dataafterfilterOrder").html('<tr><td colspan="16"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
                 },
-                success: function(resultJSON) {
-                  //console.log(resultJSON.symbol);
-                  jsondata = resultJSON.data;
-                  currency = resultJSON.current_currency;
-                  symbol = resultJSON.symbol; 
-                  successMsg = resultJSON.successMsg; 
-                  if(jsondata.length > 0){ 
-              for(i = 0; i < jsondata.length; i++) {
-                  id = jsondata[i].id;
-                cost_ex_VAT = symbol+''+(currency*jsondata[i].diamondfeed.price).toFixed(2);
-                salePrice_ex_VAT = symbol+''+(currency*(jsondata[i].diamondfeed.price*jsondata[i].multiplierprice.multiplier_usd)).toFixed(2);
-salePrice_inc_VAT = symbol+''+(currency*((20 / 100 )*jsondata[i].diamondfeed.price+jsondata[i].diamondfeed.price)).toFixed(2);
-
-                          switch (jsondata[i].order_status) {
-                            case 1:
-                            orderStatus = "Enquiry";
-                            break;
-                            case 2:
-                            orderStatus = "Completed";
-                            break;
-                            case 3:
-                            orderStatus = "Cancelled";
-                            break;
-                            case 4:
-                            orderStatus = "Order Request";
-                            break;
-                            case 5:
-                            orderStatus = "Order Placed";
-                            break;
-                            default:
-                            orderStatus = "Enquiry";
-                            };
-
-                            switch (jsondata[i].payment_status) {
-                            case 1:
-                            paymentStatus = "Pending";
-                            break;
-                            case 2:
-                            paymentStatus = "Deposit Paid";
-                            break;
-                            case 3:
-                            paymentStatus = "Fully Paid";
-                            break;
-                            default:
-                            paymentStatus = "Pending";
-                            };
-
-                            switch (jsondata[i].checkStatus) {
-                            case 1:
-                              checkStatus = "Checking availability";
-                            break;
-                            case 2:
-                              checkStatus = "Order confirmed";
-                            break;
-                            case 3:
-                              checkStatus = "Order sent with tracking";
-                            break;
-                            default:
-                             checkStatus = "Checking availability";
-                            };
-
-              outputdata += '<tr class="rowupdateOrder_'+jsondata[i].id+'">'+
-                          '<td>'+(i+1)+'</td>'+
-                          '<td>'+jsondata[i].order_date+'</td>'+
-                          '<td>'+jsondata[i].client+'</td>'+
-                          '<td>'+jsondata[i].ref_name_contact+'</td>'+
-                          '<td>'+orderStatus+''+' <span class="changests changestsOrder_'+jsondata[i].id+' upstatusOrder_'+jsondata[i].id+'">'+'<a class="getstatusvalueOrder" idsOrder="'+jsondata[i].id+'" href="javascript:void(0);">Change</a>'+'</span>'+'</td>'+
-                          '<td>'+'<a class="view_diamond" target="_blank" href="{{url('printDetails')}}/'+jsondata[i].diamondfeed.stock_id+'">'+jsondata[i].diamondfeed.stock_id+'</a>'+'</td>'+
-                          '<td>'+'<a class="view_diamond" target="_blank" href="'+jsondata[i].diamondfeed.pdf+'">'+jsondata[i].diamondfeed.lab+'</a>'+'</td>'+
-                          '<td>'+jsondata[i].diamondfeed.shape+'</td>'+
-                          '<td>'+jsondata[i].orderTrackingId+'</td>'+
-                          '<td>'+checkStatus+'</td>'+
-                          '<td>'+''+'</td>'+
-                          '<td>'+''+'</td>'+
-                          '<td>'+salePrice_ex_VAT+' (Ex. VAT)'+'</td>'+
-                          '<td>'+salePrice_inc_VAT+' (Inc. VAT)'+'</td>'+
-                          '<td>'+paymentStatus+''+' <span class="changests paymentOrder_'+jsondata[i].id+' paystatusOrder_'+jsondata[i].id+'">'+'<a class="getpaystatusOrder" payOrder="'+jsondata[i].id+'" href="javascript:void(0);">Change</a>'+'</span>'+'</td>'+
-                          '<td>'+jsondata[i].ETA+'</td>'+
-                           '</tr>';
-              }}else{ outputdata = "<tr><td colspan='16'>No Data Found</td></tr>";}
-              toastr.success(successMsg);
-          //console.log('success : '+successMsg);
-					$('.dataafterfilterOrder').html(outputdata);	
+                success: function(result) {
+              toastr.success('Your Data Successfully Updated');
+					$('#dataafterfilterOrder').html(result);	
                 }
                
             });

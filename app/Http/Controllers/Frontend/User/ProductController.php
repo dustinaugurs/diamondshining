@@ -56,10 +56,39 @@ class ProductController extends Controller
 		
 	}
 
+      public function multiplier(){
+				$multiplier = DB::table('add_multiple_price')
+				->join('diamond_templates', 'add_multiple_price.temp_id', '=', 'diamond_templates.id')
+				->join('users', 'diamond_templates.id', '=', 'users.markup_template')
+				->where('users.id', Auth::user()->id)
+				->select('users.id', 'add_multiple_price.multiplier_usd', 'add_multiple_price.vat_from_usd', 'add_multiple_price.vat_to_usd')
+				->get();
+
+				return $multiplier; 
+					   
+                         }	
+
 	public function ourProduct(Request $request,  $base = null){
+		
+	  $multiplier = $this->multiplier(); 
+	//$products = DB::table('diamond_feeds')->take(20)->get();
+	//   foreach($products as $product){
+	// 		echo $product->stock_id.'====';
+	// 		echo $product->price.'====';
+	// 		foreach($multiplier as $mlusd){
+	// 			if($product->price >= $mlusd->vat_from_usd && $product->price <= $mlusd->vat_to_usd){
+	// 			echo $mlusd->multiplier_usd;	
+	// 			}
+	// 		}
+	// 		echo '<br>';
+	//          }				
+	//   echo '<pre>'; print_r($multiplier->toArray());				
+	// 	die;
+
+
+		$setting = Setting::first();
 		$base = Auth::user()->currency_code;
 		//print_r("Auth ID : ".$id); die;
-		
 		$allcurrency = Currency::where('code', $base)->first();
 		$code = $allcurrency['code'];
 		$symbol = $allcurrency['symbol']; 
@@ -98,10 +127,12 @@ class ProductController extends Controller
 	   // print_r($aa); die;
 	   $total_diamond_found = DB::table('diamond_feeds')->count();
 		//print_r($total_diamond_found); die;
-       return view('frontend.pages.our_products', compact('products' ,$products , 'current_currency' , $current_currency ,'symbol' ,$symbol, 'total_diamond_found' , $total_diamond_found))->render();
+       return view('frontend.pages.our_products', compact('products' ,$products , 'multiplier', $multiplier, 'current_currency' , $current_currency ,'symbol' ,$symbol, 'total_diamond_found' , $total_diamond_found, 'setting', $setting))->render();
 	  }
    
 	 public function SearchourProduct(Request $request,  $base = null){
+		$multiplier = $this->multiplier(); 
+		$setting = Setting::first();
 		//$stc = ['LD200110653','LD200110224','G431-138852'];
 		$stockId = $request->search_stock_number;  
 		$sid = explode(",", $stockId);
@@ -126,11 +157,13 @@ class ProductController extends Controller
 		//dd($products); die;
 	   $total_diamond_found = DB::table('diamond_feeds')->whereIn('stock_id', $sid)->count();
 		//print_r($total_diamond_found); die;
-       return view('frontend.pages.search_products', compact('products' ,$products , 'current_currency' , $current_currency ,'symbol' ,$symbol, 'total_diamond_found' , $total_diamond_found, 'stockId', $stockId));
+       return view('frontend.pages.search_products', compact('products' ,$products , 'multiplier', $multiplier, 'current_currency' , $current_currency ,'symbol' ,$symbol, 'total_diamond_found' , $total_diamond_found, 'stockId', $stockId, 'setting', $setting));
 	  }
    	  
 	
 	public function ajax_get_products(Request $request){
+		$multiplier = $this->multiplier(); 
+		$setting = Setting::first();
 		$base = Auth::user()->currency_code;
 		$allcurrency = Currency::where('code', $base)->first();
 		$code = $allcurrency['code'];
@@ -138,63 +171,10 @@ class ProductController extends Controller
 		$price_arr = $this->get_currency();
 		$rate = (array) $price_arr['rates'];
 		$current_currency = $rate[$code];
-		// ->paginate(15);
-		// $request->session()->put('current_currency',$current_currency);
-		// $request->session()->put('symbol',$symbol);
-
-		//======================================
-		// $query = DiamondFeed::
-		//     when($request->has('shape_arr'), function ($q) use ($request) {
-        //         $q->whereIn('shape', [$request->shape_arr]);
-		// 	})
-        //     ->when($request->has('max_price1') && $request->has('min_price1'), function ($q) use ($request) {
-        //         $q->whereBetween('carats', [$request->max_price1 , $request->min_price1]);
-		// 	})
-		// 	->when($request->has('max_price') && $request->has('min_price'), function ($q) use ($request) {
-        //         $q->whereBetween('price', [$request->max_price , $request->min_price]);
-		// 	})
-        //     ->when($request->has('cut_div_val'), function ($q) use ($request) {
-        //         $q->where('cut', 'LIKE', '%' . $request->cut_div_val . '%');
-		// 	})
-		// 	->when($request->has('color_div_val'), function ($q) use ($request) {
-        //         $q->where('col', 'LIKE', '%' . $request->color_div_val . '%');
-		// 	})
-		// 	->when($request->has('cla_div_val'), function ($q) use ($request) {
-        //         $q->where('clar', 'LIKE', '%' . $request->cla_div_val . '%');
-		// 	})
-		// 	->when($request->has('certi_div_val'), function ($q) use ($request) {
-        //         $q->where('lab', 'LIKE', '%' . $request->certi_div_val . '%');
-		// 	})
-		// 	->when($request->has('pol_div_val'), function ($q) use ($request) {
-        //         $q->where('pol', 'LIKE', '%' . $request->pol_div_val . '%');
-		// 	})
-		// 	->when($request->has('flo_div_val'), function ($q) use ($request) {
-        //         $q->where('flo', 'LIKE', '%' . $request->flo_div_val . '%');
-		// 	})
-		// 	->when($request->has('sym_div_val'), function ($q) use ($request) {
-        //         $q->where('symm', 'LIKE', '%' . $request->sym_div_val . '%');
-		// 	})
-		// 	->when($request->has('max_depth') && $request->has('min_depth'), function ($q) use ($request) {
-        //         $q->whereBetween('depth', [$request->max_depth , $request->min_depth]);
-		// 	})
-		// 	->when($request->has('max_table') && $request->has('min_table'), function ($q) use ($request) {
-        //         $q->whereBetween('table', [$request->max_table , $request->min_table]);
-		// 	})
-		// 	->when($request->has('min_ratio') && $request->has('max_ratio'), function ($q) use ($request) {
-        //         $q->whereBetween('lwratio', [$request->min_ratio , $request->max_ratio]);
-		// 	})
-        
-		
-		// ->orderBy('price', 'asc')
-		// ->sortable()
-		// ->Paginate(25);
-	
-		// 	$products = $query;
-		// 	$total_diamond_found = $query->count();
-			
 		//============================================
 	    	$query = DiamondFeed::sortable();
-	    	 if($_GET['shape_arr'] != ''){
+	    	 if(!empty($_GET['shape_arr'])){
+				//print_r($_GET['shape_arr']);  die; 
 			    $query->whereIn('shape', $_GET['shape_arr']);
 		    }
 		    if(($_GET['max_price1'] != '') && ($_GET['min_price1'] != '') ){
@@ -205,48 +185,49 @@ class ProductController extends Controller
 		        $query->whereBetween('price', [$_GET['min_price'] , $_GET['max_price'] ]);
 			}
 			
-		    if($_GET['cut_div_val'] !=  ''){
-		        $query->where('cut',$_GET['cut_div_val']);
+		    if(!empty($_GET['cut_div_val'])){
+		        $query->whereIn('cut',$_GET['cut_div_val']);
 		    }else{
 				$query;	  
 			}
-		    if(($_GET['color_div_val'] != '')){
-		        $query->where('col', $_GET['color_div_val']);
+		    if(!empty($_GET['color_div_val'])){
+				//print_r($_GET['color_div_val']); die; 
+		        $query->whereIn('col', $_GET['color_div_val']);
 			}else{
 				$query;	
 			}
-		    if(($_GET['cla_div_val'] != '')){
-		        $query->where('clar', $_GET['cla_div_val']);
+		    if(!empty($_GET['cla_div_val'])){
+		        $query->whereIn('clar', $_GET['cla_div_val']);
 		    }else{
 				$query;	
 			}
-		    if($_GET['certi_div_val']  != ''){
-		       $query->where('lab', $_GET['certi_div_val']);
+		    if(!empty($_GET['certi_div_val'])){
+		       $query->whereIn('lab', $_GET['certi_div_val']);
 		    }else{
 				$query;	
 			}
 		    
-		    if($_GET['pol_div_val'] != ''){
-		        $query->where('pol', $_GET['pol_div_val']);
+		    if(!empty($_GET['pol_div_val'])){
+		        $query->whereIn('pol', $_GET['pol_div_val']);
 		    }else{
 				$query;	
 			}
-	        if($_GET['flo_div_val'] != ''){
-	           $query->where('flo', $_GET['flo_div_val']);
+	        if(!empty($_GET['flo_div_val'])){
+	           $query->whereIn('flo', $_GET['flo_div_val']);
 	        }else{
 				$query;	
 			}
-	        if($_GET['sym_div_val'] != ''){
-	           $query->where('symm', $_GET['sym_div_val']);
+	        if(!empty($_GET['sym_div_val'])){
+	           $query->whereIn('symm', $_GET['sym_div_val']);
 	        }else{
 				$query;	
 			}
 			//--------------------
-			if($_GET['short_data_clarity_asc'] = 'asc'){
-				$query->orderBy('clar', 'desc');
-			}else{
-				$query->orderBy('clar', 'asc');
-			}
+			// if($_GET['short_data_clarity_asc'] = 'asc'){
+			// 	$query->orderBy('clar', 'desc');
+			// }else{
+			// 	$query->orderBy('clar', 'asc');
+			// }
 			//--------------------
 	        
 	        if(($_GET['max_depth'] != '') && ($_GET['min_depth'] != ''))
@@ -267,28 +248,35 @@ class ProductController extends Controller
 				$query->whereBetween('lwratio' , [$min, $max]);
     		 }
     		
-    	  
+			 $total_diamond_found = $query->count();
 			$products = $query->orderBy('price', 'asc')->paginate(25);
-			$total_diamond_found = $query->count();
+			
 	    	
-		    return view('frontend.pages.component.product_component', compact('products' ,$products , 'current_currency' , $current_currency ,'symbol' ,$symbol, 'total_diamond_found' , $total_diamond_found));
+		    return view('frontend.pages.component.product_component', compact('products' ,$products , 'multiplier', $multiplier, 'current_currency' , $current_currency ,'symbol' ,$symbol, 'total_diamond_found' , $total_diamond_found, 'setting', $setting));
 
 	}	
 	 public function productDetail(Request $request ,$id){
+		$multiplier = $this->multiplier(); 
+		$setting = Setting::first();
 		$product_details = DB::table('diamond_feeds')->where('id', $id)->first();
 		$current_currency = $request->session()->get('current_currency');
 		$symbol = $request->session()->get('symbol');
-        return view('frontend.pages.products_details', compact('product_details' ,$product_details , 'current_currency' ,$current_currency , 'symbol' , $symbol));
+        return view('frontend.pages.products_details', compact('product_details' ,$product_details , 'multiplier', $multiplier, 'current_currency' ,$current_currency , 'symbol' , $symbol, 'setting', $setting));
 	}
 
 	public function EnquirySend(Request $request){
+		$multiplier = $this->multiplier(); 
+		$setting = Setting::first();
 		//print_r($request->diamondFeed_id); die; 
 		$dateTime = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
 		$order = new Order();
 		$order->user_id = Auth::user()->id; 
 		$order->diamondFeed_id = $request->diamondFeed_id;
+		$order->client = $request->client;
+		$order->ref_name_contact = $request->reference;
 		$order->userEmail = $request->userEmail; 
 		$order->order_status = 1; //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5 
+		$order->multiplier_id = $request->multiplier_usd;
 		$order->order_date = $dateTime->format("d/m/Y  h:i A");		   
 		$order->date = date('m_Y');
 		if($order->save()){
@@ -302,7 +290,8 @@ class ProductController extends Controller
 				'username'=> Auth::user()->name,
 				'productid'=> $request->diamondFeed_id, 
 				'subject' => 'Product Enquiry',
-                'stock_number' => $request->stock_number,
+				'stock_number' => $request->stock_number,
+				'setting'=> $setting,
             ];
             $mail = Mail::to($request->userEmail)->send(new SendMailable($enquiry));
 			   }	
@@ -319,13 +308,18 @@ class ProductController extends Controller
 
 
 	  public function OrderSend(Request $request){
+		$multiplier = $this->multiplier(); 
+		$setting = Setting::first();
 		//print_r($request->diamondFeed_ido); die; 
 		$dateTime = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
 		$order = new Order();
 		$order->user_id = Auth::user()->id; 
 		$order->diamondFeed_id = $request->diamondFeed_ido;
+		$order->client = $request->cliento;
+		$order->ref_name_contact = $request->referenceo;
 		$order->userEmail = $request->userEmailo; 
 		$order->order_status = 4; //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5 
+		$order->multiplier_id = $request->multiplier_usdo;
 		$order->order_date = $dateTime->format("d/m/Y  h:i A");		   
 		$order->date = date('m_Y');
 		if($order->save()){
@@ -339,7 +333,8 @@ class ProductController extends Controller
 				'username'=> Auth::user()->name,
 				'productid'=> $request->diamondFeed_ido, 
 				'subject' => 'Product Order',
-                'stock_number' => $request->stock_numbero,
+				'stock_number' => $request->stock_numbero,
+				'setting'=> $setting,
             ];
             $mail = Mail::to($request->userEmailo)->send(new SendMailable($enquiry));
 			   }	

@@ -156,6 +156,7 @@ return [
 	"footer" => "Footer Settings",
 	"terms" => "Terms and Condition Settings",
 	"google" => "Google Analytics Track Code",
+	"vatsetting"=>"VAT Setting",
 	],
 	"faqs" => [
 	"create" => "Create FAQ",
@@ -309,6 +310,7 @@ return [
 	"create" => "Create Order",
 	"edit" => "Edit Order",
 	"management" => "Order Management",
+	"enquiry" => "Enquiry Management",
 	"title" => "Orders",
 	"table" => [
 	"id" => "Id",

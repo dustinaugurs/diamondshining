@@ -72,6 +72,8 @@
 	{!! Html::style('assets/css/style.css') !!}
 	{!! Html::style('assets/css/plugins/jqueryui.min.css') !!}
     {!! Html::style('assets/css/price_range_style.css') !!}
+    {!! Html::style('assets/css/filter-style.css') !!}
+
     
      <!-- Modernizer JS -->
 	 {!! Html::script('assets/js/vendor/modernizr-3.6.0.min.js') !!}

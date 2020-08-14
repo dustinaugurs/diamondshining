@@ -106,6 +106,7 @@ return array(
     '19c6353ee45e3128dd33f0424a3b4a5f' => $vendorDir . '/krgupta/active/src/Helpers/helpers.php',
     'f18cc91337d49233e5754e93f3ed9ec3' => $vendorDir . '/laravelcollective/html/src/helpers.php',
     '0b47d6d4a00ca9112ba3953b49e7c9a4' => $vendorDir . '/yajra/laravel-datatables-oracle/src/helper.php',
+    '101b35f72e0ccb1b5ef72aa86bba3ef9' => $vendorDir . '/yoeunes/toastr/src/helpers.php',
     '797a8938bf9e0b8e2f68f48174e35e1f' => $baseDir . '/app/Helpers/helpers.php',
     '54380c8052132d3fa2d18ec4ebd79ab8' => $baseDir . '/tests/Utilities/helpers.php',
 );

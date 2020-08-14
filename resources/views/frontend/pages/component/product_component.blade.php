@@ -4,19 +4,19 @@
 <!-------------Start-search-stock--------------------->
 <div class="row dkpsearchbox">
 
-<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 <h4 class="certifieddiamond_heading">Certified diamonds</h4>
 <h4 class="fancyclrdiamon_heading">Fancy coloured diamonds</h4>
 <h4 class="labgrowndiamond_heading">Lab Grown Diamonds</h4>
 <h4 class="meleediamond_heading">Melee diamonds</h4>
 </div>
 
-<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 totaldimondbox">
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 totaldimondbox">
 <h5><span>Diamond Found:</span> <span><i class="fa fa-diamond" aria-hidden="true"></i></span> 
 <span>{{$total_diamond_found}}</span> </h5>
 </div>
 
-<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 diamondserachbox">
+<div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 diamondserachbox">
 <form enctype="multipart/form-data" method="get" action="{{url('search-products')}}"> 
 <div class="form-group">
   <div class="row">
@@ -30,10 +30,14 @@
 <div class="col-sm-2 resetvisibility">
   <a href="{{url('our-products')}}">&times;</a>
 </div>
-
 </div>
 </div>
 </form>
+</div>
+
+
+<div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 dkresetfilter"> 
+<button type="button" class="button1 dkreset"><i class="fa fa-refresh"></i><br> Reset Filters</button>
 </div>
 
 </div>
@@ -56,7 +60,8 @@
     <th>@sortablelink('symm')</th>
     <th>@sortablelink('flo')</th>
     <th>@sortablelink('price')(Ex. VAT)</th>
-    <th>Total Cost(inc. VAT)</th>
+    <th>Final Price(inc. VAT)</th>
+    <!-- <th>Final Price(inc. VAT)</th> -->
     <th>Ratio(%)</th>
     <th>Detail / Order</th>
 </tr>
@@ -95,22 +100,46 @@
     <td>{{$product->flo}}</td>
   
     <td>
-        @if($current_currency !== '')
-        {{$symbol}} {{number_format(floor(($current_currency * $product->price)*100)/100,2, '.', '')}} 
+       
+        @foreach($multiplier as $mlusd)
+ 			@if($product->price >= $mlusd->vat_from_usd && $product->price <= $mlusd->vat_to_usd)
+       @if($current_currency !== '')
+
+        {{$symbol}} {{number_format(floor(($current_currency * ($product->price*$mlusd->multiplier_usd))*100)/100,2, '.', '')}} 
         @else
-        $ {{number_format(floor(($product->price)*100)/100,2, '.', '')}}
+        $ {{number_format(floor(($product->price*$mlusd->multiplier_usd)*100)/100,2, '.', '')}}
         @endif
+       @endif
+       @endforeach
         (Ex. VAT)
     </td>
 
-    <td>
+
+    <td> <!----mulipliercost---->
+    @foreach($multiplier as $mlusd)
+ 			@if($product->price >= $mlusd->vat_from_usd && $product->price <= $mlusd->vat_to_usd)
+       @if($current_currency !== '')
+   <?php 
+   $finalprice = ($product->price * $mlusd->multiplier_usd)+($product->price * $mlusd->multiplier_usd)*$setting->VAT/100; 
+   ?>
+    {{$symbol}} {{number_format(floor(($current_currency * ($finalprice))*100)/100,2, '.', '')}} 
+    @else
+    $ {{number_format(floor(($product->price * $mlusd->multiplier_usd)*100)/100,2, '.', '')}}
+    @endif
+    @endif
+       @endforeach
+      
+    (Inc. VAT)
+    </td>
+
+    <!-- <td>
     @if($current_currency !== '')
-        {{$symbol}}{{number_format(floor(($current_currency * ((20 / 100 ) * $product->price + $product->price))*100)/100,2, '.', '')}}
+        {{$symbol}}{{number_format(floor(($current_currency * (($setting->VAT / 100 ) * $product->price + $product->price))*100)/100,2, '.', '')}}
         @else
-        $ {{number_format(floor(((20 / 100 ) * $product->price + $product->price)*100)/100,2, '.', '')}}
+        $ {{number_format(floor((($setting->VAT / 100 ) * $product->price + $product->price)*100)/100,2, '.', '')}}
         @endif
          (inc. VAT)
-    </td>
+    </td> -->
 
 
         <td> {{number_format(floor(($product->length / $product->width)*100)/100,2, '.', '')}} </td>
@@ -226,19 +255,35 @@
 
 <div class="col">        
 <div class="price-wrp"> 
-@if($current_currency !== '')
-{{$symbol}} {{number_format(floor(($current_currency * $product->price)*100)/100,2, '.', '')}} 
-@else
-$ {{number_format(floor(($product->price)*100)/100,2, '.', '')}}
-@endif</div>
+@foreach($multiplier as $mlusd)
+ 			@if($product->price >= $mlusd->vat_from_usd && $product->price <= $mlusd->vat_to_usd)
+       @if($current_currency !== '')
+
+        {{$symbol}} {{number_format(floor(($current_currency * ($product->price*$mlusd->multiplier_usd))*100)/100,2, '.', '')}} 
+        @else
+        $ {{number_format(floor(($product->price*$mlusd->multiplier_usd)*100)/100,2, '.', '')}}
+        @endif
+       @endif
+       @endforeach
+</div>
 <div class="price-sub">(EX. VAT)</div>
 
 <div class="order-btn-wrp" onclick="orderPopup({{$product->id}})"><a href="#" data-toggle="modal" data-target="#OrderModal" class="order-btn"> ORDER</a>
 <input type="hidden" class="stocknumo_{{$product->id}}" value="{{$product->stock_id}}">
+@foreach($multiplier as $mlusd)
+ 			@if($product->price >= $mlusd->vat_from_usd && $product->price <= $mlusd->vat_to_usd)
+  <input type="hidden" class="multiplierUsdo_{{$product->id}}" value="{{$mlusd->multiplier_usd}}">      
+	 	  @endif
+@endforeach
 </div>
 
 <div class="enquire-btn-wrp" onclick="enquiryPopup({{$product->id}})" ><a href="#" data-toggle="modal" data-target="#EnquiryModal" class="enquire-btn"> ENQUIRE </a>
 <input type="hidden" class="stocknum_{{$product->id}}" value="{{$product->stock_id}}">
+@foreach($multiplier as $mlusd)
+ 			@if($product->price >= $mlusd->vat_from_usd && $product->price <= $mlusd->vat_to_usd)
+  <input type="hidden" class="multiplierUsd_{{$product->id}}" value="{{$mlusd->multiplier_usd}}">      
+	 	  @endif
+@endforeach
 </div>
 </div>
 
@@ -283,13 +328,15 @@ $ {{number_format(floor(($product->price)*100)/100,2, '.', '')}}
 
              <div class="row">
 
-             <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="col-md-6 col-sm-6 col-xs-12" style="display:none;">
           <div class="input-group">
           <span class="input-group-addon">Product ID</span>
           <input type="text" id="diamondFeed_id" class="form-control" name="diamondFeed_id" value="" readonly required>
           </div>
           </div>
 
+          <input type="hidden" id="multiplier_usd" class="form-control" name="multiplier_usd" value="">
+        
           <div class="col-md-6 col-sm-6 col-xs-12">
           <div class="input-group">
           <span class="input-group-addon">Stock Number</span>
@@ -297,7 +344,21 @@ $ {{number_format(floor(($product->price)*100)/100,2, '.', '')}}
           </div>
           </div>
 
-          <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="input-group">
+          <span class="input-group-addon">Client</span>
+          <input id="client" type="text" name="client" value="{{Auth::user()->name}}" class="form-control" readonly  placeholder="Enter Client">
+          </div>
+          </div>
+
+          <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="input-group">
+          <span class="input-group-addon">Reference</span>
+          <input id="reference" type="text" name="reference" class="form-control"  placeholder="Enter Reference">
+          </div>
+          </div>
+
+          <div class="col-md-6 col-sm-6 col-xs-12">
           <div class="input-group">
           <span class="input-group-addon">Email</span>
           <input id="userEmail" type="email" class="form-control" name="userEmail" value="{{Auth::user()->email}}" placeholder="Enter Your Correct Email Address ">
@@ -331,12 +392,14 @@ $ {{number_format(floor(($product->price)*100)/100,2, '.', '')}}
 
              <div class="row">
 
-             <div class="col-md-6 col-sm-6 col-xs-12">
+             <div class="col-md-6 col-sm-6 col-xs-12" style="display:none;">
           <div class="input-group">
           <span class="input-group-addon">Product ID</span>
           <input type="text" id="diamondFeed_ido" class="form-control" name="diamondFeed_ido" value="" readonly required>
           </div>
           </div>
+
+          <input type="hidden" id="multiplier_usdo" class="form-control" name="multiplier_usdo" value="">
 
           <div class="col-md-6 col-sm-6 col-xs-12">
           <div class="input-group">
@@ -345,7 +408,21 @@ $ {{number_format(floor(($product->price)*100)/100,2, '.', '')}}
           </div>
           </div>
 
-          <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="input-group">
+          <span class="input-group-addon">Client</span>
+          <input id="cliento" type="text" name="cliento" value="{{Auth::user()->name}}" class="form-control" readonly placeholder="Enter Client">
+          </div>
+          </div>
+
+          <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="input-group">
+          <span class="input-group-addon">Reference</span>
+          <input id="referenceo" type="text" name="referenceo" class="form-control" placeholder="Enter Reference">
+          </div>
+          </div>
+
+          <div class="col-md-6 col-sm-6 col-xs-12">
           <div class="input-group">
           <span class="input-group-addon">Email</span>
           <input id="userEmailo" type="email" class="form-control" name="userEmailo" value="{{Auth::user()->email}}" placeholder="Enter Your Correct Email Address ">

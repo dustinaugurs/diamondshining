@@ -28,8 +28,9 @@
     <th>Shape</th>
     <th>Tracking ID</th>
     <th>Status</th>
-    <th>SalePrice (Ex VAT)</th>
-    <th>SalePrice (Inc VAT)</th>
+    <th>Price (Ex VAT)</th>
+    <!-- <th>Price (Inc VAT)</th> -->
+    <th>Final Price (Inc VAT)</th>
     <th>Payment Status
     <div class="changedataboxpayment">
             <select name="paymentStatusOrder" class="paymentStatusOrder">
@@ -50,8 +51,8 @@
 <td>{{ $loop->iteration }}</td>
 <td>{{$order->order_date}}</td>
 <td>{{$order->client}}</td>
-<td onclick="updateReferrence({{$order->id}})" class="reftd_{{$order->id}}">
-<textarea class="txtareadisplay textarea_{{$order->id}}">{{$order->ref_name_contact}}</textarea>
+<td class="reftd_{{$order->id}}">
+{{$order->ref_name_contact}}
 </td>
 <td>
 @switch($order->order_status)
@@ -73,9 +74,9 @@
     @default
         Enquiry
 @endswitch
-@if(!($order->order_status==2 || $order->order_status==3))
+<!-- @if(!($order->order_status==2 || $order->order_status==3))
 <span class="changests changestsOrder_{{$order->id}} upstatusOrder_{{$order->id}}"><a class="getstatusvalueOrder" href="javascript:void(0);" idsOrder="{{$order->id}}">Change</a></span>
-@endif
+@endif -->
 </td>
 
 <td><a class="view_diamond" target="_blank" href="{{url('printDetails')}}/{{$order->diamondfeed->stock_id}}">{{$order->diamondfeed->stock_id}}</a>
@@ -105,20 +106,32 @@
 
 <td>
     @if($current_currency !== '')
-    {{$symbol}} {{number_format(floor(($current_currency * ($order->diamondfeed->price * 1))*100)/100,2, '.', '')}} 
+    {{$symbol}} {{number_format(floor(($current_currency * ($order->diamondfeed->price  * $order->multiplier_id))*100)/100,2, '.', '')}} 
     @else
-    $ {{number_format(floor(($order->diamondfeed->price)*100)/100,2, '.', '')}}
+    $ {{number_format(floor(($order->diamondfeed->price * $order->multiplier_id)*100)/100,2, '.', '')}}
     @endif
     (Ex. VAT)
     </td>
 
-    <td>
+    <!-- <td>
     @if($current_currency !== '')
-    {{$symbol}}{{number_format(floor(($current_currency * ((20 / 100 ) * $order->diamondfeed->price + $order->diamondfeed->price))*100)/100,2, '.', '')}}
+    {{$symbol}}{{number_format(floor(($current_currency * (($setting->VAT / 100 ) * $order->diamondfeed->price + $order->diamondfeed->price))*100)/100,2, '.', '')}}
     @else
-    $ {{number_format(floor(((20 / 100 ) * $order->diamondfeed->price + $order->diamondfeed->price)*100)/100,2, '.', '')}}
+    $ {{number_format(floor((($setting->VAT / 100 ) * $order->diamondfeed->price + $order->diamondfeed->price)*100)/100,2, '.', '')}}
     @endif
     (inc. VAT)
+    </td> -->
+
+<td> <!----mulipliercost---->
+    @if($current_currency !== '')
+   <?php 
+   $finalprice = ($order->diamondfeed->price * $order->multiplier_id)+($order->diamondfeed->price * $order->multiplier_id)*$setting->VAT/100; 
+   ?>
+    {{$symbol}} {{number_format(floor(($current_currency * ($finalprice))*100)/100,2, '.', '')}} 
+    @else
+    $ {{number_format(floor(($order->diamondfeed->price * $order->multiplier_id)*100)/100,2, '.', '')}}
+    @endif
+    (Inc. VAT)
     </td>
 
 <td>
@@ -136,7 +149,7 @@
        Pending
 @endswitch
 
-<span class="changests paymentOrder_{{$order->id}} paystatusOrder_{{$order->id}}"><a class="getpaystatusOrder" href="javascript:void(0);" payOrder="{{$order->id}}">Change</a></span>
+<!-- <span class="changests paymentOrder_{{$order->id}} paystatusOrder_{{$order->id}}"><a class="getpaystatusOrder" href="javascript:void(0);" payOrder="{{$order->id}}">Change</a></span> -->
 </td>
 
 <td>{{$order->ETA}}</td>

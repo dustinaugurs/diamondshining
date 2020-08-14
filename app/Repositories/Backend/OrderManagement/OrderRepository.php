@@ -100,10 +100,13 @@ class OrderRepository extends BaseRepository
           return $aa;
       }
 
-      public function ordersAdmin(){
+      public function ordersAdmin($orderStatus = ''){
         $orders = Order::with('user','diamondfeed', 'multiplierprice')
                     ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
-                    ->get();
+                    ->whereIn('order_status', $orderStatus)
+                    ->orderBy('order_date', 'desc')
+                    ->paginate(10);
+                    //->get();
        return $orders;             
      }
 
@@ -111,7 +114,9 @@ class OrderRepository extends BaseRepository
         $orders = Order::with('user','diamondfeed', 'multiplierprice')
                     ->where('order_status', $orderStatus)
                     ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
-                    ->get();
+                    ->orderBy('order_date', 'desc')
+                    ->paginate(10);
+                    //->get();
        return $orders;             
      }
      
@@ -119,6 +124,7 @@ class OrderRepository extends BaseRepository
      public function productSingle($id = ''){
         $products = Order::with('user','diamondfeed', 'multiplierprice')
                     ->where('diamondFeed_id', $id)
+                    ->orderBy('order_date', 'desc')
                     ->first();
         //$order = Order::with('user','diamondfeed')->where('diamondFeed_id', $products->id);            
        return $products;             
@@ -128,8 +134,10 @@ class OrderRepository extends BaseRepository
       $orders = Order::with('user','diamondfeed','multiplierprice')
                   ->where('order_status', $orderStatus)
                   ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
+                  ->orderBy('order_date', 'desc')
                   ->where('date', $date) 
-                  ->get();
+                  ->paginate(5);
+                  //->get();
      return $orders;             
    }
     //=========================

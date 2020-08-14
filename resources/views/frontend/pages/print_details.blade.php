@@ -114,10 +114,10 @@
 </tr>
 
 <tr>
-<td><b>Cost Price (Excluding VAT)</b></td>
+<td><b>Price (Excluding VAT)</b></td>
 <td><b>
 @if($current_currency !== '')
-    {{$symbol}}{{number_format(floor(($current_currency * $products->price)*100)/100,2, '.', '')}} 
+    {{$symbol}}{{number_format(floor(($current_currency * ($products->price * $products->multiplier_id))*100)/100,2, '.', '')}} 
     @else
     $ {{number_format(floor(($products->price)*100)/100,2, '.', '')}}
     @endif
@@ -125,17 +125,33 @@
 </b></td>
 </tr>
 
-<tr>
+<!-- <tr>
 <td>
 <b>Price (Including VAT)</b></td>
 <td><b>
 @if($current_currency !== '')
-    {{$symbol}}{{number_format(floor(($current_currency * ((20 / 100 ) * $products->price + $products->price))*100)/100,2, '.', '')}}
+    {{$symbol}}{{number_format(floor(($current_currency * (($setting->VAT / 100 ) * $products->price + $products->price))*100)/100,2, '.', '')}}
     @else
-    $ {{number_format(floor(((20 / 100 ) * $products->price + $products->price)*100)/100,2, '.', '')}}
+    $ {{number_format(floor((($setting->VAT / 100 ) * $products->price + $products->price)*100)/100,2, '.', '')}}
     @endif
     (inc. VAT)
 </b></td>
+</tr> -->
+
+<tr>
+<td>
+<b>Final Price (Including VAT)</b></td>
+<td><b> <!----mulipliercost---->
+    @if($current_currency !== '')
+   <?php 
+   $finalprice = ($products->price * $products->multiplier_id)+($products->price * $products->multiplier_id)*$setting->VAT/100; 
+   ?>
+    {{$symbol}} {{number_format(floor(($current_currency * ($finalprice))*100)/100,2, '.', '')}} 
+    @else
+    $ {{number_format(floor(($products->price * $products->multiplier_id)*100)/100,2, '.', '')}}
+    @endif
+    (Inc. VAT)
+    </b></td>
 </tr>
 
 </tbody>

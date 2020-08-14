@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\OrderManagement;
 
 use App\Models\OrderManagement\Order;
+use App\Models\Settings\Setting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\RedirectResponse;
@@ -17,6 +18,7 @@ use App\Http\Requests\Backend\OrderManagement\EditOrderRequest;
 use App\Http\Requests\Backend\OrderManagement\UpdateOrderRequest;
 use App\Http\Requests\Backend\OrderManagement\DeleteOrderRequest;
 use Auth;
+use DB;
 
 /**
  * OrdersController
@@ -40,26 +42,35 @@ class OrdersController extends Controller
 
     public function index(ManageOrderRequest $request)
     { 
-        //   $base = Auth::user()->currency_code;
-        //   $allcurrency = Currency::where('code', $base)->first();
-        //   $code = $allcurrency['code'];
-        //   $symbol = $allcurrency['symbol']; 
+         $currency = DB::table('currencies')->where('code', 'GBP')->first();
           $price_arr = $this->repository->get_currency();
           $rate = (array) $price_arr['rates'];
           $baserate = (array) $price_arr['base'];
-         // $current_currency = $rate[$code];
+          $current_currency = $rate[$currency->code];
+          $symbol = $currency->symbol; 
+          //print_r($current_currency);die;
+         $setting = Setting::first();
+         $orderStatus = [2,3,4,5];
+             
+        $orders = Order::with('user','diamondfeed')
+                    ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
+                    ->whereIn('order_status', $orderStatus)
+                    ->orderBy('order_date', 'desc')
+                    ->paginate(10);
+                    //->get();
+    
+                  
+         
+        //  echo '<pre>'; print_r($orders->user->tid); 
+        //     die;            
 
-          //echo '<pre>'; print_r($rate['CAD']); die;
-        
-        $orderStatus = 3;
-        $orders=$this->repository->order($orderStatus);
-         //print_r($orders); die;
         return new ViewResponse('backend.ordermanagements.index',[
                'ordervalue'=>'OrderValue',
                //'orders'=>$this->repository->order($orderStatus),
-               'orders'=>$this->repository->ordersAdmin(),
-               'current_currency'=>$rate,
-               //'symbol'=>$symbol,
+               'orders'=>$this->repository->ordersAdmin($orderStatus),
+               'current_currency'=>$current_currency,
+               'setting' => $setting,
+               'symbol'=>$symbol,
              ]);
     }
 
@@ -68,37 +79,67 @@ class OrdersController extends Controller
     //=====---start-Order-request-ajax-function----======  
 
     public function printDetails($stockID=''){
-        //$products = $this->repository->productSingle($stockID);
-       // echo '<pre>'; print_r($products->toArray());die;
-        $price_arr = $this->repository->get_currency();
+        $currency = DB::table('currencies')->where('code', 'GBP')->first();
+          $price_arr = $this->repository->get_currency();
           $rate = (array) $price_arr['rates'];
           $baserate = (array) $price_arr['base'];
+          $current_currency = $rate[$currency->code];
+          $symbol = $currency->symbol;
+
+          $setting = Setting::first();
               return view('backend.ordermanagements.print_details', [
                 'cancelled'=>'cancelled',
                 'products' => $this->repository->productSingle($stockID),
-                'current_currency' => $rate,
+                'current_currency'=>$current_currency,
+               'setting' => $setting,
+               'symbol'=>$symbol,
               ]);
                   
           }      
     
     public function OrderStatusAndPaymentUpdate(Request $request){
-        $get_order_status = $request->get_order_status;
-        $payment_status = $request->payment_status;
-        $order_status = $request->order_status;
+        $allordstatus = explode(',', $request->allordstatus);
         $date = $request->date;
         $oid = $request->pid;
+        $payment_status = $request->payment_status;
+        $order_status = $request->order_status;
+        $check_status = $request->check_status;
+        $deliverycost = $request->deliveryCost;
+        $etadate = $request->etadate;
+
+        //$orderTrackingId = strtoupper(substr(sha1(mt_rand() . microtime()), mt_rand(0,15), 15));
+
+        $orderTrackingId = $request->trackingid;
+        
+        
+        
         $successMsg = '';
         $MsgText = '';
         $orderUpdate = Order::where('id', $oid)->first();
 
-        if(!empty($order_status)){
+        if($order_status !== 'undefined'){
         $orderUpdate->order_status = $order_status;
         $MsgText = 'Order Status Successfully Changed';
         }
 
-        if(!empty($payment_status)){
+        if($payment_status !== 'undefined'){
         $orderUpdate->payment_status = $payment_status;
         $MsgText = 'Payment Status Successfully Changed';
+        }
+
+        if($check_status !== 'undefined'){
+            if($check_status==2 || $check_status==3){
+            $orderUpdate->checkStatus = $check_status;
+            $orderUpdate->deliverycost_from_admin = $deliverycost;
+            $orderUpdate->orderTrackingId = $orderTrackingId;
+            $orderUpdate->ETA = $etadate;
+            $MsgText = 'Status Successfully Changed'.'trackid: '.$orderTrackingId;
+        }else if($check_status==1){
+        $orderUpdate->checkStatus = $check_status; 
+        //$orderUpdate->deliverycost_from_admin = '0.00';
+       // $orderUpdate->orderTrackingId = NULL; 
+        $MsgText = 'Status Successfully Changed';
+        }
         }
 
         if($orderUpdate->save()){
@@ -106,63 +147,239 @@ class OrdersController extends Controller
         }else{
         $successMsg = 'Your Status Not Changed';
         }
-
-        $orderStatus = $get_order_status;  //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5
-
-        $price_arr = $this->repository->get_currency();
+        
+       $currency = DB::table('currencies')->where('code', 'GBP')->first();
+          $price_arr = $this->repository->get_currency();
           $rate = (array) $price_arr['rates'];
           $baserate = (array) $price_arr['base'];
-        $order = '';
-        if($date !== "00_00"){
-        $order = $this->orders->orderChange($orderStatus, $date);
-        }else{
-        $order = $this->orders->order($orderStatus);
-        }
-        // $query = Order::with('user','diamondfeed','multiplierprice');
-
-        //   if($payment_status !== ""){
-        //      $query->where('payment_status', $payment_status);
-        //   }
-
-        //   if($date !== "00_00"){
-        //     $query->where('date', $date);
-        //   }
+          $current_currency = $rate[$currency->code];
+          $symbol = $currency->symbol;
+          $setting = Setting::first();
+          $orders = Order::with('user','diamondfeed','multiplierprice')
+                        ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
+                        ->whereIn('order_status',  $allordstatus)
+                        ->orderBy('order_date', 'desc')
+                        ->paginate(10);
+                        //->get();
         
-        //   $order = $query->where('order_status', $orderStatus)
-        //                   ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
-        //                   ->get();
+        return view('backend.ordermanagements.order_component', [
+            'cancelled'=>'cancelled',
+            'orders' => $orders,
+            'current_currency'=>$current_currency,
+            'setting' => $setting,
+            'symbol'=>$symbol,
+            'successMsg'=> $successMsg,
+            ]);
 
-        return response()->json(['data'=>$order, 'current_currency'=>$rate, 'successMsg'=> $successMsg]);
+        //return response()->json(['data'=>$order, 'setting' => $setting, 'current_currency'=>$rate, 'successMsg'=> $successMsg]);
         }
-
 
     public function dateAndPaymentFilter(Request $request){
+        $allordstatus = explode(',', $request->allordstatus);
+       // $allordstatus = explode(',', $allordstatus);
+        //print_r($ddde); die;
         $date = $request->date;
         $payment_status = $request->payment_status;
         $orderStatus = $request->get_order_status;  //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5
-        
+        $checkStatus = $request->check_status;
+       
+        $currency = DB::table('currencies')->where('code', 'GBP')->first();
         $price_arr = $this->repository->get_currency();
-          $rate = (array) $price_arr['rates'];
-          $baserate = (array) $price_arr['base'];
+        $rate = (array) $price_arr['rates'];
+        $baserate = (array) $price_arr['base'];
+        $current_currency = $rate[$currency->code];
+        $symbol = $currency->symbol;
         $order = '';
 
-        $query = Order::with('user','diamondfeed','multiplierprice');
+        $setting = Setting::first();
 
-        if($payment_status !== "0"){
+        $query = Order::with('user','diamondfeed','multiplierprice');
+        
+        if($date !== "all"){
+            $query->where('date', $date);
+        } 
+
+        if($payment_status !== "all"){
             $query->where('payment_status', $payment_status);
         }
-
-        if($date !== "00_00"){
-            $query->where('date', $date);
+        if($orderStatus !== "all"){
+            $query->where('order_status', $orderStatus);
         }
-        
-        $order = $query->where('order_status', $orderStatus)
-                        ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
-                        ->get();
+        if($checkStatus !== "all"){
+            $query->where('checkStatus', $checkStatus);
+        }
 
-        return response()->json(['data'=>$order, 'current_currency'=>$rate]);
+        
+        
+        $orders = $query->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
+                        ->whereIn('order_status', $allordstatus)
+                        ->orderBy('order_date', 'desc')
+                        ->paginate(10);
+                        //->get();
+         
+            return view('backend.ordermanagements.order_component', [
+                'cancelled'=>'cancelled',
+                'orders' => $orders,
+                'current_currency'=>$current_currency,
+               'setting' => $setting,
+               'symbol'=>$symbol,
+                ]);
+
+        //return response()->json(['data'=>$order, 'setting' => $setting, 'current_currency'=>$rate]);
         } 
 //=====---End-Order-request-ajax-function----====== 
+
+
+
+//=====--Start-Enquiries-Section======================
+
+public function enquiriesIndex(ManageOrderRequest $request)
+{ 
+         $currency = DB::table('currencies')->where('code', 'GBP')->first();
+          $price_arr = $this->repository->get_currency();
+          $rate = (array) $price_arr['rates'];
+          $baserate = (array) $price_arr['base'];
+          $current_currency = $rate[$currency->code];
+          $symbol = $currency->symbol;
+     $orderStatus = [1];
+     $setting = Setting::first();
+    return new ViewResponse('backend.ordermanagements.enquiry',[
+           'ordervalue'=>'OrderValue',
+           //'orders'=>$this->repository->order($orderStatus),
+           'orders'=>$this->repository->ordersAdmin($orderStatus),
+           'current_currency'=>$current_currency,
+               'setting' => $setting,
+               'symbol'=>$symbol,
+         ]);
+}
+
+public function EnqOrderStatusAndPaymentUpdate(Request $request){
+    $allordstatus = explode(',', $request->allordstatus);
+    $date = $request->date;
+    $oid = $request->pid;
+    $payment_status = $request->payment_status;
+    $order_status = $request->order_status;
+    $check_status = $request->check_status;
+    $deliverycost = $request->deliveryCost;
+
+    $orderTrackingId = "ererer54444hh";
+    
+    
+    $successMsg = '';
+    $MsgText = '';
+    $orderUpdate = Order::where('id', $oid)->first();
+
+    if($order_status !== 'undefined'){
+    $orderUpdate->order_status = $order_status;
+    $MsgText = 'Order Status Successfully Changed';
+    }
+
+    if($payment_status !== 'undefined'){
+    $orderUpdate->payment_status = $payment_status;
+    $MsgText = 'Payment Status Successfully Changed';
+    }
+
+    if($check_status !== 'undefined'){
+        if($check_status==2 || $check_status==3){
+        $orderUpdate->checkStatus = $check_status;
+        $orderUpdate->deliverycost_from_admin = $deliverycost;
+        $orderUpdate->orderTrackingId = $orderTrackingId;
+        $MsgText = 'Status Successfully Changed'.'trackid: '.$orderTrackingId;
+    }else if($check_status==1){
+    $orderUpdate->checkStatus = $check_status; 
+    //$orderUpdate->deliverycost_from_admin = '0.00';
+   // $orderUpdate->orderTrackingId = NULL; 
+    $MsgText = 'Status Successfully Changed';
+    }
+    }
+
+    if($orderUpdate->save()){
+    $successMsg = $MsgText;
+    }else{
+    $successMsg = 'Your Status Not Changed';
+    }
+    
+   
+         $currency = DB::table('currencies')->where('code', 'GBP')->first();
+          $price_arr = $this->repository->get_currency();
+          $rate = (array) $price_arr['rates'];
+          $baserate = (array) $price_arr['base'];
+          $current_currency = $rate[$currency->code];
+          $symbol = $currency->symbol;
+      $setting = Setting::first();
+      $orders = Order::with('user','diamondfeed','multiplierprice')
+                    ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
+                    ->whereIn('order_status',  $allordstatus)
+                    ->orderBy('order_date', 'desc')
+                    ->paginate(10);
+                    //->get();
+    return view('backend.ordermanagements.enquiries_component', [
+        'cancelled'=>'cancelled',
+        'orders' => $orders,
+        'current_currency'=>$current_currency,
+        'setting' => $setting,
+        'symbol'=>$symbol,
+        'successMsg'=> $successMsg,
+        ]);
+
+    //return response()->json(['data'=>$order, 'setting' => $setting, 'current_currency'=>$rate, 'successMsg'=> $successMsg]);
+    }
+
+public function EnqdateAndPaymentFilter(Request $request){
+    $allordstatus = explode(',', $request->allordstatus);
+   // $allordstatus = explode(',', $allordstatus);
+    //print_r($ddde); die;
+    $date = $request->date;
+    $payment_status = $request->payment_status;
+    $orderStatus = $request->get_order_status;  //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5
+    $checkStatus = $request->check_status;
+   
+    $currency = DB::table('currencies')->where('code', 'GBP')->first();
+    $price_arr = $this->repository->get_currency();
+    $rate = (array) $price_arr['rates'];
+    $baserate = (array) $price_arr['base'];
+    $current_currency = $rate[$currency->code];
+    $symbol = $currency->symbol;
+    
+    $order = '';
+
+    $setting = Setting::first();
+
+    $query = Order::with('user','diamondfeed','multiplierprice');
+    
+    if($date !== "all"){
+        $query->where('date', $date);
+    } 
+
+    // if($payment_status !== "all"){
+    //     $query->where('payment_status', $payment_status);
+    // }
+    // if($orderStatus !== "all"){
+    //     $query->where('order_status', $orderStatus);
+    // }
+    // if($checkStatus !== "all"){
+    //     $query->where('checkStatus', $checkStatus);
+    // }
+
+    $orders = $query->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
+                    ->whereIn('order_status', $allordstatus)
+                    ->orderBy('order_date', 'desc')
+                    ->paginate(10);
+                    //->get();
+         //print_r($orders); die;
+        return view('backend.ordermanagements.enquiries_component', [
+            'cancelled'=>'cancelled',
+            'orders' => $orders,
+            'current_currency'=>$current_currency,
+            'setting' => $setting,
+            'symbol'=>$symbol,
+            ]);
+
+    //return response()->json(['data'=>$order, 'setting' => $setting, 'current_currency'=>$rate]);
+    } 
+
+
+//======================================================
 
 
     /**

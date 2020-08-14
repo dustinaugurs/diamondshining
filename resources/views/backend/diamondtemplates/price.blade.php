@@ -28,6 +28,7 @@
 			<div class="form-group">
 			
 			<H3> {{$detail['title']}}</H3>
+      
 			</div>
 			
 	<div class="form-group">
@@ -40,21 +41,24 @@
 					<th>Add Rows</th>
 				</tr>
 			</thead>
+      <tbody>
 			<tr>
-			 <input type="hidden" class="form-control" name="temp_id[]"  id="temp_id[]" value="{{ $detail['id']}}" />
-			  <td><input size=25 type="text" class="form-control"  name="vat_from_usd[]" id="vat_from_usd" /></td>
-			  <td><input size=25 type="text" class="form-control" name="vat_to_usd[]" id="vat_to_usd" /></td>
-			  <td><input size=25 type="text" class="form-control" name="multiplier_usd[]" id="multiplier_usd" /></td>
+			 <input type="hidden" class="form-control temp_id" name="temp_id[]"  id="temp_id" value="{{ $detail['id']}}" />
+			  <td><input size=25 type="text" class="form-control vat_from_usd"  name="vat_from_usd[]" id="vat_from_usd" /></td>
+			  <td><input size=25 type="text" class="form-control vat_to_usd" name="vat_to_usd[]" id="vat_to_usd" /></td>
+			  <td><input size=25 type="text" class="form-control multiplier_usd" name="multiplier_usd[]" id="multiplier_usd" /></td>
 			  <td><button  type="button" id="delPOIbutton" onclick="deleteRow(this)"><i class="fa fa-minus" aria-hidden="true"></i></button>
 			      <button type="button" id="delPOIbutton" onclick="insRow()"> <i class="fa fa-plus" aria-hidden="true"></i> </button>
 			  </td>
 			</tr>
+      </tbody>
 		 </table>
 		 
 
 </div>	
 		<div>
-			<input class="btn btn-danger" type="submit" value="save">
+    <button type="submit" class="btn btn-danger" onclick="saveRow()">SAVE</button>
+			<!-- <input class="btn btn-danger" type="submit" value="save"> -->
 		</div>
     </form>
 
@@ -76,20 +80,35 @@
       <th scope="col">From (Ex VAT)USD</th>
       <th scope="col">To (Ex VAT)USD</th>
       <th scope="col">Multiplier</th>
-	  
+	    <th scope="col">Action</th>
     </tr>
   </thead>
-  <tbody>
-  @php 
-  $i = 0;
-  @endphp
+  <tbody id="PriceDetailsUpdated">
+  
   @foreach($all_detail as $info)
-    <tr>
-      <th scope="row"> {{$i++}}</th>
+  <tr class="updatedRow_{{$info->id}}"> 
+      <td>{{$loop->iteration}}</td>
       <td>{{$info->vat_from_usd}}</td>
       <td>{{$info->vat_to_usd}}</td>
       <td>{{$info->multiplier_usd}}</td>
+      <td>
+      <button class="btn btn-success" id="editRow" onclick="editRow({{$info->id}})"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+      <button class="btn btn-danger" id="deleteRow" onclick="deleteRow({{$info->id}})"><i class="fa fa-trash-o" aria-hidden="true"></i> </button>
+      </td>
     </tr>
+    <tr class="editrowdisplay editedRow_{{$info->id}}">
+			 <td> 
+       <input type="text" readonly class="form-control" id="loop_id_{{$loop->iteration}}" value="{{$loop->iteration}}" />
+       <input type="hidden"class="form-control edittemp_id_{{$info->id}}"  id="edittemp_id_{{$info->id}}" value="{{$info->id}}" />
+       <input type="hidden" class="form-control editParenttemp_id_{{$info->id}}"  id="editParenttemp_id_{{$info->id}}" value="{{$info->temp_id}}" />
+       </td>
+			  <td><input type="text" value="{{$info->vat_from_usd}}" class="form-control editvat_from_usd_{{$info->id}}" id="editvat_from_usd_{{$info->id}}" /></td>
+			  <td><input type="text" value="{{$info->vat_to_usd}}" class="form-control editvat_to_usd_{{$info->id}}" id="editvat_to_usd_{{$info->id}}" /></td>
+			  <td><input type="text" value="{{$info->multiplier_usd}}" class="form-control editmultiplier_usd_{{$info->id}}" id="editmultiplier_usd_{{$info->id}}" /></td>
+			  <td>
+			  <button id="updateRow" class="btn btn-primary" onclick="updateRow({{$info->id}})"> <i class="fa fa-pencil" aria-hidden="true"></i>  UPDATE</button>
+			  </td>
+			</tr>
   @endforeach
   </tbody>
 </table>
@@ -137,5 +156,87 @@ function insRow() {
   inp2.value = '';
   x.appendChild(new_row);
 }
+</script>
+
+<!-- <script src="{{public_path('assets/js/vendor/jquery-3.3.1.min.js')}}"></script> -->
+<script>
+
+  function deleteRow(id){
+    
+    var  edittemp_id='', editParenttemp_id='';          
+      edittemp_id = id;
+      editParenttemp_id = $('.editParenttemp_id_'+id).val();
+      if (!confirm("Do you want to delete this Record")){
+      return false;
+    }else{
+			var data = 'edittemp_id='+edittemp_id+'&editParenttemp_id='+editParenttemp_id+'&_token={{ csrf_token() }}';
+            //console.log('mydatat_'+data); return false;
+            $.ajax({
+                type:"GET",
+                url:"{{ url('admin/diamondtemplates/deletePrice') }}",
+                data:data,
+                cache:false,
+				       // dataType:'json',
+                beforeSend: function(){
+                    $("#PriceDetailsUpdated").html('<tr><td colspan="5"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
+                },
+                success: function(result) {
+                  //console.log('htmdata _'+resultJSON)
+                  toastr.success('Your Data Successfully Deleted');
+				      	$('#PriceDetailsUpdated').html(result);	
+                }
+               
+            });
+
+          }
+
+
+  }
+
+
+
+function editRow(id){
+   $('.updatedRow_'+id).hide(); 
+   $('.editrowdisplay.editedRow_'+id).show();
+}
+
+function updateRow(id){
+      var  edittemp_id='', editvat_from_usd='', editvat_to_usd='', editmultiplier_usd='', editParenttemp_id='';
+
+     $('.updatedRow_'+id).show(); 
+     $('.editrowdisplay.editedRow_'+id).hide();
+          
+      edittemp_id = $('.edittemp_id_'+id).val();
+      editvat_from_usd = $('.editvat_from_usd_'+id).val();
+      editvat_to_usd = $('.editvat_to_usd_'+id).val();
+      editmultiplier_usd = $('.editmultiplier_usd_'+id).val();
+      editParenttemp_id = $('.editParenttemp_id_'+id).val();
+
+			var data = 'edittemp_id='+edittemp_id+'&editvat_from_usd='+editvat_from_usd+'&editvat_to_usd='+editvat_to_usd+'&editmultiplier_usd='+editmultiplier_usd+'&editParenttemp_id='+editParenttemp_id+'&_token={{ csrf_token() }}';
+            //console.log('mydatat_'+data); return false;
+            $.ajax({
+                type:"GET",
+                url:"{{ url('admin/diamondtemplates/editAndUpdatePrice') }}",
+                data:data,
+                cache:false,
+				       // dataType:'json',
+                beforeSend: function(){
+                    $("#PriceDetailsUpdated").html('<tr><td colspan="5"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
+                },
+                success: function(result) {
+                  //console.log('htmdata _'+resultJSON)
+                  toastr.success('Your Data Successfully Updated');
+				      	$('#PriceDetailsUpdated').html(result);	
+                }
+               
+            });
+    };
+    
+
+    function saveRow(){
+            this.form.submit();
+		};
+
+
 </script>
 @endsection

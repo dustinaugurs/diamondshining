@@ -83,7 +83,7 @@
                     {data: 'actions', name: 'actions', searchable: false, sortable: false},
 				    { data: 'id',
   render: function(data,type,row){
-    var edit_button = "<a href='/public/admin/diamondtemplates/addPrice/"+ row.id +"' class='btn btn-primary' role='button' aria-pressed='true'>Add Price</a>";
+    var edit_button = "<a href='{{URL('/')}}/admin/diamondtemplates/addPrice/"+ row.id +"' class='btn btn-primary' role='button' aria-pressed='true'>Add Price</a>";
   return edit_button;
   }
 },
