@@ -1,39 +1,5 @@
 
-                                <!-- product single item start -->
-<div class="table-responsive">
- 
- <table class="table table-bordered" style="border-collapse:collapse;">
- <thead>
-<tr>
-<th>#</th>
-<th>Date 
-        <div class="changedatabox">
-            <select name="changedate" id="changedatetime">
-            <option value="00_00">All</option>    
-            <?php
-            $dateTime = new DateTime('first day of this month');
-            for ($i = 1; $i <= 56; $i++) {
-            echo '<option value="'.$dateTime->format('m_Y').'">'.$dateTime->format('M-y').'</option>';
-            $dateTime->modify('-1 month');
-            }
-            ?>
-            </select>
-        </div>
-    </th>
-    <th>Client</th>
-    <th>Reference</th>
-    <th>Order Status</th>
-    <th>Stock No.</th>
-    <th>Certificate</th>
-    <th>Shape</th>
-    <th>Status</th>
-    <th>Price (Ex VAT)</th>
-    <!-- <th>Price (Inc VAT)</th> -->
-    <th>Final Price (Inc VAT)</th>
-    <th>ETA</th>
-</tr>
- </thead>
- <tbody id="dataafterfilter">
+
  @if(!$orders->isEmpty())
  @foreach($orders as $order)
 <tr id="rowupdate_{{$order->id}}">
@@ -125,12 +91,7 @@
 <tr><td colspan="12">No Data Found</td></tr>
 @endif
 
-                                  
 
-</tbody>
-</table> 
-
-</div>
 							 
 							 	 
 							 

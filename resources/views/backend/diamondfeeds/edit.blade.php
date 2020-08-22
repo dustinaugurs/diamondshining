@@ -10,7 +10,7 @@
 @endsection
 
 @section('content')
-    {{ Form::model($diamondfeeds, ['route' => ['admin.diamondfeeds.update', $diamondfeed], 'class' => 'form-horizontal', 'role' => 'form', 'method' => 'PATCH', 'id' => 'edit-diamondfeed']) }}
+    {{ Form::model($diamondfeeds, ['route' => ['admin.diamondfeeds.update', $diamondfeeds], 'class' => 'form-horizontal', 'role' => 'form', 'method' => 'PATCH', 'id' => 'edit-diamondfeed']) }}
 
         <div class="box box-info">
             <div class="box-header with-border">

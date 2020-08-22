@@ -21,8 +21,10 @@ use App\Models\Orders\Order;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMailable;
+use App\Mail\SendMailableProduct;
 
-
+use PDF;
+use App;
 
 use Illuminate\Pagination\Paginator;
 
@@ -69,9 +71,8 @@ class ProductController extends Controller
                          }	
 
 	public function ourProduct(Request $request,  $base = null){
-		
 	  $multiplier = $this->multiplier(); 
-	//$products = DB::table('diamond_feeds')->take(20)->get();
+	// $products = DB::table('diamond_feeds')->take(20)->get();
 	//   foreach($products as $product){
 	// 		echo $product->stock_id.'====';
 	// 		echo $product->price.'====';
@@ -177,11 +178,11 @@ class ProductController extends Controller
 				//print_r($_GET['shape_arr']);  die; 
 			    $query->whereIn('shape', $_GET['shape_arr']);
 		    }
-		    if(($_GET['max_price1'] != '') && ($_GET['min_price1'] != '') ){
+		    if(!empty($_GET['max_price1']) && !empty($_GET['min_price1']) ){
 		        $query->whereBetween('carats', [$_GET['min_price1'] , $_GET['max_price1'] ]);
 			}
 
-			if(($_GET['max_price'] != '') && ($_GET['min_price'] != '') ){
+			if(!empty($_GET['max_price']) && !empty($_GET['min_price']) ){
 		        $query->whereBetween('price', [$_GET['min_price'] , $_GET['max_price'] ]);
 			}
 			
@@ -230,18 +231,18 @@ class ProductController extends Controller
 			// }
 			//--------------------
 	        
-	        if(($_GET['max_depth'] != '') && ($_GET['min_depth'] != ''))
+	        if(!empty($_GET['max_depth']) && !empty($_GET['min_depth']))
 		    {
 		        $query->whereBetween('depth', [$_GET['min_depth'],$_GET['max_depth']]);
 			}
     
-    		if(($_GET['max_table'] != '') && ($_GET['min_table'] != '' ))
+    		if(!empty($_GET['max_table']) && !empty($_GET['min_table']))
             {
     		     $query->whereBetween('table' , [$_GET['min_table'], $_GET['max_table']]);
     		    
     		}
 		 
-    		if(($_GET['min_ratio'] != '') && ($_GET['max_ratio'] != '') ){
+    		if(!empty($_GET['min_ratio']) && !empty($_GET['max_ratio']) ){
 				$min = $_GET['min_ratio'];
 				$max = $_GET['max_ratio'];
 				//$query->where([['length','=',$_GET['min_ratio'] ] , ['width','=',$_GET['min_ratio'] ] ]);
@@ -349,6 +350,61 @@ class ProductController extends Controller
 	  }
 
 	  //-----------------------------
+	 
+	  public function CopySend(Request $request){
+		$multiplier = $this->multiplier(); 
+		$setting = Setting::first();
+		//echo '<pre>'; print_r($request->all()); die; 
+		$dateTime = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
+		$user = Auth::user()->id; 
+		$diamondFeed_id = $request->diamondFeed_idc;
+		$client = $request->clientc;
+		$ref_name_contact = $request->referencec;
+		$userEmail = $request->userEmailc; 
+		$order_status = 1; //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5 
+		$multiplier_id = $request->multiplier_usdc;
+		$order_date = $dateTime->format("d/m/Y  h:i A");		   
+		$date = date('m_Y');
+		$mydata = DB::table('diamond_feeds')->where('id', $diamondFeed_id)->first();
+		$products = [
+			'username'=> Auth::user()->name,
+			'productid'=> $request->diamondFeed_idc, 
+			'subject' => 'Product Details',
+			'stock_number' => $request->stock_numberc,
+			'pdfname' => $request->stock_numberc.date('d-m-Y h:i:s'),
+			'setting'=> $setting,
+			//'attachment' => $attachment,
+			'email' => $request->userEmailc,
+			'data' => $mydata,
+			'multiplier'=> $multiplier_id,
+		];
+		//echo '<pre>'; print_r($mydata); die;
+		//$pdf = PDF::loadView('emails.productmail', ['products' => $products, 'mydata' => $mydata]);
+		 
+		//return redirect('our-products');
+		//print_r($pdf);die;
+		//---------start-mail-section-------------
+		if($request->userEmailc !== ''){	
+			$mail = Mail::to($request->userEmailc)->send(new SendMailableProduct($products));
+			toastr()->success('Product Details Successfully Sent on '.$request->userEmailc.'');
+			   }else{
+				toastr()->warning('Product Details Not Sent');
+			}
+				
+	   //---------End-mail-section-------------		   
+		//$order->save();
+		
+		
+		// print_r($request->email); die;
+	   //return redirect('our-products');
+	   //return view('emails.productmail', compact('products' ,$products ));
+	   return redirect('our-products');
+	   //$pdfs = PDF::loadView('emails.productmail', ['products' => $products, 'mydata' => $mydata]);
+	   //return view('emails.productmail', ['products' => $products, 'mydata' => $mydata]);
+	  }
+
+
+	  //----------------------------
 	
 
 }

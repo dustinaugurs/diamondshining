@@ -32,6 +32,12 @@
                     <i class="fa fa-plus"></i> {{ trans( 'menus.backend.diamondfeeds.import' ) }}
                 </a>
             </li>
+
+            <li>
+                <a href="{{ url( 'admin/createsinglerecord' ) }}">
+                    <i class="fa fa-plus"></i> {{ trans( 'menus.backend.diamondfeeds.singlerecord' ) }}
+                </a>
+            </li>
         @endauth
     </ul>
 </div>

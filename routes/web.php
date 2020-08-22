@@ -14,6 +14,11 @@ Route::get('lang/{lang}', 'LanguageController@swap');
  * Frontend Routes
  * Namespaces indicate folder structure
  */
+
+ //==Start-CSV-file-section==
+Route::get('autouploadcsv', 'CsvAutoUpload\CsvAutoUploadController@index')->name('csvautouploadcsv');
+//==End-CSV-file-section==
+
 Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
     includeRouteFiles(__DIR__.'/Frontend/');
 });

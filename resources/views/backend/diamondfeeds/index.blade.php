@@ -69,6 +69,7 @@
                     url: '{{ route("admin.diamondfeeds.get") }}',
                     type: 'post'
                 },
+
                 columns: [
                    // {data: 'id', name: '{{config('module.diamond_feeds.table')}}.id'},
 					{data: 'supplier_name', name: '{{config('module.diamond_feeds.table')}}.supplier_name'},
@@ -84,7 +85,7 @@
 					{data: 'height', name: '{{config('module.diamond_feeds.table')}}.height' },
                     {data: 'discount', name: '{{config('module.diamond_feeds.table')}}.discount'},
                     {data: 'price', name: '{{config('module.diamond_feeds.table')}}.price'},
-                    {data: 'actions', name: 'actions', searchable: false, sortable: false}
+                    {data: 'actions', name: 'actions', searchable: false, sortable: false},
                 ],
                 order: [[0, "asc"]],
                 searchDelay: 500,

@@ -523,6 +523,7 @@
 		$('#diamondFeed_id').val(id);
 		$('#stock_number').val(stockiid);
 		$('#multiplier_usd').val(multiplierusd);
+		//return true;
 				}
 
 	function orderPopup(id){
@@ -532,6 +533,17 @@
 			$('#diamondFeed_ido').val(id);
 			$('#stock_numbero').val(stockiido);
 			$('#multiplier_usdo').val(multiplierusd);
+			//return true;
+	} 
+
+	function copyPopup(id){
+		//console.log('id='+id);
+			var stockiido =  $('.stocknumc_'+id).val();
+			var multiplierusd =  $('.multiplierUsdc_'+id).val();
+			$('#diamondFeed_idc').val(id);
+			$('#stock_numberc').val(stockiido);
+			$('#multiplier_usdc').val(multiplierusd);
+			//return true;
 	}       
 
 	//==================
@@ -675,9 +687,24 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 											var href = $(this).attr('href');
 											$(this).removeAttr('href');
 											$(this).attr('data-target', href);
-									})
+									});
 
-									$(document).find('.pagination a').on('click', function(){
+									//---------
+							let $thSelector = $(document).find('#product_data_table').children('thead').children('tr').children('th');
+							$thSelector .each(function(){
+							let aTag = $(this).children('a'),
+							getHref = aTag.attr('href');
+							finalLink = getHref != undefined ? getHref.replace('ajax_get_products', 'our-products') : getHref
+							aTag.removeAttr('href');
+							aTag.attr('data-target', finalLink);
+							})
+							$thSelector.find('a').on('click touchstart', function(){
+							let target = $(this).attr('data-target');
+							location.href = target;
+							});
+									//------------
+
+									$(document).find('.pagination a').on('click touchstart', function(){
 												var target = $(this).attr('data-target');
 												page = target.split('page=')[1]
 											 
@@ -787,6 +814,19 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 	
 	
 		$(document).ready(function(e) {
+
+			// sorting data Tag //
+			$(document).find('table.table > thead > tr > th > a').each(function(){
+					var href = $(this).attr('href');
+					$(this).removeAttr('href');
+					$(this).attr('data-target', href);
+			})
+
+			// sorting click //
+			$(document).find('table.table > thead > tr > th > a').on('click touchstart', function(){
+						var target = $(this).attr('data-target');
+						location.href = target;
+			})
 			
 			// Pagination data Tag //
 			$(document).find('.pagination a').each(function(){
@@ -796,13 +836,13 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			})
 
 			// Pagination click //
-			$(document).find('.pagination a').on('click', function(){
+			$(document).find('.pagination a').on('click touchstart', function(){
 						var target = $(this).attr('data-target');
 						location.href = target;
 			})
 	
 			// Carat //
-			 $(document).on('click','.shape-filter-btn input',function(e){
+			 $(document).on('click touchstart','.shape-filter-btn input',function(e){
 					shape_arr = return_shape_filter();
 				// var color = 
 				// console.log(shape_arr)
@@ -814,7 +854,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 
 		
 				// Carat //
-				$(document).on('click','#slider-range1',function(e){
+				$(document).on('click touchstart','#slider-range1',function(e){
 					 var price_range  = $("#js_carat_filter");
 						min_price1 = price_range.children().find('#min_price1').val();
 						max_price1 = price_range.children().find('#max_price1').val();
@@ -826,7 +866,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 });
 
 			 // Price //
-			 $(document).on('click','#slider-range',function(e){
+			 $(document).on('click touchstart','#slider-range',function(e){
 					 var price_range  = $("#js_price_filter");
 						min_price = price_range.children().find('#min_price').val();
 						max_price = price_range.children().find('#max_price').val();
@@ -838,7 +878,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 });
 
 					//Depth
-					 $(document).on('click','#depth_search',function(e){
+					 $(document).on('click touchstart','#depth_search',function(e){
 						//alert(scdscd)
 					 var price_range  = $("#js_depth_filter");
 						min_depth = price_range.children().find('#min_depth').val();
@@ -850,7 +890,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 });
 				
 				 //Table
-				$(document).on('click','#table_search',function(e){
+				$(document).on('click touchstart','#table_search',function(e){
 					 var price_range  = $("#js_table_filter");
 						min_table = price_range.children().find('#min_table').val();
 						max_table = price_range.children().find('#max_table').val();
@@ -861,7 +901,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 });
 			 
 			 //Ratio 
-				 $(document).on('click','#ratio_search',function(e){
+				 $(document).on('click touchstart','#ratio_search',function(e){
 					 var price_range  = $("#js_ratio_filter");
 						min_ratio = price_range.children().find('#min_ratio').val();
 						max_ratio = price_range.children().find('#max_ratio').val();
@@ -874,7 +914,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 //-----------------------------
 			 
 			 // Shape
-				$(document).on('click','.div_color',function(e){
+				$(document).on('click touchstart','.div_color',function(e){
 						 shape_arr =  return_shape_filter();
 					 // console.log(shape_arr);
 						var colorArray = [];
@@ -893,7 +933,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 //-----------------------------
 
 			 //Clarity 
-				$(document).on('click','.div_cla',function(e){
+				$(document).on('click touchstart','.div_cla',function(e){
 						shape_arr = return_shape_filter();
 						var clarityArray = [];
 						!$(this).is('.active') ? $(this).addClass('active') : $(this).removeClass('active');
@@ -909,7 +949,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 
 			 // Cetificate //
 			 //cut_div_val = '';
-				$(document).on('click','.div_certi',function(e){
+				$(document).on('click touchstart','.div_certi',function(e){
 					shape_arr = return_shape_filter();
 					var certificatArray = [];
 					!$(this).is('.active') ? $(this).addClass('active') : $(this).removeClass('active');
@@ -927,7 +967,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 //-----------------------
 			// skss-- Cut
 
-			 $(document).on('click','.div_cut',function(e){
+			 $(document).on('click touchstart','.div_cut',function(e){
 				shape_arr = return_shape_filter();
 				var cutArray = [];
 					!$(this).is('.active') ? $(this).addClass('active') : $(this).removeClass('active');
@@ -943,7 +983,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 });
 
 					// skss-- Polish
-				$(document).on('click','.div_pol',function(e){
+				$(document).on('click touchstart','.div_pol',function(e){
 					shape_arr = return_shape_filter();
 					var polishArray = [];
 					!$(this).is('.active') ? $(this).addClass('active') : $(this).removeClass('active');
@@ -960,7 +1000,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 });
 			 
 				 // skss-- Symmetry
-				$(document).on('click','.div_sym',function(e){
+				$(document).on('click touchstart','.div_sym',function(e){
 					shape_arr = return_shape_filter();
 					var symmetryArray = [];
 					!$(this).is('.active') ? $(this).addClass('active') : $(this).removeClass('active');
@@ -975,7 +1015,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 });
 
 			 // skss-- Fluorescence
-				$(document).on('click','.div_flo',function(e){
+				$(document).on('click touchstart','.div_flo',function(e){
          			 shape_arr =  return_shape_filter(); 
 					var fluorArray = [];
 					!$(this).is('.active') ? $(this).addClass('active') : $(this).removeClass('active');
@@ -992,7 +1032,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 				});
 			 //-----------sorting---------------
 
-			//  $(document).on('click','.shortby_clarity_asc',function(e){
+			//  $(document).on('click touchstart','.shortby_clarity_asc',function(e){
 			// 		 var short_data  = $(this);
 			// 			var short_data_clarity_asc = short_data.data('divvalue');
 			// 			//alert(short_data_val);

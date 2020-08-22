@@ -131,11 +131,11 @@
                         <div class="customnavbar">
                          <ul>
                          @if($logged_in_user) <li> <a href="{{url('dashboard')}}" class="active">Dashboard</a></li>@endif
-                             <li> <a href="#" class="active">About Us</a></li>
+                             <li> <a href="{{url('pages')}}/about-us" class="active">About Us</a></li>
                              @if($logged_in_user) <li> <a href="{{url('our-products')}}" class="">Our Products</a></li>
                              <li> <a href="{{url('enquiry-order')}}" class=""> Enquiries / Orders</a></li> @endif
-                             <li> <a href="#" class="">News</a></li>
-                             <li> <a href="#" class="">Contact Us</a></li>
+                             <li> <a href="{{url('pages')}}/news"  class="">News</a></li>
+                             <li> <a href="{{url('contact-us')}}" class="">Contact Us</a></li>
                          </ul>
                         </div>
                         </div>

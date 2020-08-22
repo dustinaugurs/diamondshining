@@ -63,7 +63,7 @@
     <th>Final Price(inc. VAT)</th>
     <!-- <th>Final Price(inc. VAT)</th> -->
     <th>Ratio(%)</th>
-    <th>Detail / Order</th>
+    <th>Enquiry / Order</th>
 </tr>
  </thead>
  <tbody>
@@ -74,11 +74,11 @@
 	  <p><img src="http://diamonds.augurstech.com/public/assets/img/product/No_image.jpg" alt="product" class="sec-img img33"></p>
 	@else
 	 <p>
-	     <video width="75" height="75" controls>
-  <source src="{{$product->video}}">
-</video>
+      <video width="75" height="75" controls>
+        <source src="{{$product->video}}">
+      </video>
 	     
-	     </p>
+    </p>
 	@endif</td>
     <td>
 	@if($product->image == '' || $product->image == 'true' )
@@ -144,7 +144,7 @@
 
         <td> {{number_format(floor(($product->length / $product->width)*100)/100,2, '.', '')}} </td>
      
-    <td><a href="javascript:void(0);" class="detail-order-btn">Detail / Order</a></td>
+    <td><a href="javascript:void(0);" class="detail-order-btn">Enquiry / Order</a></td>
 </tr>
 
 <!--------------------------------------------->
@@ -153,7 +153,7 @@
         <div class="accordian-body collapse p-3" id="p{{$product->id}}">
 
             <div class="row">
-    <div class="col">
+    <div class="col-md-4">
         <div class="product-img-wrp">
 
 <div class="product-img-tabs">    
@@ -170,18 +170,18 @@
 <div class="tab-content">
   <div class="tab-pane imgbox  active container" id="home11">
 @if($product->image == '' || $product->image == 'true' )
-    <p><img src="http://diamonds.augurstech.com/public/assets/img/product/No_image.jpg" alt="product" class="sec-img">
+    <p class="m-0  p-0"><img src="http://diamonds.augurstech.com/public/assets/img/product/No_image.jpg" alt="product" class="sec-img w-100">
 @else
- <img src="{{$product->image}}" alt="product" class="sec-img"></p>
+ <img src="{{$product->image}}" alt="product" class="sec-img w-100"></p>
 @endif
 </div>
   <div class="tab-pane imgbox container" id="menu1">
 @if($product->video == '')
-<p>
- <img src="http://diamonds.augurstech.com/public/assets/img/product/No_image.jpg" alt="video" class="sec-img">
+<p class="m-0  p-0">
+ <img src="http://diamonds.augurstech.com/public/assets/img/product/No_image.jpg" alt="video" class="sec-img w-100">
 @else
 <button data-toggle="modal" data-target="#videopopup_{{$product->id}}">
-  <video width="200" height="200" controls>
+  <video height="200" controls>
   <source src="{{$product->video}}" >
 </video></button></p>
 @endif
@@ -195,8 +195,8 @@
         <div class="modal-body">
           <div class="videopopupbox">
         <video controls>
-  <source src="{{$product->video}}" >
-</video>
+          <source src="{{$product->video}}" >
+        </video>
 </div>
         </div>
       </div>
@@ -210,65 +210,93 @@
   <!-- <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took</p> -->
         </div>
     </div>
-    <div class="col tbl22">
+    <div class="col-md-8 tbl22">
 	
-        <table class="table">
- <tr>
-<td><strong>Stock Number:</strong></td>   
-<td>{{$product->stock_id}}</td></tr>
- <tr>
-<td><strong>Certificate:</strong></td>  
-<td><a target="new" href="{{$product->pdf}}">{{$product->lab}}</a></td></tr>
- <tr>
-<td><strong>Carat Weight :</strong> </td>  
-<td>{{$product->carats}}</td></tr>
- <tr><td><strong>Colour : </strong></td> 
-<td>{{$product->col}}</td></tr>
- <tr><td><strong>Clarity :</strong></td> 
-<td>{{$product->clar}}</td></tr>
- <tr><td><strong>Cut : </strong></td>  
-<td>{{$product->cut}}</td></tr>
- <tr><td><strong>Polish</strong></td>
-<td>{{$product->pol}}</td></tr>
- <tr><td><strong>Symmetry</strong></td>
-<td>{{$product->symm}}</td></tr>
- <tr><td><strong>Fluo. </strong></td>  
-<td>{{$product->flo}}</td></tr>
- <tr><td><strong>Depth %:</strong></td> 
-<td> {{$product->depth}}</td></tr>
- <tr><td><strong>Table %:</strong></td>  
-<td>{{$product->table}}</td></tr>
- <tr><td><strong>Dimmensions(mm): </strong></td>  
-<td>
-		{{$product->length}} <span>&#215;</span> {{$product->width}} <span>&#215;</span> {{$product->height}}</td>
-<tr>		
-<td><strong>Ratio %:</strong></td> 
-</tr>
- <tr>
-     <td>{{number_format(floor(($product->length / $product->width)*100)/100,2, '.', '')}}</td>
-</tr>		
-		
-</tr>
+        <table class="table table table-striped table-bordered">
+
+          <tr>
+            <td><strong>Stock Number:</strong></td>   
+            <td>{{$product->stock_id}}</td>
+            <td><strong>Certificate:</strong></td>  
+            <td><a target="new" href="{{$product->pdf}}">{{$product->lab}}</a></td>
+          </tr>
+          
+          <tr>
+            <td><strong>Carat Weight :</strong> </td>  
+            <td>{{$product->carats}}</td>
+            <td><strong>Colour : </strong></td> 
+            <td>{{$product->col}}</td>
+          </tr>
+        
+          <tr>
+            <td><strong>Clarity :</strong></td> 
+            <td>{{$product->clar}}</td>
+            <td><strong>Cut : </strong></td>  
+            <td>{{$product->cut}}</td>
+          </tr>
+          
+          <tr>
+            <td><strong>Polish</strong></td>
+            <td>{{$product->pol}}</td>
+            <td><strong>Symmetry</strong></td>
+            <td>{{$product->symm}}</td>
+          </tr>
+
+          <tr>
+            <td><strong>Fluo. </strong></td>  
+            <td>{{$product->flo}}</td>
+            <td><strong>Depth %:</strong></td> 
+            <td> {{$product->depth}}</td>
+          </tr>
+         
+          <tr>
+
+            <td><strong>Table %:</strong></td>  
+            <td>{{$product->table}}</td>
+            <td><strong>Dimmensions(mm): </strong></td>  
+            <td>
+                {{$product->length}} <span>&#215;</span> {{$product->width}} <span>&#215;</span> {{$product->height}}</td>
+        		
+          </tr>
+          
+          <tr>
+           
+            <td><strong>Ratio %:</strong></td> 
+            <td colspan="3">{{number_format(floor(($product->length / $product->width)*100)/100,2, '.', '')}}</td>
+          </tr>
+          <!-- <tr>
+              
+          </tr>		 -->
+              
+          
 
 </table>
-</div>
 
-<div class="col">        
-<div class="price-wrp"> 
-@foreach($multiplier as $mlusd)
- 			@if($product->price >= $mlusd->vat_from_usd && $product->price <= $mlusd->vat_to_usd)
-       @if($current_currency !== '')
+<div class="col price-col">        
+  <div class="row">
+    <div class="col">
+    <div class="price-wrp d-flex align-items-center justify-content-center"> 
+      @foreach($multiplier as $mlusd)
+            @if($product->price >= $mlusd->vat_from_usd && $product->price <= $mlusd->vat_to_usd)
+            @if($current_currency !== '')
 
-        {{$symbol}} {{number_format(floor(($current_currency * ($product->price*$mlusd->multiplier_usd))*100)/100,2, '.', '')}} 
-        @else
-        $ {{number_format(floor(($product->price*$mlusd->multiplier_usd)*100)/100,2, '.', '')}}
-        @endif
-       @endif
-       @endforeach
-</div>
-<div class="price-sub">(EX. VAT)</div>
+              {{$symbol}} {{number_format(floor(($current_currency * ($product->price*$mlusd->multiplier_usd))*100)/100,2, '.', '')}} 
+              @else
+              $ {{number_format(floor(($product->price*$mlusd->multiplier_usd)*100)/100,2, '.', '')}}
+              @endif
+            @endif
+            @endforeach
 
-<div class="order-btn-wrp" onclick="orderPopup({{$product->id}})"><a href="#" data-toggle="modal" data-target="#OrderModal" class="order-btn"> ORDER</a>
+            <div class="price-sub ml-2">(EX. VAT)</div>
+      </div>
+     
+    </div>
+  </div>
+
+<div class="row">
+  <div class="col d-flex justify-content-center align-items-center">
+      
+  <div class="order-btn-wrp d-flex align-items-center" onclick="orderPopup({{$product->id}})"><a href="#" data-toggle="modal" data-target="#OrderModal" class="order-btn"> ORDER</a>
 <input type="hidden" class="stocknumo_{{$product->id}}" value="{{$product->stock_id}}">
 @foreach($multiplier as $mlusd)
  			@if($product->price >= $mlusd->vat_from_usd && $product->price <= $mlusd->vat_to_usd)
@@ -285,7 +313,24 @@
 	 	  @endif
 @endforeach
 </div>
+
+<div class="copy-btn-wrp" onclick="copyPopup({{$product->id}})" ><a href="#" data-toggle="modal" data-target="#CopyModal" class="enquire-btn"> Copy </a>
+<input type="hidden" class="stocknumc_{{$product->id}}" value="{{$product->stock_id}}">
+@foreach($multiplier as $mlusd)
+ 			@if($product->price >= $mlusd->vat_from_usd && $product->price <= $mlusd->vat_to_usd)
+  <input type="hidden" class="multiplierUsdc_{{$product->id}}" value="{{$mlusd->multiplier_usd}}">      
+	 	  @endif
+@endforeach
 </div>
+
+
+  </div>
+</div>
+
+</div>
+</div>
+
+
 
 </div>
 </div> 
@@ -438,6 +483,70 @@
   </div>
 </div>	 
 <!-----------end-Order-Model--------------->
+
+
+<!-----------start-Copy-Model--------------->
+<div class="modal fade" id="CopyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm maxwidth650" role="document">
+    <div class="modal-content enquiryboxmodel">
+      <div class="modal-header">
+        <h1><strong>Product Detail :</strong> Hi <strong><i>{{Auth::user()->name}}</i></strong> Send to Product Details</h1>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+<form method="POST" action="{{url('copysend')}}">
+             @csrf
+
+             <div class="row">
+
+             <div class="col-md-6 col-sm-6 col-xs-12" style="display:none;">
+          <div class="input-group">
+          <span class="input-group-addon">Product ID</span>
+          <input type="text" id="diamondFeed_idc" class="form-control" name="diamondFeed_idc" value="" readonly required>
+          </div>
+          </div>
+
+          <input type="hidden" id="multiplier_usdc" class="form-control" name="multiplier_usdc" value="">
+
+          <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="input-group">
+          <span class="input-group-addon">Stock Number</span>
+          <input id="stock_numberc" type="text" name="stock_numberc" class="form-control" readonly placeholder="Your Stock Number">
+          </div>
+          </div>
+
+          <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="input-group">
+          <span class="input-group-addon">Client</span>
+          <input id="clientc" type="text" name="clientc" value="{{Auth::user()->name}}" class="form-control" readonly placeholder="Enter Client">
+          </div>
+          </div>
+
+          <div class="col-md-6 col-sm-6 col-xs-12" style="display:none;">
+          <div class="input-group">
+          <span class="input-group-addon">Reference</span>
+          <input id="referencec" type="text" name="referencec" class="form-control" placeholder="Enter Reference">
+          </div>
+          </div>
+
+          <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="input-group">
+          <span class="input-group-addon">Enter Email Address to Send Product Details </span>
+          <input id="userEmailc" type="email" class="form-control" name="userEmailc" value="{{Auth::user()->email}}" placeholder="Enter Your Correct Email Address ">
+          </div>
+          </div>
+
+             </div>
+
+  <button type="submit" class="btn btn-primary custombtn">Send</button>
+</form>
+      </div>
+    </div>
+  </div>
+</div>	 
+<!-----------end-Copy-Model--------------->
 
 							 
 							 

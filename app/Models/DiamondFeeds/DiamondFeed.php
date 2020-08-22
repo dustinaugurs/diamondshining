@@ -36,11 +36,11 @@ class DiamondFeed extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'stock_id', 'ReportNo', 'shape', 'carats', 'col', 'clar', 'cut', 'pol', 'symm', 'flo', 'floCol', 'lwratio', 'length', 'width', 'height', 'depth', 'table', 'culet', 'lab', 'girdle', 'eyeclean', 'brown', 'green', 'milky', 'actual_supplier', 'discount', 'price', 'price_per_carat', 'video', 'video_frames', 'image', 'pdf', 'mine_of_origin', 'canada_mark_eligble','supplier_name','location','is_returnable','supplier_id','created_by', 'updated_by'
+        'stock_id', 'ReportNo', 'shape', 'carats', 'col', 'clar', 'cut', 'pol', 'symm', 'flo', 'floCol', 'lwratio', 'length', 'width', 'height', 'depth', 'table', 'culet', 'lab', 'girdle', 'eyeclean', 'brown', 'green', 'milky', 'actual_supplier', 'discount', 'price', 'price_per_carat', 'video', 'video_frames', 'image', 'pdf', 'mine_of_origin', 'canada_mark_eligble','supplier_name','location','is_returnable','supplier_id', 'active','created_by', 'updated_by'
     ];
 
     public $sortable = [
-        'stock_id', 'ReportNo', 'shape', 'carats', 'col', 'clar', 'cut', 'pol', 'symm', 'flo', 'floCol', 'lwratio', 'length', 'width', 'height', 'depth', 'table', 'culet', 'lab', 'girdle', 'eyeclean', 'brown', 'green', 'milky', 'actual_supplier', 'discount', 'price', 'price_per_carat', 'video', 'video_frames', 'image', 'pdf', 'mine_of_origin', 'canada_mark_eligble','supplier_name','location','is_returnable','supplier_id','created_by', 'updated_by'
+        'stock_id', 'ReportNo', 'shape', 'carats', 'col', 'clar', 'cut', 'pol', 'symm', 'flo', 'floCol', 'lwratio', 'length', 'width', 'height', 'depth', 'table', 'culet', 'lab', 'girdle', 'eyeclean', 'brown', 'green', 'milky', 'actual_supplier', 'discount', 'price', 'price_per_carat', 'video', 'video_frames', 'image', 'pdf', 'mine_of_origin', 'canada_mark_eligble','supplier_name','location','is_returnable','supplier_id', 'active', 'created_by', 'updated_by'
     ];
 
     /**
@@ -78,7 +78,6 @@ class DiamondFeed extends BaseModel
     }
 
     public static function insertData($data){
-
         $value=DB::table('diamond_feeds')->where('stock_id', $data['stock_id'])->get();
         if($value->count() == 0){
            DB::table('diamond_feeds')->insert($data);

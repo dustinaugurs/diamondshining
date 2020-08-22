@@ -50,8 +50,8 @@ class DiamondFeedRepository extends BaseRepository
      * @return mixed
      */
     public function getForDataTable()
-    {
-        return $this->query()
+    {   
+        return $this->query()->where(config('module.diamond_feeds.table') . '.active', 0)
             ->select([
                 config('module.diamond_feeds.table') . '.id',
                 config('module.diamond_feeds.table') . '.stock_id',
@@ -89,7 +89,8 @@ class DiamondFeedRepository extends BaseRepository
                 config('module.diamond_feeds.table') . '.mine_of_origin',
                 config('module.diamond_feeds.table') . '.canada_mark_eligble',
 				config('module.diamond_feeds.table') . '.supplier_name',
-				
+                
+                config('module.diamond_feeds.table') . '.active',
                 config('module.diamond_feeds.table') . '.created_at',
                 config('module.diamond_feeds.table') . '.updated_at',
             ]);
@@ -198,6 +199,12 @@ class DiamondFeedRepository extends BaseRepository
     /*
      * Upload logo image
      */
+
+    //  public function createSingleRecordAll($insertData){
+    //     DiamondFeed::insertData($insertData);
+    //     return true;
+    //  }
+
     public function uploadFeedFile($feedFile)
     {
         $path = $this->feed_path;

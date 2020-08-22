@@ -111,6 +111,7 @@ return [
 	"diamondfeeds" => [
 	"all" => "All Diamond Feeds",
 	"import" => "Import Diamond Feeds",
+	"singlerecord" => "Insert Single Record",
 	"create" => "Create Diamond Feed",
 	"edit" => "Edit Diamond Feed",
 	"management" => "Diamond Feed Management",

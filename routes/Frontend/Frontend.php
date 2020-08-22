@@ -23,21 +23,18 @@ Route::group(['middleware' => 'auth'], function () {
          Route::get('send_notification/', 'ProductController@send_notification')->name('send_notification');
          Route::post('enquirysend', 'ProductController@EnquirySend')->name('enquirysend');
          Route::post('ordersend', 'ProductController@OrderSend')->name('ordersend');
+         Route::post('copysend', 'ProductController@CopySend')->name('copysend');
          
          //----deepak-enquiry-order-----
          Route::get('enquiry-order', 'EnquiryOrderController@index')->name('enquiry-order');
          Route::get('printDetails/{stockID}', 'EnquiryOrderController@printDetails')->name('printDetails');
          Route::get('enquiries', 'EnquiryOrderController@enquiries')->name('enquiries');
-         Route::get('orders', 'EnquiryOrderController@orders')->name('orders');
-         Route::get('ordersPlaced', 'EnquiryOrderController@ordersCompleted')->name('ordersPlaced');
-         Route::get('ordersCompleted', 'EnquiryOrderController@ordersCompleted')->name('ordersCompleted');
-         Route::get('ordersCancelled', 'EnquiryOrderController@ordersCancelled')->name('ordersCancelled');
-
-         Route::get('enqchangedate', 'EnquiryOrderController@EnquiryChangeDateTime')->name('enqchangedate');
-         Route::post('orderstatuschange', 'EnquiryOrderController@OrderStatusChanged')->name('orderstatuschange');
-
-         Route::post('OrderStatusAndPaymentUpdate', 'EnquiryOrderController@OrderStatusAndPaymentUpdate')->name('OrderStatusAndPaymentUpdate');
-         Route::get('dateAndPaymentFilter', 'EnquiryOrderController@dateAndPaymentFilter')->name('dateAndPaymentFilter');
+         Route::get('enquiry-order/ordersPlaced', 'EnquiryOrderController@ordersPlaced')->name('ordersPlaced');
+         Route::get('enquiry-order/ordersCompleted', 'EnquiryOrderController@ordersCompleted')->name('ordersCompleted');
+         
+         Route::post('changedate', 'EnquiryOrderController@EnquiryChangeDateTime')->name('changedate');
+         Route::post('orderchangedate', 'EnquiryOrderController@OrderChangeDateTime')->name('orderchangedate');
+    
  
 
          

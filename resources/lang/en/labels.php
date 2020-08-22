@@ -317,6 +317,13 @@ return [
 	"createdat" => "Created At",
 	],
 	],
+	"userlogs" => [
+		"create" => "Create Order",
+		"edit" => "Edit Order",
+		"management" => "User Log Management",
+		"enquiry" => "Enquiry Management",
+		"title" => "Orders",
+		],
 	],
 	"frontend" => [
 	"auth" => [

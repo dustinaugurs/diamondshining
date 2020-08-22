@@ -10,7 +10,7 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'as' => 'admin.', '
 	    
 	    
 	    //For Datatable
-	    Route::post('diamonds/get', 'DiamondsTableController')->name('diamonds.get');
+		Route::post('diamonds/get', 'DiamondsTableController')->name('diamonds.get');
 	});
 	
 });

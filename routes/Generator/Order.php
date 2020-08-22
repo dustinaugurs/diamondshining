@@ -19,6 +19,9 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'as' => 'admin.', '
         Route::post('enqadOrderStatusAndPaymentUpdate', 'OrdersController@EnqOrderStatusAndPaymentUpdate')->name('enqadOrderStatusAndPaymentUpdate');
         Route::get('enqaddateAndPaymentFilter', 'OrdersController@EnqdateAndPaymentFilter')->name('enqaddateAndPaymentFilter');
 
+        Route::get('notificationOrders', 'OrdersController@notificationOrders')->name('notificationOrders');
+        Route::get('notificationEnquiries', 'OrdersController@notificationEnquiries')->name('notificationEnquiries');
+        Route::post('notificationUpdate', 'OrdersController@notificationUpdate')->name('notificationUpdate');
         
     });
     

@@ -175,6 +175,64 @@
         ]
     },
     {
+        "name": "barryvdh/laravel-dompdf",
+        "version": "v0.8.6",
+        "version_normalized": "0.8.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/barryvdh/laravel-dompdf.git",
+            "reference": "d7108f78cf5254a2d8c224542967f133e5a6d4e8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/barryvdh/laravel-dompdf/zipball/d7108f78cf5254a2d8c224542967f133e5a6d4e8",
+            "reference": "d7108f78cf5254a2d8c224542967f133e5a6d4e8",
+            "shasum": ""
+        },
+        "require": {
+            "dompdf/dompdf": "^0.8",
+            "illuminate/support": "^5.5|^6|^7",
+            "php": ">=7"
+        },
+        "time": "2020-02-25T20:44:34+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "0.8-dev"
+            },
+            "laravel": {
+                "providers": [
+                    "Barryvdh\\DomPDF\\ServiceProvider"
+                ],
+                "aliases": {
+                    "PDF": "Barryvdh\\DomPDF\\Facade"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Barryvdh\\DomPDF\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Barry vd. Heuvel",
+                "email": "barryvdh@gmail.com"
+            }
+        ],
+        "description": "A DOMPDF Wrapper for Laravel",
+        "keywords": [
+            "dompdf",
+            "laravel",
+            "pdf"
+        ]
+    },
+    {
         "name": "beyondcode/laravel-self-diagnosis",
         "version": "1.4.3",
         "version_normalized": "1.4.3.0",
@@ -703,17 +761,17 @@
     },
     {
         "name": "doctrine/annotations",
-        "version": "1.10.3",
-        "version_normalized": "1.10.3.0",
+        "version": "1.10.4",
+        "version_normalized": "1.10.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/doctrine/annotations.git",
-            "reference": "5db60a4969eba0e0c197a19c077780aadbc43c5d"
+            "reference": "bfe91e31984e2ba76df1c1339681770401ec262f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/doctrine/annotations/zipball/5db60a4969eba0e0c197a19c077780aadbc43c5d",
-            "reference": "5db60a4969eba0e0c197a19c077780aadbc43c5d",
+            "url": "https://api.github.com/repos/doctrine/annotations/zipball/bfe91e31984e2ba76df1c1339681770401ec262f",
+            "reference": "bfe91e31984e2ba76df1c1339681770401ec262f",
             "shasum": ""
         },
         "require": {
@@ -723,9 +781,10 @@
         },
         "require-dev": {
             "doctrine/cache": "1.*",
-            "phpunit/phpunit": "^7.5"
+            "phpstan/phpstan": "^0.12.20",
+            "phpunit/phpunit": "^7.5 || ^9.1.5"
         },
-        "time": "2020-05-25T17:24:27+00:00",
+        "time": "2020-08-10T19:35:50+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1246,6 +1305,74 @@
         ]
     },
     {
+        "name": "dompdf/dompdf",
+        "version": "v0.8.5",
+        "version_normalized": "0.8.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/dompdf/dompdf.git",
+            "reference": "6782abfc090b132134cd6cea0ec6d76f0fce2c56"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/dompdf/dompdf/zipball/6782abfc090b132134cd6cea0ec6d76f0fce2c56",
+            "reference": "6782abfc090b132134cd6cea0ec6d76f0fce2c56",
+            "shasum": ""
+        },
+        "require": {
+            "ext-dom": "*",
+            "ext-mbstring": "*",
+            "phenx/php-font-lib": "^0.5.1",
+            "phenx/php-svg-lib": "^0.3.3",
+            "php": "^7.1"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^7.5",
+            "squizlabs/php_codesniffer": "^3.5"
+        },
+        "suggest": {
+            "ext-gd": "Needed to process images",
+            "ext-gmagick": "Improves image processing performance",
+            "ext-imagick": "Improves image processing performance"
+        },
+        "time": "2020-02-20T03:52:51+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-develop": "0.7-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Dompdf\\": "src/"
+            },
+            "classmap": [
+                "lib/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-2.1"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Ménager",
+                "email": "fabien.menager@gmail.com"
+            },
+            {
+                "name": "Brian Sweeney",
+                "email": "eclecticgeek@gmail.com"
+            },
+            {
+                "name": "Gabriel Bull",
+                "email": "me@gabrielbull.com"
+            }
+        ],
+        "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
+        "homepage": "https://github.com/dompdf/dompdf"
+    },
+    {
         "name": "dragonmantank/cron-expression",
         "version": "v2.3.0",
         "version_normalized": "2.3.0.0",
@@ -1303,17 +1430,17 @@
     },
     {
         "name": "egulias/email-validator",
-        "version": "2.1.18",
-        "version_normalized": "2.1.18.0",
+        "version": "2.1.19",
+        "version_normalized": "2.1.19.0",
         "source": {
             "type": "git",
             "url": "https://github.com/egulias/EmailValidator.git",
-            "reference": "cfa3d44471c7f5bfb684ac2b0da7114283d78441"
+            "reference": "840d5603eb84cc81a6a0382adac3293e57c1c64c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/cfa3d44471c7f5bfb684ac2b0da7114283d78441",
-            "reference": "cfa3d44471c7f5bfb684ac2b0da7114283d78441",
+            "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/840d5603eb84cc81a6a0382adac3293e57c1c64c",
+            "reference": "840d5603eb84cc81a6a0382adac3293e57c1c64c",
             "shasum": ""
         },
         "require": {
@@ -1329,7 +1456,7 @@
         "suggest": {
             "ext-intl": "PHP Internationalization Libraries are required to use the SpoofChecking validation"
         },
-        "time": "2020-06-16T20:11:17+00:00",
+        "time": "2020-08-08T21:28:19+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2486,17 +2613,17 @@
     },
     {
         "name": "laravel/framework",
-        "version": "v6.18.32",
-        "version_normalized": "6.18.32.0",
+        "version": "v6.18.35",
+        "version_normalized": "6.18.35.0",
         "source": {
             "type": "git",
             "url": "https://github.com/laravel/framework.git",
-            "reference": "5f933aac51819af3a1cbb4d0233ee307b7c8e757"
+            "reference": "baec6c2d7f433594cb858c35c2a2946df7ecac13"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/laravel/framework/zipball/5f933aac51819af3a1cbb4d0233ee307b7c8e757",
-            "reference": "5f933aac51819af3a1cbb4d0233ee307b7c8e757",
+            "url": "https://api.github.com/repos/laravel/framework/zipball/baec6c2d7f433594cb858c35c2a2946df7ecac13",
+            "reference": "baec6c2d7f433594cb858c35c2a2946df7ecac13",
             "shasum": ""
         },
         "require": {
@@ -2600,7 +2727,7 @@
             "symfony/psr-http-message-bridge": "Required to use PSR-7 bridging features (^1.2).",
             "wildbit/swiftmailer-postmark": "Required to use Postmark mail driver (^3.0)."
         },
-        "time": "2020-08-04T14:35:59+00:00",
+        "time": "2020-08-07T15:06:09+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -3033,17 +3160,17 @@
     },
     {
         "name": "league/commonmark",
-        "version": "1.5.3",
-        "version_normalized": "1.5.3.0",
+        "version": "1.5.4",
+        "version_normalized": "1.5.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thephpleague/commonmark.git",
-            "reference": "2574454b97e4103dc4e36917bd783b25624aefcd"
+            "reference": "21819c989e69bab07e933866ad30c7e3f32984ba"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/2574454b97e4103dc4e36917bd783b25624aefcd",
-            "reference": "2574454b97e4103dc4e36917bd783b25624aefcd",
+            "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/21819c989e69bab07e933866ad30c7e3f32984ba",
+            "reference": "21819c989e69bab07e933866ad30c7e3f32984ba",
             "shasum": ""
         },
         "require": {
@@ -3066,7 +3193,7 @@
             "scrutinizer/ocular": "^1.5",
             "symfony/finder": "^4.2"
         },
-        "time": "2020-07-19T22:47:30+00:00",
+        "time": "2020-08-18T01:19:12+00:00",
         "bin": [
             "bin/commonmark"
         ],
@@ -3182,29 +3309,30 @@
     },
     {
         "name": "league/flysystem",
-        "version": "1.0.70",
-        "version_normalized": "1.0.70.0",
+        "version": "1.1.2",
+        "version_normalized": "1.1.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thephpleague/flysystem.git",
-            "reference": "585824702f534f8d3cf7fab7225e8466cc4b7493"
+            "reference": "63cd8c14708b9544d3f61d3c15b747fda1c95c6e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/585824702f534f8d3cf7fab7225e8466cc4b7493",
-            "reference": "585824702f534f8d3cf7fab7225e8466cc4b7493",
+            "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/63cd8c14708b9544d3f61d3c15b747fda1c95c6e",
+            "reference": "63cd8c14708b9544d3f61d3c15b747fda1c95c6e",
             "shasum": ""
         },
         "require": {
             "ext-fileinfo": "*",
-            "php": ">=5.5.9"
+            "league/mime-type-detection": "^1.3",
+            "php": "^7.2.5 || ^8.0"
         },
         "conflict": {
             "league/flysystem-sftp": "<1.0.6"
         },
         "require-dev": {
-            "phpspec/phpspec": "^3.4 || ^4.0 || ^5.0 || ^6.0",
-            "phpunit/phpunit": "^5.7.26"
+            "phpspec/prophecy": "^1.11.1",
+            "phpunit/phpunit": "^8.5.8"
         },
         "suggest": {
             "ext-fileinfo": "Required for MimeType",
@@ -3222,7 +3350,7 @@
             "spatie/flysystem-dropbox": "Allows you to use Dropbox storage",
             "srmklive/flysystem-dropbox-v2": "Allows you to use Dropbox storage for PHP 5 applications"
         },
-        "time": "2020-07-26T07:20:36+00:00",
+        "time": "2020-08-18T10:57:55+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -3269,6 +3397,59 @@
             {
                 "url": "https://offset.earth/frankdejonge",
                 "type": "other"
+            }
+        ]
+    },
+    {
+        "name": "league/mime-type-detection",
+        "version": "1.4.0",
+        "version_normalized": "1.4.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/thephpleague/mime-type-detection.git",
+            "reference": "fda190b62b962d96a069fcc414d781db66d65b69"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/thephpleague/mime-type-detection/zipball/fda190b62b962d96a069fcc414d781db66d65b69",
+            "reference": "fda190b62b962d96a069fcc414d781db66d65b69",
+            "shasum": ""
+        },
+        "require": {
+            "ext-fileinfo": "*",
+            "php": "^7.2 || ^8.0"
+        },
+        "require-dev": {
+            "phpstan/phpstan": "^0.12.36",
+            "phpunit/phpunit": "^8.5.8"
+        },
+        "time": "2020-08-09T10:34:01+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "League\\MimeTypeDetection\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Frank de Jonge",
+                "email": "info@frankdejonge.nl"
+            }
+        ],
+        "description": "Mime-type detection for Flysystem",
+        "funding": [
+            {
+                "url": "https://github.com/frankdejonge",
+                "type": "github"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/league/flysystem",
+                "type": "tidelift"
             }
         ]
     },
@@ -3418,17 +3599,17 @@
     },
     {
         "name": "maatwebsite/excel",
-        "version": "3.1.20",
-        "version_normalized": "3.1.20.0",
+        "version": "3.1.21",
+        "version_normalized": "3.1.21.0",
         "source": {
             "type": "git",
             "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
-            "reference": "39545fa96b84d5a90f702239659c49a5d7b1edea"
+            "reference": "405ff5f0dd014a0d5a1fdb8fd6f525a9a1ece3f6"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/39545fa96b84d5a90f702239659c49a5d7b1edea",
-            "reference": "39545fa96b84d5a90f702239659c49a5d7b1edea",
+            "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/405ff5f0dd014a0d5a1fdb8fd6f525a9a1ece3f6",
+            "reference": "405ff5f0dd014a0d5a1fdb8fd6f525a9a1ece3f6",
             "shasum": ""
         },
         "require": {
@@ -3442,7 +3623,7 @@
             "orchestra/testbench": "^5.0",
             "predis/predis": "^1.1"
         },
-        "time": "2020-07-17T20:39:28+00:00",
+        "time": "2020-08-06T09:25:20+00:00",
         "type": "library",
         "extra": {
             "laravel": {
@@ -3726,17 +3907,17 @@
     },
     {
         "name": "mockery/mockery",
-        "version": "1.3.2",
-        "version_normalized": "1.3.2.0",
+        "version": "1.3.3",
+        "version_normalized": "1.3.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mockery/mockery.git",
-            "reference": "9b6f117dd7d36dc3858d8d8ddf9b3d584fcae283"
+            "reference": "60fa2f67f6e4d3634bb4a45ff3171fa52215800d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mockery/mockery/zipball/9b6f117dd7d36dc3858d8d8ddf9b3d584fcae283",
-            "reference": "9b6f117dd7d36dc3858d8d8ddf9b3d584fcae283",
+            "url": "https://api.github.com/repos/mockery/mockery/zipball/60fa2f67f6e4d3634bb4a45ff3171fa52215800d",
+            "reference": "60fa2f67f6e4d3634bb4a45ff3171fa52215800d",
             "shasum": ""
         },
         "require": {
@@ -3745,9 +3926,9 @@
             "php": ">=5.6.0"
         },
         "require-dev": {
-            "phpunit/phpunit": "~5.7.10|~6.5|~7.0|~8.0|~9.0"
+            "phpunit/phpunit": "^5.7.10|^6.5|^7.5|^8.5|^9.3"
         },
-        "time": "2020-07-09T08:23:05+00:00",
+        "time": "2020-08-11T18:10:21+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -4128,17 +4309,17 @@
     },
     {
         "name": "nikic/php-parser",
-        "version": "v4.7.0",
-        "version_normalized": "4.7.0.0",
+        "version": "v4.8.0",
+        "version_normalized": "4.8.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nikic/PHP-Parser.git",
-            "reference": "21dce06dfbf0365c6a7cc8fdbdc995926c6a9300"
+            "reference": "8c58eb4cd4f3883f82611abeac2efbc3dbed787e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/21dce06dfbf0365c6a7cc8fdbdc995926c6a9300",
-            "reference": "21dce06dfbf0365c6a7cc8fdbdc995926c6a9300",
+            "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/8c58eb4cd4f3883f82611abeac2efbc3dbed787e",
+            "reference": "8c58eb4cd4f3883f82611abeac2efbc3dbed787e",
             "shasum": ""
         },
         "require": {
@@ -4146,17 +4327,17 @@
             "php": ">=7.0"
         },
         "require-dev": {
-            "ircmaxell/php-yacc": "0.0.5",
-            "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0"
+            "ircmaxell/php-yacc": "^0.0.6",
+            "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0 || ^9.0"
         },
-        "time": "2020-07-25T13:18:53+00:00",
+        "time": "2020-08-09T10:23:20+00:00",
         "bin": [
             "bin/php-parse"
         ],
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "4.7-dev"
+                "dev-master": "4.8-dev"
             }
         },
         "installation-source": "dist",
@@ -4248,17 +4429,17 @@
     },
     {
         "name": "opis/closure",
-        "version": "3.5.5",
-        "version_normalized": "3.5.5.0",
+        "version": "3.5.6",
+        "version_normalized": "3.5.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/opis/closure.git",
-            "reference": "dec9fc5ecfca93f45cd6121f8e6f14457dff372c"
+            "reference": "e8d34df855b0a0549a300cb8cb4db472556e8aa9"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/opis/closure/zipball/dec9fc5ecfca93f45cd6121f8e6f14457dff372c",
-            "reference": "dec9fc5ecfca93f45cd6121f8e6f14457dff372c",
+            "url": "https://api.github.com/repos/opis/closure/zipball/e8d34df855b0a0549a300cb8cb4db472556e8aa9",
+            "reference": "e8d34df855b0a0549a300cb8cb4db472556e8aa9",
             "shasum": ""
         },
         "require": {
@@ -4268,7 +4449,7 @@
             "jeremeamia/superclosure": "^2.0",
             "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0"
         },
-        "time": "2020-06-17T14:59:55+00:00",
+        "time": "2020-08-11T08:46:50+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -4463,6 +4644,87 @@
         "description": "Library for handling version information and constraints"
     },
     {
+        "name": "phenx/php-font-lib",
+        "version": "0.5.2",
+        "version_normalized": "0.5.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PhenX/php-font-lib.git",
+            "reference": "ca6ad461f032145fff5971b5985e5af9e7fa88d8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PhenX/php-font-lib/zipball/ca6ad461f032145fff5971b5985e5af9e7fa88d8",
+            "reference": "ca6ad461f032145fff5971b5985e5af9e7fa88d8",
+            "shasum": ""
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.8.35 || ^5 || ^6 || ^7"
+        },
+        "time": "2020-03-08T15:31:32+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "FontLib\\": "src/FontLib"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Ménager",
+                "email": "fabien.menager@gmail.com"
+            }
+        ],
+        "description": "A library to read, parse, export and make subsets of different types of font files.",
+        "homepage": "https://github.com/PhenX/php-font-lib"
+    },
+    {
+        "name": "phenx/php-svg-lib",
+        "version": "v0.3.3",
+        "version_normalized": "0.3.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PhenX/php-svg-lib.git",
+            "reference": "5fa61b65e612ce1ae15f69b3d223cb14ecc60e32"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PhenX/php-svg-lib/zipball/5fa61b65e612ce1ae15f69b3d223cb14ecc60e32",
+            "reference": "5fa61b65e612ce1ae15f69b3d223cb14ecc60e32",
+            "shasum": ""
+        },
+        "require": {
+            "sabberworm/php-css-parser": "^8.3"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^5.5|^6.5"
+        },
+        "time": "2019-09-11T20:02:13+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Svg\\": "src/Svg"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Ménager",
+                "email": "fabien.menager@gmail.com"
+            }
+        ],
+        "description": "A library to read, parse and export to PDF SVG files.",
+        "homepage": "https://github.com/PhenX/php-svg-lib"
+    },
+    {
         "name": "php-cs-fixer/diff",
         "version": "v1.3.0",
         "version_normalized": "1.3.0.0",
@@ -4568,17 +4830,17 @@
     },
     {
         "name": "phpdocumentor/reflection-docblock",
-        "version": "5.2.0",
-        "version_normalized": "5.2.0.0",
+        "version": "5.2.1",
+        "version_normalized": "5.2.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-            "reference": "3170448f5769fe19f456173d833734e0ff1b84df"
+            "reference": "d870572532cd70bc3fab58f2e23ad423c8404c44"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/3170448f5769fe19f456173d833734e0ff1b84df",
-            "reference": "3170448f5769fe19f456173d833734e0ff1b84df",
+            "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/d870572532cd70bc3fab58f2e23ad423c8404c44",
+            "reference": "d870572532cd70bc3fab58f2e23ad423c8404c44",
             "shasum": ""
         },
         "require": {
@@ -4591,7 +4853,7 @@
         "require-dev": {
             "mockery/mockery": "~1.3.2"
         },
-        "time": "2020-07-20T20:05:34+00:00",
+        "time": "2020-08-15T11:14:08+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -5310,7 +5572,8 @@
         "homepage": "https://github.com/sebastianbergmann/php-token-stream/",
         "keywords": [
             "tokenizer"
-        ]
+        ],
+        "abandoned": true
     },
     {
         "name": "phpunit/phpunit",
@@ -5909,6 +6172,53 @@
             "guid",
             "identifier",
             "uuid"
+        ]
+    },
+    {
+        "name": "sabberworm/php-css-parser",
+        "version": "8.3.1",
+        "version_normalized": "8.3.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sabberworm/PHP-CSS-Parser.git",
+            "reference": "d217848e1396ef962fb1997cf3e2421acba7f796"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sabberworm/PHP-CSS-Parser/zipball/d217848e1396ef962fb1997cf3e2421acba7f796",
+            "reference": "d217848e1396ef962fb1997cf3e2421acba7f796",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2"
+        },
+        "require-dev": {
+            "codacy/coverage": "^1.4",
+            "phpunit/phpunit": "~4.8"
+        },
+        "time": "2020-06-01T09:10:00+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Sabberworm\\CSS": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Raphael Schweikert"
+            }
+        ],
+        "description": "Parser for CSS Files written in PHP",
+        "homepage": "http://www.sabberworm.com/blog/2010/6/10/php-css-parser",
+        "keywords": [
+            "css",
+            "parser",
+            "stylesheet"
         ]
     },
     {

@@ -39,6 +39,8 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\LocaleMiddleware::class,
+            \App\Http\Middleware\allnotifications::class,
+            
         ],
 
         'admin' => [
@@ -68,6 +70,7 @@ class Kernel extends HttpKernel
         'guest'      => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle'   => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'timeout'    => \App\Http\Middleware\SessionTimeout::class,
+        'allnotifications'    => \App\Http\Middleware\allnotifications::class,
 
         /*
          * Access Middleware

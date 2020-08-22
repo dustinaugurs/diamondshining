@@ -44,45 +44,169 @@
   .shape-filter-btn >label > span.checkmark{
     background-size: 37px;
   }
-  #Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Round-icon{
-    background-image: url(http://localhost/augurslp-diamondwtvy/assets/img/diamond/Round-icon.png) !important;
+  
+#tabs.project-tab {
+  margin-top: 15px !important;
+}
+#shape_shape_div.shape-filter {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  /*   padding: 10px; */
+  padding: 0px 10px 20px;
+}
+#js_carat_filter .Carat-filter-container,
+#js_price_filter .price-filter-container {
+  padding: 0 20px 0;
+}
+.Search-for-Diamonds-wrp .heading-text {
+ margin: 0px 0 7px 0;
+ font-size: 15px;
+}
 
-  }
-  #Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Princess-icon{
-    background-image: url(http://localhost/augurslp-diamondwtvy/assets/img/diamond/Princess-icon.png) !important;
+.Carat-filter-container .price-range-block .price-range-box,
+.price-filter-container .price-range-block .price-range-box {
+  margin: 15px 0 20px;
+}
+.row .gp-btn-wrp {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 10px 2px;
+}
+.row .gp-btn-wrp button.btn.gp-btn ~ button {
+  margin-left: 5px;
+}
+.gp-btn-wrp .search-btn {
+  margin: 10px 0 10px;
+  font-size: 16px;
+  width: auto;
+  padding: 5px 20px 5px;
+}
 
-  }
-  #Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Emerald-icon{
-    background-image: url(http://localhost/augurslp-diamondwtvy/assets/img/diamond/Emerald-icon.png) !important;
 
-  }
-  #Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Asscher-icon{
-    background-image: url(http://localhost/augurslp-diamondwtvy/assets/img/diamond/Asscher-icon.png) !important;
+.shape-filter-btn >label > span.checkmark{
+  background-size: 37px;
+}
+#Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Round-icon{
+  background-image: url(../img/diamond/Round-icon.png) !important;
 
-  }
-  #Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Cushion-icon{
-    background-image: url(http://localhost/augurslp-diamondwtvy/assets/img/diamond/Cushion-icon.png) !important;
+}
+#Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Princess-icon{
+  background-image: url(../img/diamond/Princess-icon.png) !important;
 
-  }
-  #Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Marquise-icon{
-    background-image: url(http://localhost/augurslp-diamondwtvy/assets/img/diamond/Marquise-icon.png) !important;
+}
+#Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Emerald-icon{
+  background-image: url(../img/diamond/Emerald-icon.png) !important;
 
-  }
-  #Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Radiant-icon{
-    background-image: url(http://localhost/augurslp-diamondwtvy/assets/img/diamond/Radiant-icon.png) !important;
+}
+#Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Asscher-icon{
+  background-image: url(../img/diamond/Asscher-icon.png) !important;
 
-  }
-  #Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn  .Oval-icon{
-    background-image: url(http://localhost/augurslp-diamondwtvy/assets/img/diamond/Oval-icon.png) !important;
+}
+#Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Cushion-icon{
+  background-image: url(../img/diamond/Cushion-icon.png) !important;
 
-  }
-  #Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Pear-icon{
-    background-image: url(http://localhost/augurslp-diamondwtvy/assets/img/diamond/Pear-icon.png) !important;
+}
+#Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Marquise-icon{
+  background-image: url(../img/diamond/Marquise-icon.png) !important;
 
-  }
-  #Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Heart-icon{
-    background-image: url(http://localhost/augurslp-diamondwtvy/assets/img/diamond/Heart-icon.png) !important;
-  }
+}
+#Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Radiant-icon{
+  background-image: url(../img/diamond/Radiant-icon.png) !important;
+
+}
+#Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn  .Oval-icon{
+  background-image: url(../img/diamond/Oval-icon.png) !important;
+
+}
+#Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Pear-icon{
+  background-image: url(../img/diamond/Pear-icon.png) !important;
+
+}
+#Search-for-Diamonds-wrp.Search-for-Diamonds-wrp .row .shape-filter-btn .Heart-icon{
+  background-image: url(../img/diamond/Heart-icon.png) !important;
+}
+
+
+/* // Adjustment in Table */
+
+.imgbox.container{
+  padding: 0px
+}
+
+.product-img-wrp{
+margin-top: 0;
+}
+.product-img-wrp  .nav{
+margin-bottom: 15px;
+}
+.product-img-wrp  .nav >li a.active,.product-img-wrp  .nav >li a:hover, .product-img-wrp  .nav >li a:focus{
+background: transparent !important;
+border-bottom: 3px solid  #2196f3 !important;
+color: #2196f3 !important;
+}
+
+.product-img-wrp  .nav >li a{
+color: rgb(73, 80, 87);
+}
+
+.price-col{
+display: flex;
+flex-direction: column;
+}
+.price-col .price-wrp{
+ margin-top: 0px;
+}
+
+
+.price-col .order-btn-wrp{
+width: auto;
+margin-top: 0px;
+padding: 0px;
+height: auto;
+}
+.price-col .order-btn-wrp .order-btn, .price-col .enquire-btn-wrp .enquire-btn, .price-col .enquire-btn{
+ margin: 10px 10px 10px;
+ font-size: 18px;
+ line-break:  inherit;
+ width: 150px !important;
+ text-transform: uppercase;
+  height: 48.8px;
+  line-height: 24px;
+}
+
+.price-col .enquire-btn-wrp{
+  width: auto;
+  margin: 0px;
+  display: flex;
+  align-items: center;
+}
+.tbl22 .table{
+margin-top: 3.5rem;
+}
+button > video {
+width: 100%;
+}
+.price-range-block .ui-widget-header{
+background: #2196f3;
+}
+.gp-btn ,.search-btn, .detail-order-btn, .order-btn,.enquire-btn, .scroll-top,.header-configure-area ul li a .notification{
+ background: #2196f3;
+ border-color: #2196f3;
+}
+
+.news-field .news-field{
+color:  #2196f3;
+}
+
+.project-tab .nav-tabs .nav-item.show .nav-link,.project-tab .nav-tabs .nav-link.active,.project-tab .nav-tabs .nav-item.show .nav-link,.project-tab .nav-tabs .nav-link:hover, .project-tab .nav-tabs .nav-item.show .nav-link, .project-tab .nav-tabs .nav-link:focus{
+background: transparent !important;
+border-bottom: 3px solid  #2196f3 !important;
+color: #2196f3 !important;
+}
   
   
   

@@ -200,6 +200,7 @@ return [
         Krgupta\Active\Providers\ActiveServiceProvider::class,
         Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
         Yoeunes\Toastr\ToastrServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
     ],
 
     /*
@@ -259,5 +260,6 @@ return [
         'Socialite'   => Laravel\Socialite\Facades\Socialite::class,
         //'Datatables' => Yajra\DataTables\Facades\DataTables::class,
         'Active'      => Krgupta\Active\Facades\Active::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 ];

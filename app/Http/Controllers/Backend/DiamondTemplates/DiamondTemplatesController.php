@@ -121,10 +121,23 @@ class DiamondTemplatesController extends Controller
         $editvat_to_usd = $request->editvat_to_usd;
         $editmultiplier_usd = $request->editmultiplier_usd;
 
+
         $priceEdit = AddMultiplePrice::where('id', $edittemp_id)->first();
         $priceEdit->vat_from_usd  = $editvat_from_usd;
 		$priceEdit->vat_to_usd     = $editvat_to_usd;
-		$priceEdit->multiplier_usd  = $editmultiplier_usd;
+        $priceEdit->multiplier_usd  = $editmultiplier_usd;
+
+        // $priceCheck = AddMultiplePrice::where('temp_id', $id)
+        //                             ->where('vat_from_usd', $editvat_from_usd)
+        //                             ->where('vat_to_usd', $editvat_to_usd)
+        //                             ->where('multiplier_usd', $editmultiplier_usd)
+        //                             ->count();
+        // //print_r($priceCheck).'-'; die;
+        // if($priceCheck>=1){
+        // //toastr()->warning($priceCheck.' Record, Price Range already added, Please check'); 
+        // //return back(); 
+        // return redirect('admin/diamondtemplates/addPrice/"'..'"');
+        // }
         $priceEdit->save();
 
         //echo '<pre>', print_r($priceEdit->toArray()); die;

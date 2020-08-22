@@ -377,11 +377,62 @@ public function EnqdateAndPaymentFilter(Request $request){
 
     //return response()->json(['data'=>$order, 'setting' => $setting, 'current_currency'=>$rate]);
     } 
+    
+//=========Start-Notification-section============
+
+    function notificationOrders(Request $request)
+    {
+        // Settings Details
+        $orders = DB::table('orders')
+                    ->join('users', 'orders.user_id', '=', 'users.id')
+                    ->join('diamond_feeds', 'orders.diamondFeed_id', '=', 'diamond_feeds.id')
+                    ->select('diamond_feeds.stock_id', 'users.first_name', 'users.last_name', 'orders.order_date', 'orders.order_status')
+                    ->where('order_status', 4)
+                    ->where('orders.seen_status', 0)
+                    ->get();
+
+        $totalOrders = @count($orders);            
+    return response()->json(['orders'=>$orders, 'errcode'=>'404', 'totalorders'=>$totalOrders]);  
+    }
 
 
-//======================================================
+
+    function notificationEnquiries(Request $request)
+    {
+        $enquiries = DB::table('orders')
+                    ->join('users', 'orders.user_id', '=', 'users.id')
+                    ->join('diamond_feeds', 'orders.diamondFeed_id', '=', 'diamond_feeds.id')
+                    ->select('diamond_feeds.stock_id', 'users.first_name', 'users.last_name', 'orders.order_date', 'orders.order_status')
+                    ->where('order_status', 1)
+                    ->where('orders.seen_status', 0)
+                    ->get();
+    
+          $totalEnquiries = @count($enquiries);            
+        return response()->json(['enquiries'=>$enquiries, 'errcode'=>'404', 'totalenquiries'=>$totalEnquiries]);
+        
+    }
+
+    function notificationUpdate(Request $request)
+    {
+        $order_status = $request->order_status;
+        $seen_status = 1; 
+        $message = ''; $rescode = ''; 
+        $enquiries = DB::update('update orders set seen_status = ? where order_status = ? AND seen_status = ? ', [1, $order_status, 0]);  
+        if($enquiries){
+            $rescode = '200';
+            $message = 'You are ready to read Data';
+        }else{
+            $rescode = '404';
+            $message = 'You are not ready to read Data';  
+        }         
+        
+        return response()->json(['rescode'=>$rescode, 'message'=>$message, 'order_status'=>$order_status]);
+        
+    }
 
 
+
+//=========End-notification-section===========
     /**
      * Show the form for creating a new resource.
      *

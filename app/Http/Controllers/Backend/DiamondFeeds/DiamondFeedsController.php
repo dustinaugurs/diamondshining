@@ -18,6 +18,7 @@ use App\Http\Requests\Backend\DiamondFeeds\StoreDiamondFeedRequest;
 use App\Http\Requests\Backend\DiamondFeeds\EditDiamondFeedRequest;
 use App\Http\Requests\Backend\DiamondFeeds\UpdateDiamondFeedRequest;
 use App\Http\Requests\Backend\DiamondFeeds\DeleteDiamondFeedRequest;
+use DB;
 
 /**
  * DiamondFeedsController
@@ -47,6 +48,7 @@ class DiamondFeedsController extends Controller
      */
     public function index(ManageDiamondFeedRequest $request)
     {
+        //print_r(config('module.diamondfeeds.table')); die; 
         return new ViewResponse('backend.diamondfeeds.index');
     }
     /**
@@ -60,6 +62,28 @@ class DiamondFeedsController extends Controller
 		//print_r('sfsxvgs'); die;
         return new CreateResponse('backend.diamondfeeds.create');
     }
+
+
+    public function createSingleData(CreateDiamondFeedRequest $request)
+    {    
+		//print_r('hello'); die;
+        return view('backend.diamondfeeds.createsingledata');
+    }
+
+    public function storeSingleData(Request $request)
+    {
+        //Input received from the request
+		//print_r('hello'); die;
+        $data = $request->except(['_token']);
+        //Create the model using repository create method
+		//echo '<pre>'; print_r($input); die;
+        $value=DB::table('diamond_feeds')->where('stock_id', $data['stock_id'])->get();
+        if($value->count() == 0){
+           DB::table('diamond_feeds')->insert($data);
+        }
+
+        return new RedirectResponse(route('admin.diamondfeeds.index'), ['flash_success' => trans('alerts.backend.diamondfeeds.created')]);
+    }
     
     /**
      * Store a newly created resource in storage.
@@ -70,7 +94,7 @@ class DiamondFeedsController extends Controller
     public function store(StoreDiamondFeedRequest $request)
     {
         //Input received from the request
-		//print_r($request); die;
+		print_r($request->all()); die;
         $input = $request->except(['_token']);
         //Create the model using repository create method
 		//print_r($input); die;
@@ -90,7 +114,7 @@ class DiamondFeedsController extends Controller
      * @return \App\Http\Responses\Backend\DiamondFeeds\EditResponse
      */
     public function edit(DiamondFeed $diamondfeed, EditDiamondFeedRequest $request)
-    {
+    {    //echo '<pre>'; print_r($diamondfeed->toArray()); die;
         return new EditResponse($diamondfeed);
     }
     /**
@@ -101,7 +125,8 @@ class DiamondFeedsController extends Controller
      * @return \App\Http\Responses\RedirectResponse
      */
     public function update(UpdateDiamondFeedRequest $request, DiamondFeed $diamondfeed)
-    {
+    {   
+        //echo '<pre>'; print_r($request->all()); die;
         //Input received from the request
         $input = $request->except(['_token']);
         //Update the model using repository update method
@@ -117,9 +142,12 @@ class DiamondFeedsController extends Controller
      * @return \App\Http\Responses\RedirectResponse
      */
     public function destroy(DiamondFeed $diamondfeed, DeleteDiamondFeedRequest $request)
-    {
+    {     $dimondActive = DiamondFeed::findOrFail($diamondfeed->id);
+        $dimondActive->active = 0;
+        $dimondActive->save();
+        //echo '<pre>'; print_r($dimondActive->toArray()); die;
         //Calling the delete method on repository
-        $this->repository->delete($diamondfeed);
+        //$this->repository->delete($diamondfeed);
         //returning with successfull message
         return new RedirectResponse(route('admin.diamondfeeds.index'), ['flash_success' => trans('alerts.backend.diamondfeeds.deleted')]);
     }

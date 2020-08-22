@@ -78,28 +78,6 @@ public function enquiries(Request $request){
            
       }       
       
-
-public function orders(Request $request){
-        $order_status = $request->order_status; 
-         $base = Auth::user()->currency_code;
-          $allcurrency = Currency::where('code', $base)->first();
-          $code = $allcurrency['code'];
-          $symbol = $allcurrency['symbol']; 
-          $price_arr = $this->orders->get_currency();
-          $rate = (array) $price_arr['rates'];
-          $current_currency = $rate[$code]; 
-        $orderStatus = $order_status;  //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5 
-        $setting = Setting::first();
-       return view('frontend.pages.component.order_component', [
-         'order'=>'Order',
-         'orders' => $this->orders->order($orderStatus),
-         'current_currency' => $current_currency,
-         'symbol' => $symbol,
-         'setting' => $setting,
-       ]);
-           
-      }
-
 public function ordersPlaced(Request $request){
         $order_status = $request->order_status; 
          $base = Auth::user()->currency_code;
@@ -109,9 +87,9 @@ public function ordersPlaced(Request $request){
           $price_arr = $this->orders->get_currency();
           $rate = (array) $price_arr['rates'];
           $current_currency = $rate[$code]; 
-        $orderStatus = $order_status;  //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5 
+        $orderStatus = 5;  //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5 
         $setting = Setting::first();
-       return view('frontend.pages.component.order_component', [
+       return view('frontend.pages.enquiry_orderPlaced', [
          'order'=>'Order',
          'orders' => $this->orders->order($orderStatus),
          'current_currency' => $current_currency,
@@ -130,9 +108,9 @@ public function ordersCompleted(Request $request){
           $price_arr = $this->orders->get_currency();
           $rate = (array) $price_arr['rates'];
           $current_currency = $rate[$code];
-      $orderStatus = $order_status;  //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5 
+      $orderStatus = 2;  //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5 
       $setting = Setting::first();
-       return view('frontend.pages.component.order_completed_component', [
+       return view('frontend.pages.enquiry_orderCompleted', [
          'completed'=>'completed',
          'orders' => $this->orders->order($orderStatus),
          'current_currency' => $current_currency,
@@ -142,27 +120,7 @@ public function ordersCompleted(Request $request){
            
       }
       
-public function ordersCancelled(Request $request){
-  $order_status = $request->order_status; 
-  $base = Auth::user()->currency_code;
-  $allcurrency = Currency::where('code', $base)->first();
-  $code = $allcurrency['code'];
-  $symbol = $allcurrency['symbol']; 
-  $price_arr = $this->orders->get_currency();
-  $rate = (array) $price_arr['rates'];
-  $current_currency = $rate[$code];
-     $orderStatus = $order_status;  //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5 
-     $setting = Setting::first();
-       return view('frontend.pages.component.order_cancelled_component', [
-         'cancelled'=>'cancelled',
-         'orders' => $this->orders->order($orderStatus),
-         'current_currency' => $current_currency,
-         'symbol' => $symbol,
-         'setting' => $setting,
-       ]);
-           
-    }
-    
+      
   public function printDetails($stockID=''){
     $base = Auth::user()->currency_code;
     $allcurrency = Currency::where('code', $base)->first();
@@ -186,8 +144,8 @@ public function ordersCancelled(Request $request){
 public function EnquiryChangeDateTime(Request $request){
         $setting = Setting::first();
         $date = $request->date;
-        //print_r('date_'.$date); die;
-        $orderStatus = 1;  //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5
+        //print_r('date_'.$request->orderstatus); die;
+        $orderStatus = $request->orderstatus;  //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5
         $base = Auth::user()->currency_code;
         $allcurrency = Currency::where('code', $base)->first();
         $code = $allcurrency['code'];
@@ -195,122 +153,29 @@ public function EnquiryChangeDateTime(Request $request){
         $price_arr = $this->orders->get_currency();
         $rate = (array) $price_arr['rates'];
         $current_currency = $rate[$code];
-        $order = '';
+        $orders = '';
         if($date !== "00_00"){
-          $order = $this->orders->orderChange($orderStatus, $date);
+          $orders = $this->orders->orderChange($orderStatus, $date);
         }else{
-          $order = $this->orders->order($orderStatus);
+          $orders = $this->orders->order($orderStatus);
         }
-        // return view('frontend.pages.component.enquiries_component', [
-        //   'enquiry'=> 'enquiry',
-        //   'orders' => $this->orders->order($orderStatus),
-        //   'current_currency' => $current_currency,
-        //   'symbol' => $symbol,
-        //   'setting' => $setting,
-        // ]);
-        return response()->json(['data'=>$order, 'setting' => $setting, 'current_currency'=>$current_currency, 'symbol'=>$symbol]);
+        return view('frontend.pages.component.enquiries_component', [
+          'enquiry'=> 'enquiry',
+          'orders' => $orders,
+          'current_currency' => $current_currency,
+          'symbol' => $symbol,
+          'setting' => $setting,
+        ]);
+        //return response()->json(['data'=>$order, 'setting' => $setting, 'current_currency'=>$current_currency, 'symbol'=>$symbol]);
     } 
-    
-    
-    public function OrderStatusChanged(Request $request){
-      $setting = Setting::first();
-      $order_status = $request->order_status;
-      $date = $request->date;
-      $oid = $request->pid;
-      $successMsg = '';
-      $orderUpdate = Order::where('id', $oid)->first();
-      $orderUpdate->order_status = $order_status;
 
-      if($orderUpdate->save()){
-        $successMsg = 'Order Status Successfully Changed';
-      }else{
-        $successMsg = 'Order Status Not Changed';
-      }
-      //print_r('date_'.$date); die;
-      $orderStatus = 1;  //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5
-      $base = Auth::user()->currency_code;
-      $allcurrency = Currency::where('code', $base)->first();
-      $code = $allcurrency['code'];
-      $symbol = $allcurrency['symbol']; 
-      $price_arr = $this->orders->get_currency();
-      $rate = (array) $price_arr['rates'];
-      $current_currency = $rate[$code];
-      $order = '';
-      if($date !== "00_00"){
-        $order = $this->orders->orderChange($orderStatus, $date);
-      }else{
-        $order = $this->orders->order($orderStatus);
-      }
-      return response()->json(['data'=>$order, 'setting' => $setting, 'current_currency'=>$current_currency, 'symbol'=>$symbol, 'successMsg'=> $successMsg]);
-  }
-  //=====---End-Enquiries-ajax-function----====== 
+//===============================
 
-  
-  //=====---start-Order-request-ajax-function----======      
-public function OrderStatusAndPaymentUpdate(Request $request){
+public function OrderChangeDateTime(Request $request){
   $setting = Setting::first();
-$get_order_status = $request->get_order_status;
-$payment_status = $request->payment_status;
-$order_status = $request->order_status;
-$date = $request->date;
-$oid = $request->pid;
-$successMsg = '';
-$MsgText = '';
-$orderUpdate = Order::where('id', $oid)->first();
-
-if(!empty($order_status)){
-$orderUpdate->order_status = $order_status;
-$MsgText = 'Order Status Successfully Changed';
-}
-
-if(!empty($payment_status)){
-  $orderUpdate->payment_status = $payment_status;
-  $MsgText = 'Payment Status Successfully Changed';
-  }
-
-if($orderUpdate->save()){
-  $successMsg = $MsgText;
-}else{
-  $successMsg = 'Your Status Not Changed';
-}
-
-$orderStatus = $get_order_status;  //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5
-$base = Auth::user()->currency_code;
-$allcurrency = Currency::where('code', $base)->first();
-$code = $allcurrency['code'];
-$symbol = $allcurrency['symbol']; 
-$price_arr = $this->orders->get_currency();
-$rate = (array) $price_arr['rates'];
-$current_currency = $rate[$code];
-$order = '';
-if($date !== "00_00"){
-  $order = $this->orders->orderChange($orderStatus, $date);
-}else{
-  $order = $this->orders->order($orderStatus);
-}
-// $query = Order::with('user','diamondfeed','multiplierprice');
-
-//   if($payment_status !== ""){
-//      $query->where('payment_status', $payment_status);
-//   }
-
-//   if($date !== "00_00"){
-//     $query->where('date', $date);
-//   }
-  
-//   $order = $query->where('order_status', $orderStatus)
-//                   ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
-//                   ->get();
-
-return response()->json(['data'=>$order, 'setting' => $setting, 'current_currency'=>$current_currency, 'symbol'=>$symbol, 'successMsg'=> $successMsg]);
-}
-
-
-  public function dateAndPaymentFilter(Request $request){
-    $setting = Setting::first();
   $date = $request->date;
-  $payment_status = $request->payment_status;
-  $orderStatus = $request->get_order_status;  //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5
+  //print_r('date_'.$request->orderstatus); die;
+  $orderStatus = $request->orderstatus;  //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5
   $base = Auth::user()->currency_code;
   $allcurrency = Currency::where('code', $base)->first();
   $code = $allcurrency['code'];
@@ -318,25 +183,23 @@ return response()->json(['data'=>$order, 'setting' => $setting, 'current_currenc
   $price_arr = $this->orders->get_currency();
   $rate = (array) $price_arr['rates'];
   $current_currency = $rate[$code];
-  $order = '';
-
-  $query = Order::with('user','diamondfeed','multiplierprice');
-
-  if($payment_status !== "0"){
-     $query->where('payment_status', $payment_status);
-  }
-
+  $orders = '';
   if($date !== "00_00"){
-    $query->where('date', $date);
+    $orders = $this->orders->orderChange($orderStatus, $date);
+  }else{
+    $orders = $this->orders->order($orderStatus);
   }
-  
-  $order = $query->where('order_status', $orderStatus)
-                  ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
-                  ->orderBy('order_date', 'desc')
-                  ->get();
-
-  return response()->json(['data'=>$order, 'setting' => $setting, 'current_currency'=>$current_currency, 'symbol'=>$symbol]);
+  return view('frontend.pages.component.order_component', [
+    'enquiry'=> 'enquiry',
+    'orders' => $orders,
+    'current_currency' => $current_currency,
+    'symbol' => $symbol,
+    'setting' => $setting,
+  ]);
+  //return response()->json(['data'=>$order, 'setting' => $setting, 'current_currency'=>$current_currency, 'symbol'=>$symbol]);
 } 
+    
+    
 //=====---End-Order-request-ajax-function----====== 
    
 	 

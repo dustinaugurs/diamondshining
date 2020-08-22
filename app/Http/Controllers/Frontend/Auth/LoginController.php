@@ -12,7 +12,10 @@ use App\Http\Utilities\NotificationIos;
 use App\Http\Utilities\PushNotification;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-
+use App\Models\Sessions\Sessions;
+use DB;
+use Carbon\Carbon;
+use Session;
 /**
  * Class LoginController.
  */
@@ -67,6 +70,89 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
+    public function getBrowser()
+    {
+        $u_agent = $_SERVER['HTTP_USER_AGENT'];
+        $bname = 'Unknown';
+        $platform = 'Unknown';
+        $version= "";
+        //First get the platform?
+        if (preg_match('/linux/i', $u_agent)) {
+            $platform = 'linux';
+        }
+        elseif (preg_match('/macintosh|mac os x/i', $u_agent)) {
+            $platform = 'mac';
+        }
+        elseif (preg_match('/windows|win32/i', $u_agent)) {
+            $platform = 'windows';
+        }
+       
+        if(preg_match('/MSIE/i',$u_agent) && !preg_match('/Opera/i',$u_agent))
+        {
+            $bname = 'Internet Explorer';
+            $ub = "MSIE";
+        }
+        elseif(preg_match('/Firefox/i',$u_agent))
+        {
+            $bname = 'Mozilla Firefox';
+            $ub = "Firefox";
+        }
+        elseif(preg_match('/Chrome/i',$u_agent))
+        {
+            $bname = 'Google Chrome';
+            $ub = "Chrome";
+        }
+        elseif(preg_match('/Safari/i',$u_agent))
+        {
+            $bname = 'Apple Safari';
+            $ub = "Safari";
+        }
+        elseif(preg_match('/Opera/i',$u_agent))
+        {
+            $bname = 'Opera';
+            $ub = "Opera";
+        }
+        elseif(preg_match('/Netscape/i',$u_agent))
+        {
+            $bname = 'Netscape';
+            $ub = "Netscape";
+        }
+        $known = array('Version', $ub, 'other');
+        $pattern = '#(?<browser>' . join('|', $known) .
+        ')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
+        if (!preg_match_all($pattern, $u_agent, $matches)) {
+        }
+        $i = count($matches['browser']);
+        if ($i != 1) {
+            if (strripos($u_agent,"Version") < strripos($u_agent,$ub)){
+                $version= $matches['version'][0];
+            }
+            else {
+                $version= $matches['version'][1];
+            }
+        }
+        else {
+            $version= $matches['version'][0];
+        }
+        if ($version==null || $version=="") {$version="?";}
+       
+        return array(
+            'userAgent' => $u_agent,
+            'name'      => $bname,
+            'version'   => $version,
+            'platform'  => $platform,
+            'pattern'    => $pattern
+        );
+    }
+
+    public function GetMAC(){
+        ob_start();
+        system('getmac');
+        $Content = ob_get_contents();
+        ob_clean();
+        return substr($Content, strpos($Content,'\\')-20, 17);
+    }
+
     protected function authenticated(Request $request, $user)
     {
         /*
@@ -91,6 +177,22 @@ class LoginController extends Controller
         $sendOption     =   array('Type' => 'Quote');
         $this->notification->_pushNotification($message, 'ios', $deviceToken);
         */
+        $ua=$this->getBrowser();
+        $newSession = new Sessions();
+        $newSession->user_session_id = Session::getId();
+        $newSession->user_id = $user->id;
+        $newSession->ip_address = $_SERVER['REMOTE_ADDR'];
+        $newSession->mac_address = $this->GetMAC();
+        $newSession->user_agent = $ua['userAgent'];
+        $newSession->browser = $ua['name']; //.' '.$ua['version'];
+        $newSession->plateform = $ua['platform'];
+        $newSession->month_year  = date('m_Y');
+        $newSession->payload = base64_encode($user);
+        $newSession->last_activity = Carbon::now();
+        $newSession->login_time = Carbon::now();
+        $newSession->save();
+
+       
         return redirect()->intended($this->redirectPath());
     }
 
@@ -123,6 +225,15 @@ class LoginController extends Controller
          * Fire event, Log out user, Redirect
          */
         event(new UserLoggedOut($this->guard()->user()));
+
+
+        $newSession = Sessions::where('user_session_id', Session::getId())->first();
+        //echo '<pre>'; print_r($newSession); die;
+       
+        $newSession->logout_time = Carbon::now();
+        $newSession->updated_at = Carbon::now();
+        $newSession->save();
+          
 
         /*
          * Laravel specific logic

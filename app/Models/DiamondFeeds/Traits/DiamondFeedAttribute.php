@@ -16,10 +16,12 @@ trait DiamondFeedAttribute
      * @return string
      * '.$this->getEditButtonAttribute("edit-diamondfeed", "admin.diamondfeeds.edit").'
      */
+    //'.$this->getDeleteButtonAttribute("delete-diamondfeed", "admin.diamondfeeds.destroy").'
     public function getActionButtonsAttribute()
     {
         return '<div class="btn-group action-btn">                 
                 '.$this->getDeleteButtonAttribute("delete-diamondfeed", "admin.diamondfeeds.destroy").'
+                '.$this->getEditButtonAttribute("edit-diamondfeed", "admin.diamondfeeds.edit").'
                 </div>';
     }
 }

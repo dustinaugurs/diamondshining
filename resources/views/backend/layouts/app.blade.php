@@ -82,6 +82,132 @@
         {{ Html::script(mix('js/backend.js')) }}
         {{ Html::script(mix('js/backend-custom.js')) }}
         @yield('after-scripts')
+
+        <!---------Notification-start----------->
+        <script>
+        $(document).ready(function() {
+            setInterval(function() {			
+           checkOrderLive();
+           checkEnquiryLive();
+        }, 3000);
+
+        //=======Start-latest-update==========
+        $('body').on('click', '.updatelivestatus', function(){
+      var order_status=''; successMsg = '', rescode = '';
+            order_status = $(this).attr('findOrdstatus');
+			var data = 'order_status='+order_status+'&_token={{ csrf_token() }}';
+            console.log('ordSt '+data); //return false;
+            $.ajax({
+                type:"POST",
+                url:"{{ url('admin/notificationUpdate') }}",
+                data:data,
+                cache:false,
+				//dataType:'json',
+                // beforeSend: function(){
+                //     $(".dataafterfilterOrder").html('<tr><td colspan="14"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
+                // },
+                success: function(resultJSON) {
+                  //console.log(resultJSON);
+                  successMsg = resultJSON.message,
+                  rescode = resultJSON.rescode  
+                  toastr.success(successMsg);	
+                }
+               
+            });
+		});
+      //===========---End-latest-Update---===============
+   
+        });
+     
+     //-----------------------------------------------   
+        function checkOrderLive(){    //==========start-Order===========
+            var totalOrders = '', orders = '', outputdata = '', heading = '', urlaccess = '';
+            $.ajax({
+                type:"GET",
+                url:"{{ url('admin/notificationOrders') }}",
+                //data:data,
+                cache:false,
+				dataType:'json',
+                // beforeSend: function(){
+                //     $("#totalorder").html('<i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i><span class="sr-only">Loading...</span>');	
+                // },
+                success: function(resultJSON) {
+                    //console.log(resultJSON);
+                  orders = resultJSON.orders;
+                  totalOrders = resultJSON.totalorders;
+                  //console.log('VAT '+totalOrders);
+                  if(orders.length > 0){ 
+                    heading = '<li class="header heading">List of Latest Order</li>'
+              for(i = 0; i < orders.length; i++) {
+                outputdata += '<li class="header bbxxes">'+
+                          '<a href="">'+
+                          '<span>('+(i+1)+'.)</span>'+
+                          '<span>'+orders[i].first_name+' '+orders[i].last_name+'</span>'+
+                          '<span>'+'Stock No. : '+orders[i].stock_id+'</span>'+
+                          '<span>'+orders[i].order_date+'</span>'+
+                           '</li>'+'</a>';
+              }
+              urlaccess = '<li class="footer updatelivestatus" findOrdstatus="4">'+
+                        '<a href="{{url('admin/orders')}}">{{  trans('strings.backend.general.see_all.messages') }}</a>'+
+                        '</li>';
+              }else{ outputdata = '<li class="header">'+
+                                    '<a href="">{{ trans_choice('strings.backend.general.you_have.messages', 0, ['number' => 0]) }}</a>'+
+                                    '</li>';
+                                    }
+					$('#orderlist').html(heading+''+outputdata+''+urlaccess);
+                    $('#totalorder').html(totalOrders);	
+                }
+               
+            });
+            //------------------
+                   }   //==========End-Order===========
+
+                   function checkEnquiryLive(){    //==========start-Enquiries===========
+            var totalEnquiries = '', enquiries = '', outputdata = '', heading = '', urlaccess = '';
+            $.ajax({
+                type:"GET",
+                url:"{{ url('admin/notificationEnquiries') }}",
+                //data:data,
+                cache:false,
+				dataType:'json',
+                // beforeSend: function(){
+                //     $("#totalenquiry").html('<i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i><span class="sr-only">Loading...</span>');	
+                // },
+                success: function(resultJSON) {
+                    //console.log(resultJSON);
+                    enquiries = resultJSON.enquiries;
+                  totalEnquiries = resultJSON.totalenquiries;
+                  //console.log('VAT '+totalOrders);
+                  if(enquiries.length > 0){ 
+                    heading = '<li class="header heading">List of Latest Enquiries</li>'
+              for(i = 0; i < enquiries.length; i++) {
+                outputdata += '<li class="header bbxxes">'+
+                          '<a href="">'+
+                          '<span>('+(i+1)+'.)</span>'+
+                          '<span>'+enquiries[i].first_name+' '+enquiries[i].last_name+'</span>'+
+                          '<span>'+'Stock No. : '+enquiries[i].stock_id+'</span>'+
+                          '<span>'+enquiries[i].order_date+'</span>'+
+                           '</li>'+'</a>';
+              }
+              urlaccess = '<li class="footer updatelivestatus" findOrdstatus="1">'+
+                        '<a href="{{url('admin/enquiriesIndex')}}">{{  trans('strings.backend.general.see_all.messages') }}</a>'+
+                        '</li>';
+              }else{ outputdata = '<li class="header">'+
+                                    '<a href="">{{ trans_choice('strings.backend.general.you_have.messages', 0, ['number' => 0]) }}</a>'+
+                                    '</li>';
+                                    }
+					$('#enquirylist').html(heading+''+outputdata+''+urlaccess);
+                    $('#totalenquiry').html(totalEnquiries);	
+                }
+               
+            });
+            //------------------
+                   }   //==========End-Enquiries===========
+
+
+
+        </script>
+        <!---------Notification-End----------->
     </body>
 
     {!! Html::script('assets/js/toastr.min.js') !!}

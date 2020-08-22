@@ -31,7 +31,8 @@ class OrderRepository
                     ->where('order_status', $orderStatus)
                     ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
                     ->orderBy('order_date', 'desc')
-                    ->get();
+                    ->paginate(9);
+                    //->get();
        return $orders;             
      }
 
@@ -49,7 +50,8 @@ class OrderRepository
                   ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
                   ->orderBy('order_date', 'desc')
                   ->where('date', $date) 
-                  ->get();
+                  ->paginate(9);
+                  //->get();
      return $orders;             
    }
 
@@ -60,7 +62,8 @@ class OrderRepository
                 ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
                 ->orderBy('order_date', 'desc')
                 ->where('date', $date) 
-                ->get();
+                ->paginate(9);
+                //->get();
    return $orders;             
  }
 
@@ -69,7 +72,8 @@ class OrderRepository
               ->where('order_status', $orderStatus)
               ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
               ->orderBy('order_date', 'desc')
-              ->get();
+              ->paginate(9);
+              //->get();
  return $orders;             
 }
 

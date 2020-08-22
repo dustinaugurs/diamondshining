@@ -3,7 +3,9 @@
 use App\Helpers\uuid;
 use App\Models\Notification\Notification;
 use App\Models\Settings\Setting;
+use App\Models\OrderManagement\Order;
 use Carbon\Carbon as Carbon;
+
 
 /**
  * Henerate UUID.
@@ -142,6 +144,7 @@ if (!function_exists('settings')) {
         }
     }
 }
+
 
 if (!function_exists('createNotification')) {
     /**
@@ -288,6 +291,47 @@ if (!function_exists('checkDatabaseConnection')) {
             return true;
         } catch (Exception $ex) {
             return false;
+        }
+    }
+}
+
+
+if (!function_exists('orders')) {
+    /**
+     * Access the settings helper.
+     */
+    function orders()
+    {
+        // Settings Details
+        $orders = DB::table('orders')
+                    ->join('users', 'orders.user_id', '=', 'users.id')
+                    ->join('diamond_feeds', 'orders.diamondFeed_id', '=', 'diamond_feeds.id')
+                    ->select('diamond_feeds.stock_id', 'users.first_name', 'users.last_name', 'orders.order_date', 'orders.order_status')
+                    ->where('order_status', 4)
+                    ->where('orders.seen_status', 0)
+                    ->get();
+        if (!empty($orders)) {
+            return $orders;
+        }
+    }
+}
+
+if (!function_exists('enquiries')) {
+    /**
+     * Access the settings helper.
+     */
+    function enquiries()
+    {
+        // Settings Details
+        $enquiries = DB::table('orders')
+                    ->join('users', 'orders.user_id', '=', 'users.id')
+                    ->join('diamond_feeds', 'orders.diamondFeed_id', '=', 'diamond_feeds.id')
+                    ->select('diamond_feeds.stock_id', 'users.first_name', 'users.last_name', 'orders.order_date', 'orders.order_status')
+                    ->where('order_status', 1)
+                    ->where('orders.seen_status', 0)
+                    ->get();
+        if (!empty($enquiries)) {
+            return $enquiries;
         }
     }
 }

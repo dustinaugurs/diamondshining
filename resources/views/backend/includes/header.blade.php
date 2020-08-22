@@ -1,5 +1,4 @@
 <header class="main-header">
-
     <a href="{{ route('frontend.index') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini">
@@ -8,6 +7,7 @@
 
         <!-- logo for regular state and mobile devices -->
         <span class="logo-lg">
+
            {{--  @php
                  $settings = settings();
             @endphp
@@ -19,10 +19,10 @@
         </span>
     </a>
 
-    <nav class="navbar navbar-static-top" role="navigation">
+    <nav class="navbar notboxes navbar-static-top" role="navigation">
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
 		
-            <span class="sr-only">111{{ trans('labels.general.toggle_navigation') }}</span>
+            <span class="sr-only">{{ trans('labels.general.toggle_navigation') }}</span>
         </a>
 
         <div class="navbar-custom-menu">
@@ -37,33 +37,13 @@
                     </li>
                 @endif
 
-                <li class="dropdown messages-menu">
+                @include('includes.partials.allnotification')
+
+               
+
+                <!-- <li class="dropdown tasks-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-envelope-o"></i>
-                        <span class="label label-info">0</span>
-                    </a>
-
-                    <ul class="dropdown-menu">
-                        <li class="header">{{ trans_choice('strings.backend.general.you_have.messages', 0, ['number' => 0]) }}</li>
-                        <li class="footer">
-                            {{ link_to('#', trans('strings.backend.general.see_all.messages')) }}
-                        </li>
-                    </ul>
-                </li><!-- /.messages-menu -->
-
-                <li class="dropdown notifications-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-bell-o"></i>
-                        <span class="label label-info notification-counter"></span>
-                    </a>
-
-                    <ul class="dropdown-menu notification-menu-container">
-                    </ul>
-                </li><!-- /.notifications-menu -->
-
-                <li class="dropdown tasks-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-flag-o"></i>
+                        <i data-toggle="tooltip" data-placement="right" title="" data-original-title="Online"  class="fa fa-user-o"></i>
                         <span class="label label-info">0</span>
                     </a>
 
@@ -73,7 +53,8 @@
                             {{ link_to('#', trans('strings.backend.general.see_all.tasks')) }}
                         </li>
                     </ul>
-                </li><!-- /.tasks-menu -->
+                </li> -->
+                <!-- /.tasks-menu -->
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">

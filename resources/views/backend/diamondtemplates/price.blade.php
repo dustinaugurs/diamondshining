@@ -93,7 +93,7 @@
       <td>{{$info->multiplier_usd}}</td>
       <td>
       <button class="btn btn-success" id="editRow" onclick="editRow({{$info->id}})"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-      <button class="btn btn-danger" id="deleteRow" onclick="deleteRow({{$info->id}})"><i class="fa fa-trash-o" aria-hidden="true"></i> </button>
+      <button class="btn btn-danger" id="deleteRow" onclick="deleteTrRow({{$info->id}})"><i class="fa fa-trash-o" aria-hidden="true"></i> </button>
       </td>
     </tr>
     <tr class="editrowdisplay editedRow_{{$info->id}}">
@@ -161,7 +161,7 @@ function insRow() {
 <!-- <script src="{{public_path('assets/js/vendor/jquery-3.3.1.min.js')}}"></script> -->
 <script>
 
-  function deleteRow(id){
+  function deleteTrRow(id){
     
     var  edittemp_id='', editParenttemp_id='';          
       edittemp_id = id;
