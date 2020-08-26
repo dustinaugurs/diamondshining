@@ -9,6 +9,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
+use App\Models\Access\User\User;
+use App\Models\Currency;
+
 /**
  * Class DiamondFeedRepository.
  */
@@ -49,9 +52,24 @@ class DiamondFeedRepository extends BaseRepository
      * the grid
      * @return mixed
      */
+    public function testdata(){
+        $mydata = DiamondFeed::where('active', 0)->get();
+        return $mydata ; 
+    }
+
+    public function get_currency(){
+        $client = new \GuzzleHttp\Client();     
+        // Create a request
+        $res = $client->get('https://api.exchangeratesapi.io/latest?base=USD');
+        // Get the actual response without headers
+        $response =  $res->getBody();
+          $aa= (array) json_decode($response);
+          return $aa;
+      }
+
     public function getForDataTable()
-    {
-        return $this->query()
+    {   
+        return $this->query()->where(config('module.diamond_feeds.table') . '.active', 1)
             ->select([
                 config('module.diamond_feeds.table') . '.id',
                 config('module.diamond_feeds.table') . '.stock_id',
@@ -65,7 +83,7 @@ class DiamondFeedRepository extends BaseRepository
                 config('module.diamond_feeds.table') . '.symm',
                 config('module.diamond_feeds.table') . '.flo',
                 config('module.diamond_feeds.table') . '.floCol',
-               // config('module.diamond_feeds.table') . '.lwratio',
+                config('module.diamond_feeds.table') . '.lwratio',
                 config('module.diamond_feeds.table') . '.length',
                 config('module.diamond_feeds.table') . '.width',
                 config('module.diamond_feeds.table') . '.height',
@@ -89,7 +107,8 @@ class DiamondFeedRepository extends BaseRepository
                 config('module.diamond_feeds.table') . '.mine_of_origin',
                 config('module.diamond_feeds.table') . '.canada_mark_eligble',
 				config('module.diamond_feeds.table') . '.supplier_name',
-				
+                
+                config('module.diamond_feeds.table') . '.active',
                 config('module.diamond_feeds.table') . '.created_at',
                 config('module.diamond_feeds.table') . '.updated_at',
             ]);
@@ -156,7 +175,7 @@ class DiamondFeedRepository extends BaseRepository
                         "symm"                => $importData[9],
                         "flo"                 => $importData[10],
                         "floCol"              => $importData[11],
-                        //"lwratio"             => $importData[12],
+                        "lwratio"             => $importData[12],
                         "length"              => $importData[13],
                         "width"               => $importData[14],
                         "height"              => $importData[15],
@@ -198,6 +217,12 @@ class DiamondFeedRepository extends BaseRepository
     /*
      * Upload logo image
      */
+
+    //  public function createSingleRecordAll($insertData){
+    //     DiamondFeed::insertData($insertData);
+    //     return true;
+    //  }
+
     public function uploadFeedFile($feedFile)
     {
         $path = $this->feed_path;

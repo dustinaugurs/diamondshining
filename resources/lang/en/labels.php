@@ -17,7 +17,16 @@ return [
 	"show" => "Show",
 	"toggle_navigation" => "Toggle Navigation",
 	],
+
+
 	"backend" => [
+		'reports' => [
+			'heading' => 'Reports',
+			'title' => 'Total Number of Diamonds Supplier Wise',
+			'keyreport' => 'Key Reports',
+			'suppliername' => 'Supplier ',
+			'list' => 'List of Total Diamond',
+		],
 	"profile_updated" => "Your profile has been updated.",
 	"access" => [
 	"roles" => [
@@ -242,6 +251,7 @@ return [
 	"edit" => "Edit DiamondFeed",
 	"management" => "DiamondFeed Management",
 	"title" => "DiamondFeeds",
+	"diamondcsv" => "Choose Csv file To import",
 	"dtable" => [
 	"id" => "Id",
 	"stock_id" => "Stock ID",

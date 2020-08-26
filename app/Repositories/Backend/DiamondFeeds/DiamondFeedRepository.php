@@ -9,6 +9,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
+use App\Models\Access\User\User;
+use App\Models\Currency;
+
 /**
  * Class DiamondFeedRepository.
  */
@@ -49,9 +52,24 @@ class DiamondFeedRepository extends BaseRepository
      * the grid
      * @return mixed
      */
+    public function testdata(){
+        $mydata = DiamondFeed::where('active', 0)->get();
+        return $mydata ; 
+    }
+
+    public function get_currency(){
+        $client = new \GuzzleHttp\Client();     
+        // Create a request
+        $res = $client->get('https://api.exchangeratesapi.io/latest?base=USD');
+        // Get the actual response without headers
+        $response =  $res->getBody();
+          $aa= (array) json_decode($response);
+          return $aa;
+      }
+
     public function getForDataTable()
     {   
-        return $this->query()->where(config('module.diamond_feeds.table') . '.active', 0)
+        return $this->query()->where(config('module.diamond_feeds.table') . '.active', 1)
             ->select([
                 config('module.diamond_feeds.table') . '.id',
                 config('module.diamond_feeds.table') . '.stock_id',

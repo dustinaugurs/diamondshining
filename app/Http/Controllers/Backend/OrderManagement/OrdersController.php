@@ -42,7 +42,7 @@ class OrdersController extends Controller
 
     public function index(ManageOrderRequest $request)
     { 
-         $currency = DB::table('currencies')->where('code', 'GBP')->first();
+         $currency = DB::table('currencies')->where('code', Auth::user()->currency_code)->first();
           $price_arr = $this->repository->get_currency();
           $rate = (array) $price_arr['rates'];
           $baserate = (array) $price_arr['base'];
@@ -79,7 +79,7 @@ class OrdersController extends Controller
     //=====---start-Order-request-ajax-function----======  
 
     public function printDetails($stockID=''){
-        $currency = DB::table('currencies')->where('code', 'GBP')->first();
+        $currency = DB::table('currencies')->where('code', Auth::user()->currency_code)->first();
           $price_arr = $this->repository->get_currency();
           $rate = (array) $price_arr['rates'];
           $baserate = (array) $price_arr['base'];
@@ -148,7 +148,7 @@ class OrdersController extends Controller
         $successMsg = 'Your Status Not Changed';
         }
         
-       $currency = DB::table('currencies')->where('code', 'GBP')->first();
+       $currency = DB::table('currencies')->where('code', Auth::user()->currency_code)->first();
           $price_arr = $this->repository->get_currency();
           $rate = (array) $price_arr['rates'];
           $baserate = (array) $price_arr['base'];
@@ -183,7 +183,7 @@ class OrdersController extends Controller
         $orderStatus = $request->get_order_status;  //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5
         $checkStatus = $request->check_status;
        
-        $currency = DB::table('currencies')->where('code', 'GBP')->first();
+        $currency = DB::table('currencies')->where('code', Auth::user()->currency_code)->first();
         $price_arr = $this->repository->get_currency();
         $rate = (array) $price_arr['rates'];
         $baserate = (array) $price_arr['base'];
@@ -235,7 +235,7 @@ class OrdersController extends Controller
 
 public function enquiriesIndex(ManageOrderRequest $request)
 { 
-         $currency = DB::table('currencies')->where('code', 'GBP')->first();
+         $currency = DB::table('currencies')->where('code', Auth::user()->currency_code)->first();
           $price_arr = $this->repository->get_currency();
           $rate = (array) $price_arr['rates'];
           $baserate = (array) $price_arr['base'];
@@ -300,7 +300,7 @@ public function EnqOrderStatusAndPaymentUpdate(Request $request){
     }
     
    
-         $currency = DB::table('currencies')->where('code', 'GBP')->first();
+         $currency = DB::table('currencies')->where('code', Auth::user()->currency_code)->first();
           $price_arr = $this->repository->get_currency();
           $rate = (array) $price_arr['rates'];
           $baserate = (array) $price_arr['base'];
@@ -334,7 +334,7 @@ public function EnqdateAndPaymentFilter(Request $request){
     $orderStatus = $request->get_order_status;  //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5
     $checkStatus = $request->check_status;
    
-    $currency = DB::table('currencies')->where('code', 'GBP')->first();
+    $currency = DB::table('currencies')->where('code', Auth::user()->currency_code)->first();
     $price_arr = $this->repository->get_currency();
     $rate = (array) $price_arr['rates'];
     $baserate = (array) $price_arr['base'];

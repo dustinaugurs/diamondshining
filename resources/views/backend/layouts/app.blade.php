@@ -16,6 +16,7 @@
         @yield('meta')
         
         <!-- Styles -->
+      
         @yield('before-styles')
 
         {!! Html::style('assets/css/deepak_style.css') !!}
@@ -48,7 +49,7 @@
             }
         ?>
     </head>
-    <body class="skin-{{ config('backend.theme') }} {{ config('backend.layout') }}">
+    <body class="skin-{{ config('backend.theme') }} {{ config('backend.layout') }} sidebar-collapse">
         <div class="loading" style="display:none"></div>
         @include('includes.partials.logged-in-as')
 
@@ -207,6 +208,15 @@
 
 
         </script>
+
+<script type='text/javascript'>
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+ $(document).ready(function() {
+        $('#changecurrency').on('change', function() {
+            this.form.submit();
+        });
+    })
+</script>
         <!---------Notification-End----------->
     </body>
 

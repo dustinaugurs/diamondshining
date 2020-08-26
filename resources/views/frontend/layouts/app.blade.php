@@ -1,6 +1,22 @@
 @php
     use Illuminate\Support\Facades\Route;
 @endphp
+
+<!------------------------>
+@if($logged_in_user)
+    @php
+    $user_role = userLogin();
+    @endphp
+    
+    @if($user_role->role_id == 1)
+    <script type="text/javascript">
+    window.location = "{{url('admin/dashboard')}}";
+    </script>
+     @endif
+    
+    @endif
+<!------------------------->
+
 <!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
     <head>
@@ -193,6 +209,8 @@ var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         });
     })
 </script>
+
+
 <!-------------------------->
     </body>
 {!! Html::script('assets/js/toastr.min.js') !!}

@@ -18,6 +18,10 @@ return [
         'none_for_entity' => 'There is no history for this :entity.',
         'recent_history'  => 'Recent History',
 
+        'report' => [
+            'title' => 'Number Diamonds Suppliers Wise',
+        ],
+
         'roles' => [
             'created' => 'created role',
             'deleted' => 'deleted role',

@@ -109,6 +109,14 @@
             });
 
             Backend.DataTableSearch.init(dataTable);
+             //-----------------------------
+             $('#roles-table_filter input[type="search"]').on('keyup', function () {
+                    $('#roles-table').dataTable().fnFilter(this.value);
+            //------ 
+            //$('#diamondfeeds-table tbody > tr').addClass('selected');
+            //-------
+                });
+         //------------------------------
         });
     </script>
 @endsection

@@ -1,5 +1,5 @@
 <header class="main-header">
-    <a href="{{ route('frontend.index') }}" class="logo">
+    <a href="{{ route('admin.dashboard') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini">
            {{ substr(app_name(), 0, 1) }}
@@ -36,6 +36,23 @@
                         @include('includes.partials.lang')
                     </li>
                 @endif
+
+
+                @if($logged_in_user)
+                <li class="curreny-wrap admincurrency">
+                <form id="currencyform" class="changecurrencybox"  method="POST" action="{{url('account/mycurrency')}}">
+                {{ csrf_field() }}
+                <select name="currency_code" id="changecurrency">
+
+                <option selected value="<?php echo Auth::user()->currency_code; ?>"><?php echo Auth::user()->currency_symbol.' '.Auth::user()->currency_code; ?></option>
+
+                <option value="USD">$ USD</option>
+                <!-- <option value="EUR">€ EUR</option> -->
+                <option value="GBP">£ GBP</option>
+                </select>
+                <!-- <input name="select_date" type="submit" /> -->
+                </form>
+                @endif                    
 
                 @include('includes.partials.allnotification')
 

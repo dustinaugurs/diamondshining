@@ -16,6 +16,8 @@ use App\Models\Sessions\Sessions;
 use DB;
 use Carbon\Carbon;
 use Session;
+use DateTime;
+use DateTimeZone;
 /**
  * Class LoginController.
  */
@@ -48,7 +50,10 @@ class LoginController extends Controller
         }
  
       // return route('frontend.user.index');
-	    return route('frontend.user.our-products');
+      if (access()->allow('view-frontend')) {
+        return route('frontend.user.our-products');
+        }
+	   // return route('frontend.user.our-products');
     }
 
     /**
@@ -177,6 +182,7 @@ class LoginController extends Controller
         $sendOption     =   array('Type' => 'Quote');
         $this->notification->_pushNotification($message, 'ios', $deviceToken);
         */
+        $dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
         $ua=$this->getBrowser();
         $newSession = new Sessions();
         $newSession->user_session_id = Session::getId();
@@ -188,8 +194,8 @@ class LoginController extends Controller
         $newSession->plateform = $ua['platform'];
         $newSession->month_year  = date('m_Y');
         $newSession->payload = base64_encode($user);
-        $newSession->last_activity = Carbon::now();
-        $newSession->login_time = Carbon::now();
+        $newSession->last_activity = $dateTime->format("d-m-Y  h:i:s A");
+        $newSession->login_time = $dateTime->format("d-m-Y  h:i:s A");
         $newSession->save();
 
        
@@ -226,11 +232,11 @@ class LoginController extends Controller
          */
         event(new UserLoggedOut($this->guard()->user()));
 
-
+        $dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
         $newSession = Sessions::where('user_session_id', Session::getId())->first();
         //echo '<pre>'; print_r($newSession); die;
        
-        $newSession->logout_time = Carbon::now();
+        $newSession->logout_time = $dateTime->format("d-m-Y  h:i:s A");
         $newSession->updated_at = Carbon::now();
         $newSession->save();
           
@@ -251,6 +257,7 @@ class LoginController extends Controller
     public function logoutAs()
     {
         //If for some reason route is getting hit without someone already logged in
+
         if (!access()->user()) {
             return redirect()->route('frontend.auth.login');
         }

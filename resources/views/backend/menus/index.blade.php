@@ -105,6 +105,14 @@
             });
 
             Backend.DataTableSearch.init(dataTable);
+            //-----------------------------
+            $('#menus-table_filter input[type="search"]').on('keyup', function () {
+                    $('#menus-table').dataTable().fnFilter(this.value);
+            //------ 
+            //$('#diamondfeeds-table tbody > tr').addClass('selected');
+            //-------
+                });
+         //------------------------------
         });
     </script>
 @endsection

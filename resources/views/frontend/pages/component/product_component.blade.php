@@ -37,7 +37,7 @@
 
 
 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 dkresetfilter"> 
-<button type="button" class="button1 dkreset"><i class="fa fa-refresh"></i><br> Reset Filters</button>
+<a class="dkresettt" href="{{url('our-products')}}"><i class="fa fa-refresh"></i><br> Reset Filters</a>
 </div>
 
 </div>

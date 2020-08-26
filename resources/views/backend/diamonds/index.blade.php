@@ -79,6 +79,14 @@
             });
 
             Backend.DataTableSearch.init(dataTable);
+            //-----------------------------
+            $('#diamonds-table_filter input[type="search"]').on('keyup', function () {
+                    $('#diamonds-table').dataTable().fnFilter(this.value);
+            //------ 
+            //$('#diamondfeeds-table tbody > tr').addClass('selected');
+            //-------
+                });
+         //------------------------------
         });
     </script>
 @endsection

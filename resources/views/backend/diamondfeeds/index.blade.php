@@ -21,7 +21,7 @@
                 <table id="diamondfeeds-table" class="table table-condensed table-hover table-bordered">
                     <thead>
                         <tr>
-                            <!--<th>{{ trans('labels.backend.diamondfeeds.dtable.id') }}</th>-->
+                            <!-- <th>#</th> -->
 							 <th>{{ trans('labels.backend.diamondfeeds.supplier_name') }}</th>
                             <th>{{ trans('labels.backend.diamondfeeds.stock_id') }}</th>
                             <th>{{ trans('labels.backend.diamondfeeds.shape') }}</th>
@@ -34,16 +34,13 @@
 							<th>{{ trans('labels.backend.diamondfeeds.width') }}</th>
 							<th>{{ trans('labels.backend.diamondfeeds.height') }}</th>
                             <th>{{ trans('labels.backend.diamondfeeds.discount') }}</th>
-							<th>{{ trans('labels.backend.diamondfeeds.price') }}</th>
+                            <!-- <th>{{ trans('labels.backend.diamondfeeds.price') }}</th> -->
+                            <th>{{ trans('labels.backend.diamondfeeds.price') }}</th>
                             <th>{{ trans('labels.general.actions') }}</th>
                         </tr>
                     </thead>
                     <thead class="transparent-bg">
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
+                        
                     </thead>
                 </table>
             </div><!--table-responsive-->
@@ -54,15 +51,16 @@
 @section('after-scripts')
     {{-- For DataTables --}}
     {{ Html::script(mix('js/dataTable.js')) }}
-
+    
     <script>
         //Below written line is short form of writing $(document).ready(function() { })
         $(function() {
-          
             var cols = [ 0,1,2,3,4,5,6,7,8,9,10,11 ]; // column for import
             var dataTable = $('#diamondfeeds-table').dataTable({
                 lengthMenu: [[10, 25, 500, 1000, 3000, 5000, -1], [10, 25, 500, 1000, 3000, 5000, "All"]],
                 //pageLength: 1000,
+                //searching: true,
+                //"sPaginationType": "full_numbers",
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -71,7 +69,7 @@
                 },
 
                 columns: [
-                   // {data: 'id', name: '{{config('module.diamond_feeds.table')}}.id'},
+                    // {data: 'id', name: '{{config('module.diamond_feeds.table')}}.id'},
 					{data: 'supplier_name', name: '{{config('module.diamond_feeds.table')}}.supplier_name'},
                     {data: 'stock_id', name: '{{config('module.diamond_feeds.table')}}.stock_id'},
                     {data: 'shape', name: '{{config('module.diamond_feeds.table')}}.shape'},
@@ -84,7 +82,8 @@
 					{data: 'width', name: '{{config('module.diamond_feeds.table')}}.width' },
 					{data: 'height', name: '{{config('module.diamond_feeds.table')}}.height' },
                     {data: 'discount', name: '{{config('module.diamond_feeds.table')}}.discount'},
-                    {data: 'price', name: '{{config('module.diamond_feeds.table')}}.price'},
+                    // {data: 'price', name: '{{config('module.diamond_feeds.table')}}.price'},
+                    {data: 'currencyPrice', name: '{{config('module.diamond_feeds.table')}}.currencyPrice'},
                     {data: 'actions', name: 'actions', searchable: false, sortable: false},
                 ],
                 order: [[0, "asc"]],
@@ -101,9 +100,18 @@
                 }
                 
             });
-            
 
             Backend.DataTableSearch.init(dataTable);
+          //-----------------------------
+            $('#diamondfeeds-table_filter input[type="search"]').on('keyup', function () {
+                    $('#diamondfeeds-table').dataTable().fnFilter(this.value);
+            //------ 
+            //$('#diamondfeeds-table tbody > tr').addClass('selected');
+            //-------
+                });
+         //------------------------------
+   
+            
         });
     </script>
 @endsection

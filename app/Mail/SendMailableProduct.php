@@ -94,7 +94,6 @@ class SendMailableProduct extends Mailable
         '<tr>'.'<td>brown </td>'.'<td>'.$mydata->brown.'</td>'.'</tr>'.
         '<tr>'.'<td>green </td>'.'<td>'.$mydata->green.'</td>'.'</tr>'.
         '<tr>'.'<td>milky </td>'.'<td>'.$mydata->milky.'</td>'.'</tr>'.
-        '<tr>'.'<td>actual_supplier </td>'.'<td>'.$mydata->actual_supplier.'</td>'.'</tr>'.
         '<tr>'.'<td>discount </td>'.'<td>'.$mydata->discount.'</td>'.'</tr>'.
         '<tr>'.'<td>price_per_carat </td>'.'<td>'.$mydata->price_per_carat.'</td>'.'</tr>'.
         '<tr>'.'<td>video </td>'.'<td>'.'<a target="new" href="'.$mydata->video.'">'.'Click For Watch Video'.'</a>'.'</td>'.'</tr>'.
@@ -102,8 +101,6 @@ class SendMailableProduct extends Mailable
         '<tr>'.'<td>image </td>'.'<td>'.'<span><a target="new" href="'.$mydata->image.'"><img src="'.$mydata->image.'"></a></span>'.'</td>'.'</tr>'.
         '<tr>'.'<td>mine_of_origin </td>'.'<td>'.$mydata->mine_of_origin.'</td>'.'</tr>'.
         '<tr>'.'<td>canada_mark_eligble </td>'.'<td>'.$mydata->canada_mark_eligble.'</td>'.'</tr>'.
-        '<tr>'.'<td>supplier_name </td>'.'<td>'.$mydata->supplier_name.'</td>'.'</tr>'.
-        '<tr>'.'<td>location </td>'.'<td>'.$mydata->location.'</td>'.'</tr>'.
         '<tr>'.'<td>Dimension(mm) </td>'.'<td>'.$mydata->length.' X '.$mydata->width.' X '.$mydata->height.'</td>'.'</tr>'.
         '<tr>'.'<td>Ratio(%) </td>'.'<td>'.number_format(floor(($mydata->length/$mydata->width)*100)/100,2, '.', '').'</td>'.'</tr>'.
         '<tr>'.'<td>is_returnable </td>'.'<td>'.$mydata->is_returnable.'</td>'.'</tr>'.

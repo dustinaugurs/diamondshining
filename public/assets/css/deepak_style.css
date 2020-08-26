@@ -9,6 +9,35 @@
 /*.dkresetfilter .dkreset{padding: 10px 20px;}*/
 .dkresetfilter .dkreset{padding: 0px; font-size: 12px;}
 
+.dkresetfilter a.dkresettt{padding: 0px; font-size: 12px; color: #000; display: block; text-align: center;}
+li.custnameblock{font-size: 14px;
+  line-height: 25px !important;
+  text-transform: uppercase;
+  width: 162px;
+  text-align: right;}
+
+li.curreny-wrap.admincurrency{margin: 10px 20px;}
+li.curreny-wrap.admincurrency select{background:#495867; color: #f2f2f2; padding:5px; cursor: pointer;}
+
+.reportblock{margin-top: 15px;}
+h4.reportheading{margin: 0px; position: relative;
+  padding: 12px;
+  background: #495867;
+  color: #f2f2f2;
+  font-size: 18px;}
+
+  h4.reportheading span{display: inline-block;
+    position: absolute;
+    right: 0;
+    background: #384451;
+    top: 0px;
+    padding: 12px 20px;}
+
+.reportblock .table-bordered>tbody>tr>td, .reportblock .table-bordered>tbody>tr>th, .reportblock .table-bordered>tfoot>tr>td, .reportblock .table-bordered>tfoot>tr>th, .reportblock .table-bordered>thead>tr>td, .reportblock .table-bordered>thead>tr>th {
+    border: 1px solid #495867;
+}  
+
+
 .dkFilterbox{ margin: 0 0 15px 0;}
 .editrowdisplay{display:none;}
 

@@ -4,6 +4,7 @@ use App\Helpers\uuid;
 use App\Models\Notification\Notification;
 use App\Models\Settings\Setting;
 use App\Models\OrderManagement\Order;
+use App\Models\Access\User\User;
 use Carbon\Carbon as Carbon;
 
 
@@ -332,6 +333,25 @@ if (!function_exists('enquiries')) {
                     ->get();
         if (!empty($enquiries)) {
             return $enquiries;
+        }
+    }
+}
+
+
+if (!function_exists('userLogin')) {
+    /**
+     * Access the settings helper.
+     */
+    function userLogin()
+    {
+        // Users Details
+        $users = DB::table('users')
+                    ->join('role_user', 'users.id', '=', 'role_user.user_id')
+                    ->select('users.first_name', 'users.last_name', 'role_user.user_id', 'role_user.role_id')
+                    ->where('users.id', Auth::user()->id)
+                    ->first();
+        if (!empty($users)) {
+            return $users;
         }
     }
 }

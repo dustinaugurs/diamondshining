@@ -103,6 +103,14 @@
             });
 
             Backend.DataTableSearch.init(dataTable);
+            //-----------------------------
+            $('#blogcategories-table_filter input[type="search"]').on('keyup', function () {
+                    $('#blogcategories-table').dataTable().fnFilter(this.value);
+            //------ 
+            //$('#diamondfeeds-table tbody > tr').addClass('selected');
+            //-------
+                });
+         //------------------------------
         });
     </script>
 @endsection

@@ -1,5 +1,4 @@
  <!-- Start Header Area -->
-
     <header class="header-area header-wide">
 
         <!-- main header start -->
@@ -130,7 +129,7 @@
                         <div class="col-lg-8 position-static">
                         <div class="customnavbar">
                          <ul>
-                         @if($logged_in_user) <li> <a href="{{url('dashboard')}}" class="active">Dashboard</a></li>@endif
+                         <!-- @if($logged_in_user) <li> <a href="{{url('dashboard')}}" class="active">Dashboard</a></li>@endif -->
                              <li> <a href="{{url('pages')}}/about-us" class="active">About Us</a></li>
                              @if($logged_in_user) <li> <a href="{{url('our-products')}}" class="">Our Products</a></li>
                              <li> <a href="{{url('enquiry-order')}}" class=""> Enquiries / Orders</a></li> @endif
@@ -157,11 +156,13 @@
                                 <div class="header-configure-area">
 
                                     <ul class="nav justify-content-end">
-
+                                      <li class="custnameblock">
+                                      <strong class=""> @if($logged_in_user)
+                                            {{Auth::user()->first_name}} {{Auth::user()->last_name}}
+                                             @endif </strong>
+                                      </li>
                                         <li class="user-hover">
-
                                             <a href="#">
-
                                                 <i class="pe-7s-user"></i>
 
                                             </a>
@@ -190,29 +191,7 @@
 
                                         </li>
 
-                                        <li>
-
-                                            <a href="#">
-
-                                                <i class="pe-7s-like"></i>
-
-                                                <div class="notification">0</div>
-
-                                            </a>
-
-                                        </li>
-
-                                        <li>
-
-                                            <a href="#" class="minicart-btn">
-
-                                                <i class="pe-7s-shopbag"></i>
-
-                                                <div class="notification">2</div>
-
-                                            </a>
-
-                                        </li>
+                                       
 
                                     </ul>
 

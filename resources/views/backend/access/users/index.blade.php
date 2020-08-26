@@ -126,6 +126,14 @@
             });
 
             Backend.DataTableSearch.init(dataTable);
+            //-----------------------------
+            $('#users-table_filter input[type="search"]').on('keyup', function () {
+                    $('#users-table').dataTable().fnFilter(this.value);
+            //------ 
+            //$('#diamondfeeds-table tbody > tr').addClass('selected');
+            //-------
+                });
+         //------------------------------
         })();
     </script>
 @endsection

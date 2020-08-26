@@ -7,6 +7,8 @@ use App\Http\Requests\Backend\DiamondFeeds\ManageDiamondFeedRequest;
 use App\Repositories\Backend\DiamondFeeds\DiamondFeedRepository;
 use Carbon\Carbon;
 use Yajra\DataTables\Facades\DataTables;
+use DB;
+use Auth;
 
 /**
  * Class DiamondFeedsTableController.
@@ -35,11 +37,22 @@ class DiamondFeedsTableController extends Controller
      * @return mixed
      */
     public function __invoke(ManageDiamondFeedRequest $request)
-    {
+    {   
+        
         return Datatables::of($this->diamondfeed->getForDataTable())
             ->escapeColumns(['id'])
             ->addColumn('stock_id', function ($diamondfeed) {
                 return $diamondfeed->stock_id;
+            })
+            ->addColumn('currencyPrice', function ($diamondfeed) {
+                $currency = DB::table('currencies')->where('code', Auth::user()->currency_code)->first();
+                $price_arr = $this->diamondfeed->get_currency();
+                $rate = (array) $price_arr['rates'];
+                $baserate = (array) $price_arr['base'];
+                $current_currency = $rate[$currency->code];
+                $symbol = $currency->symbol;
+
+                return $symbol.' '.number_format(floor(($diamondfeed->price*$current_currency)*100)/100,2, '.', '');
             })
             ->addColumn('created_at', function ($diamondfeed) {
                 return Carbon::parse($diamondfeed->created_at)->toDateString();

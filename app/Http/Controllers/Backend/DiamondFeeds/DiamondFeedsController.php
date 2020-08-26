@@ -19,6 +19,7 @@ use App\Http\Requests\Backend\DiamondFeeds\EditDiamondFeedRequest;
 use App\Http\Requests\Backend\DiamondFeeds\UpdateDiamondFeedRequest;
 use App\Http\Requests\Backend\DiamondFeeds\DeleteDiamondFeedRequest;
 use DB;
+use Auth;
 
 /**
  * DiamondFeedsController
@@ -47,8 +48,17 @@ class DiamondFeedsController extends Controller
      * @return \App\Http\Responses\ViewResponse
      */
     public function index(ManageDiamondFeedRequest $request)
-    {
-        //print_r(config('module.diamondfeeds.table')); die; 
+    {    
+        $currency = DB::table('currencies')->where('code', Auth::user()->currency_code)->first();
+    $price_arr = $this->repository->get_currency();
+    $rate = (array) $price_arr['rates'];
+    $baserate = (array) $price_arr['base'];
+    $current_currency = $rate[$currency->code];
+    $symbol = $currency->symbol;  
+    //print_r($current_currency); die; 
+        //$file = $this->repository->testdata();
+         //$file = new ManageDiamondFeedRequest();
+        // print_r($file); die; 
         return new ViewResponse('backend.diamondfeeds.index');
     }
     /**

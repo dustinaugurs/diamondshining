@@ -269,7 +269,7 @@ class ProductController extends Controller
 		$multiplier = $this->multiplier(); 
 		$setting = Setting::first();
 		//print_r($request->diamondFeed_id); die; 
-		$dateTime = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
+		$dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
 		$order = new Order();
 		$order->user_id = Auth::user()->id; 
 		$order->diamondFeed_id = $request->diamondFeed_id;
@@ -312,7 +312,7 @@ class ProductController extends Controller
 		$multiplier = $this->multiplier(); 
 		$setting = Setting::first();
 		//print_r($request->diamondFeed_ido); die; 
-		$dateTime = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
+		$dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
 		$order = new Order();
 		$order->user_id = Auth::user()->id; 
 		$order->diamondFeed_id = $request->diamondFeed_ido;
@@ -348,14 +348,13 @@ class ProductController extends Controller
 	   return redirect('our-products');
 	   
 	  }
-
 	  //-----------------------------
 	 
 	  public function CopySend(Request $request){
 		$multiplier = $this->multiplier(); 
 		$setting = Setting::first();
 		//echo '<pre>'; print_r($request->all()); die; 
-		$dateTime = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
+		$dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
 		$user = Auth::user()->id; 
 		$diamondFeed_id = $request->diamondFeed_idc;
 		$client = $request->clientc;
