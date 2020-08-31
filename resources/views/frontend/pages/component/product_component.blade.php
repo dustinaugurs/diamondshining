@@ -300,7 +300,14 @@
 <input type="hidden" class="stocknumo_{{$product->id}}" value="{{$product->stock_id}}">
 @foreach($multiplier as $mlusd)
  			@if($product->price >= $mlusd->vat_from_usd && $product->price <= $mlusd->vat_to_usd)
-  <input type="hidden" class="multiplierUsdo_{{$product->id}}" value="{{$mlusd->multiplier_usd}}">      
+       
+    @php 
+   $finalprice = ($product->price * $mlusd->multiplier_usd)+($product->price * $mlusd->multiplier_usd)*$setting->VAT/100; 
+   @endphp
+ 
+  <input type="hidden" class="multiplierUsdo_{{$product->id}}" value="{{$mlusd->multiplier_usd}}">  
+  <input type="hidden" class="c_symbolo_{{$product->id}}" value="{{$symbol}}"> 
+  <input type="hidden" class="p_finalpriceo_{{$product->id}}" value="{{number_format(floor(($current_currency * ($finalprice))*100)/100,2, '.', '')}}">      
 	 	  @endif
 @endforeach
 </div>
@@ -450,6 +457,16 @@
           <div class="input-group">
           <span class="input-group-addon">Stock Number</span>
           <input id="stock_numbero" type="text" name="stock_numbero" class="form-control" readonly placeholder="Your Stock Number">
+          </div>
+          </div>
+
+          <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="input-group finalpricebox">
+          <span class="input-group-addon">Final Price (Inc. VAT)</span>
+         
+          <input id="c_symbolo" class="symb" type="text" name="c_symbolo" class="form-control" readonly value="">
+          <input id="p_finalpriceo" class="pprice" type="text" name="p_finalpriceo" class="form-control" readonly value="">
+         
           </div>
           </div>
 

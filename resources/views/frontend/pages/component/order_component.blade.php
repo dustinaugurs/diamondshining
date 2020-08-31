@@ -69,14 +69,10 @@
     (Ex. VAT)
     </td>
 
-    <!-- <td>
-    @if($current_currency !== '')
-    {{$symbol}}{{number_format(floor(($current_currency * (($setting->VAT / 100 ) * $order->diamondfeed->price + $order->diamondfeed->price))*100)/100,2, '.', '')}}
-    @else
-    $ {{number_format(floor((($setting->VAT / 100 ) * $order->diamondfeed->price + $order->diamondfeed->price)*100)/100,2, '.', '')}}
-    @endif
+    <td><!---ordered-price----->
+    {{$order->c_symbol}} {{$order->p_finalprice}}
     (inc. VAT)
-    </td> -->
+    </td>
 
 <td> <!----mulipliercost---->
     @if($current_currency !== '')
@@ -112,7 +108,7 @@
 </tr>
 @endforeach
 @else
-<tr><td colspan="14">No Data Found</td></tr>
+<tr><td colspan="15">No Data Found</td></tr>
 @endif
 
 

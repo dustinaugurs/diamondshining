@@ -323,6 +323,8 @@ class ProductController extends Controller
 		$order->multiplier_id = $request->multiplier_usdo;
 		$order->order_date = $dateTime->format("d/m/Y  h:i A");		   
 		$order->date = date('m_Y');
+		$order->c_symbol = $request->c_symbolo; 
+		$order->p_finalprice = $request->p_finalpriceo; 
 		if($order->save()){
 			toastr()->success('Order Successfully Sent');
 		}else{

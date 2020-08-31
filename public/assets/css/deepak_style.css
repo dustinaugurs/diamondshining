@@ -15,6 +15,10 @@ li.custnameblock{font-size: 14px;
   text-transform: uppercase;
   width: 162px;
   text-align: right;}
+  
+.finalpricebox input{background-color: #f2f2f2; border: 1px solid #ced4da; cursor: not-allowed;}
+.finalpricebox input.symb{ text-align: right; border-right:none; padding-left: 0px; width:28px} 
+.finalpricebox input.pprice{text-align: left; border-left: none; padding-right: 0px; width:90px; border-radius: 0 4px 4px 0;}   
 
 li.curreny-wrap.admincurrency{margin: 10px 20px;}
 li.curreny-wrap.admincurrency select{background:#495867; color: #f2f2f2; padding:5px; cursor: pointer;}

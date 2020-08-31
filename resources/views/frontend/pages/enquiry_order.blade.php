@@ -119,6 +119,54 @@ $(document).ready(function(){
             });
 		});
 //=========================================
+
+$('body').on('click', '.getstatusvalue', function(){
+    var pid = $(this).attr('ids')
+  console.log('pidids +'+$(this).attr('ids'));
+  var options = '<span><select id="orderstatupt" class="orderstatupt" prid="'+pid+'">'+
+                '<option value="NULL">--Select--</option>'+
+                '<option value="4">Order Request</option>'+
+                //'<option value="5">Order Placed</option>'+
+                '</select></span>'+'<span><a class="clrred closestss" ids="'+pid+'" href="javascript:void(0)">X</a></span>';
+       $('span.changests_'+pid).css('display', 'block');
+       $('#upstatus_'+pid).html(options);
+     });
+
+  $('body').on('click', '.closestss', function(){
+    var pid = $(this).attr('ids')
+  var options = '<span><a class="getstatusvalue" ids="'+pid+'" href="javascript:void(0)">Change</a></span>';
+      $('span.changests_'+pid).css('display', 'inline');
+       $('#upstatus_'+pid).html(options);
+     }); 
+     
+//---------------------------------
+
+$('body').on('change', '.orderstatupt', function(){
+      var  payment_status='',  order_status='', date='', check_status='', prid=''  ;
+         prid = $(this).attr('prID');
+         c_symbol = $(".c_symbol_"+prid).val();
+         p_finalprice = $(".p_finalprice_"+prid).val();
+         order_status = $(this).find("option:selected").val();
+
+      var data = 'pid='+prid+'&order_status='+order_status+'&c_symbol='+c_symbol+'&p_finalprice='+p_finalprice+'&_token={{ csrf_token() }}';
+     // console.log('Enquiry to Order : '+data); return false;
+            $.ajax({
+                type:"POST",
+                url:"{{ url('EnquiryToOrderSend') }}",
+                data:data,
+                cache:false,
+				        //dataType:'json',
+                beforeSend: function(){
+                    $("#dataafterfilter").html('<tr><td colspan="16"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
+                },
+                success: function(result) {
+              toastr.success('Your Order Successfully');
+					$('#dataafterfilter').html(result);	
+                } 
+            });
+		});
+     
+//==========================================
 });
 </script>
 </body>

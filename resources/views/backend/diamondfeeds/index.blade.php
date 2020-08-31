@@ -83,7 +83,7 @@
 					{data: 'height', name: '{{config('module.diamond_feeds.table')}}.height' },
                     {data: 'discount', name: '{{config('module.diamond_feeds.table')}}.discount'},
                     // {data: 'price', name: '{{config('module.diamond_feeds.table')}}.price'},
-                    {data: 'currencyPrice', name: '{{config('module.diamond_feeds.table')}}.currencyPrice'},
+                    {data: 'currencyPrice', name: 'currencyPrice'},
                     {data: 'actions', name: 'actions', searchable: false, sortable: false},
                 ],
                 order: [[0, "asc"]],
@@ -106,7 +106,7 @@
             $('#diamondfeeds-table_filter input[type="search"]').on('keyup', function () {
                     $('#diamondfeeds-table').dataTable().fnFilter(this.value);
             //------ 
-            //$('#diamondfeeds-table tbody > tr').addClass('selected');
+             $('#diamondfeeds-table tbody > tr').addClass('selected');
             //-------
                 });
          //------------------------------

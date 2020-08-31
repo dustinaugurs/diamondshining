@@ -104,7 +104,7 @@ class OrderRepository extends BaseRepository
         $orders = Order::with('user','diamondfeed', 'multiplierprice')
                     ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
                     ->whereIn('order_status', $orderStatus)
-                    ->orderBy('order_date', 'desc')
+                    ->orderBy('order_date', 'asc')
                     ->paginate(10);
                     //->get();
        return $orders;             
@@ -114,7 +114,7 @@ class OrderRepository extends BaseRepository
         $orders = Order::with('user','diamondfeed', 'multiplierprice')
                     ->where('order_status', $orderStatus)
                     ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
-                    ->orderBy('order_date', 'desc')
+                    ->orderBy('order_date', 'asc')
                     ->paginate(10);
                     //->get();
        return $orders;             

@@ -54,8 +54,8 @@
     <th>Tracking ID</th>
     <th>Status</th>
     <th>Price (Ex VAT)</th>
-    <!-- <th>Price (Inc VAT)</th> -->
     <th>Final Price (Inc VAT)</th>
+    <th>Today Price (Inc VAT)</th>
     <th>Payment Status
     <div class="changedataboxpayment">
             <select name="paymentStatusOrder" class="paymentStatusOrder">
@@ -75,7 +75,7 @@
 
 <!--------->
 <tr class="paginationblock">
-<td colspan="14">
+<td colspan="15">
 {!! $orders->appends(\Request::except('page'))->render() !!}
 </td>
 </tr>

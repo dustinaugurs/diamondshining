@@ -529,11 +529,15 @@
 
 	function orderPopup(id){
 		//console.log('id='+id);
-			var stockiido =  $('.stocknumo_'+id).val();
-			var multiplierusd =  $('.multiplierUsdo_'+id).val();
-			$('#diamondFeed_ido').val(id);
-			$('#stock_numbero').val(stockiido);
-			$('#multiplier_usdo').val(multiplierusd);
+		var stockiido =  $('.stocknumo_'+id).val();
+		var multiplierusd =  $('.multiplierUsdo_'+id).val();
+		var c_symbol =  $('.c_symbolo_'+id).val();
+		var p_finalprice =  $('.p_finalpriceo_'+id).val();
+		$('#diamondFeed_ido').val(id);
+		$('#stock_numbero').val(stockiido);
+		$('#multiplier_usdo').val(multiplierusd);
+		$('#c_symbolo').val(c_symbol);
+		$('#p_finalpriceo').val(p_finalprice);
 			//return true;
 	} 
 

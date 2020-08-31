@@ -54,8 +54,8 @@
     <th>Tracking ID</th>
     <th>Status</th>
     <th>Price (Ex VAT)</th>
-    <!-- <th>Price (Inc VAT)</th> -->
-    <th>Final Price (Inc VAT)</th>
+     <th>Final Price (Inc VAT)</th>
+    <th>Today Price (Inc VAT)</th>
     <th>Payment Status
     <div class="changedataboxpayment">
             <select name="paymentStatusOrder" class="paymentStatusOrder">
@@ -75,7 +75,7 @@
 
 <!--------->
 <tr class="paginationblock">
-<td colspan="14">
+<td colspan="15">
 {!! $orders->appends(\Request::except('page'))->render() !!}
 </td>
 </tr>
@@ -134,6 +134,27 @@ $(document).ready(function(){
             });
 		});
 //=========================================
+
+$('body').on('click', '.getstatusvalue', function(){
+    var pid = $(this).attr('ids')
+  console.log('pidids +'+$(this).attr('ids'));
+  var options = '<span><select id="orderstatupt" prid="'+pid+'">'+
+                '<option value="NULL">--Select--</option>'+
+                '<option value="4">Order Request</option>'+
+                '<option value="5">Order Placed</option>'+
+                '</select></span>'+'<span><a class="clrred closestss" ids="'+pid+'" href="javascript:void(0)">X</a></span>';
+       $('span.changests_'+pid).css('display', 'block');
+       $('#upstatus_'+pid).html(options);
+     });
+
+  $('body').on('click', '.closestss', function(){
+    var pid = $(this).attr('ids')
+  var options = '<span><a class="getstatusvalue" ids="'+pid+'" href="javascript:void(0)">Change</a></span>';
+      $('span.changests_'+pid).css('display', 'inline');
+       $('#upstatus_'+pid).html(options);
+     });     
+     
+//==========================================
 });
 </script>
 </body>

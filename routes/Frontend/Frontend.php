@@ -34,12 +34,9 @@ Route::group(['middleware' => 'auth'], function () {
          
          Route::post('changedate', 'EnquiryOrderController@EnquiryChangeDateTime')->name('changedate');
          Route::post('orderchangedate', 'EnquiryOrderController@OrderChangeDateTime')->name('orderchangedate');
-    
- 
-
          
-		
-       
+         Route::post('EnquiryToOrderSend', 'EnquiryOrderController@EnquiryToOrderSend')->name('EnquiryToOrderSend');
+
 	   
         Route::get('product_detail/{id}', 'ProductController@productDetail')->name('product-detail');
         Route::get('ajax_get_products', 'ProductController@ajax_get_products');

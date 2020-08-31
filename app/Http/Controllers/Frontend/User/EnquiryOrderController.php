@@ -8,6 +8,9 @@ use App\Repositories\Frontend\Pages\PagesRepository;
 use DB;
 use Auth;
 use Notification;
+Use Session;
+use DateTime;
+use DateTimeZone;
 use App\Notifications\Frontend\Enquire;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -21,6 +24,13 @@ use Illuminate\Pagination\Paginator;
 
 use App\Repositories\Orders\OrderRepository;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMailable;
+use App\Mail\SendMailableProduct;
+
+use PDF;
+use App;
+
 /**
  * Class FrontendController.
  */
@@ -33,6 +43,19 @@ class EnquiryOrderController extends Controller
     {
         $this->orders = $orders;
     }
+
+  
+public function multiplier(){
+          $multiplier = DB::table('add_multiple_price')
+          ->join('diamond_templates', 'add_multiple_price.temp_id', '=', 'diamond_templates.id')
+          ->join('users', 'diamond_templates.id', '=', 'users.markup_template')
+          ->where('users.id', Auth::user()->id)
+          ->select('users.id', 'add_multiple_price.multiplier_usd', 'add_multiple_price.vat_from_usd', 'add_multiple_price.vat_to_usd')
+          ->get();
+  
+          return $multiplier; 
+               
+                           }	
 
    
 	  public function index(Request $request){
@@ -198,6 +221,53 @@ public function OrderChangeDateTime(Request $request){
   ]);
   //return response()->json(['data'=>$order, 'setting' => $setting, 'current_currency'=>$current_currency, 'symbol'=>$symbol]);
 } 
+
+
+//=========================
+
+public function EnquiryToOrderSend(Request $request){
+  $setting = Setting::first();
+  $base = Auth::user()->currency_code;
+  $allcurrency = Currency::where('code', $base)->first();
+  $code = $allcurrency['code'];
+  $symbol = $allcurrency['symbol']; 
+  $price_arr = $this->orders->get_currency();
+  $rate = (array) $price_arr['rates'];
+  $current_currency = $rate[$code];
+  //print_r($request->diamondFeed_ido); die; 
+  $orderID = $request->pid;
+  $dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
+  $order = Order::with('diamondfeed')->where('id', $orderID)->first();
+  $order->order_status = 4; //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5 
+  $order->order_date = $dateTime->format("d/m/Y  h:i A");		   
+  $order->date = date('m_Y');
+  $order->c_symbol = $request->c_symbol; 
+  $order->p_finalprice = $request->p_finalprice; 
+  $order->save();
+  //---------start-mail-section-------------
+  if($request->userEmailo !== ''){	
+          $enquiry = [
+      'username'=> Auth::user()->name,
+      'productid'=> $order->diamondFeed_id, 
+      'subject' => 'Product Order',
+      'stock_number' => $order->diamondfeed->stock_id,
+      'setting'=> $setting,
+          ];
+          $mail = Mail::to($order->userEmail)->send(new SendMailable($enquiry));
+       }	
+   //---------End-mail-section-------------	
+   $orderStatus = 1 ; //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5 	   
+    $orders = $this->orders->order($orderStatus);
+    return view('frontend.pages.component.enquiries_component', [
+    'enquiry'=> 'enquiry',
+    'orders' => $orders,
+    'current_currency' => $current_currency,
+    'symbol' => $symbol,
+    'setting' => $setting,
+  ]);
+   
+  }
+  //-----------------------------
     
     
 //=====---End-Order-request-ajax-function----====== 
