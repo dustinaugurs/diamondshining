@@ -145,8 +145,8 @@ margin-bottom: 15px;
 }
 .product-img-wrp  .nav >li a.active,.product-img-wrp  .nav >li a:hover, .product-img-wrp  .nav >li a:focus{
 background: transparent !important;
-border-bottom: 3px solid  #2196f3 !important;
-color: #2196f3 !important;
+border-bottom: 3px solid  #002853 !important;
+color: #002853 !important;
 }
 
 .product-img-wrp  .nav >li a{
@@ -191,21 +191,21 @@ button > video {
 width: 100%;
 }
 .price-range-block .ui-widget-header{
-background: #2196f3;
+background: #002853;
 }
 .gp-btn ,.search-btn, .detail-order-btn, .order-btn,.enquire-btn, .scroll-top,.header-configure-area ul li a .notification{
- background: #2196f3;
- border-color: #2196f3;
+ background: #002853;
+ border-color: #002853;
 }
 
 .news-field .news-field{
-color:  #2196f3;
+color:  #002853;
 }
 
 .project-tab .nav-tabs .nav-item.show .nav-link,.project-tab .nav-tabs .nav-link.active,.project-tab .nav-tabs .nav-item.show .nav-link,.project-tab .nav-tabs .nav-link:hover, .project-tab .nav-tabs .nav-item.show .nav-link, .project-tab .nav-tabs .nav-link:focus{
 background: transparent !important;
-border-bottom: 3px solid  #2196f3 !important;
-color: #2196f3 !important;
+border-bottom: 3px solid  #002853 !important;
+color: #002853 !important;
 }
   
   

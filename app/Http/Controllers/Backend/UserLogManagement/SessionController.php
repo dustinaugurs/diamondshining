@@ -10,6 +10,9 @@ use App\Http\Responses\RedirectResponse;
 use App\Http\Responses\ViewResponse;
 use App\Repositories\Backend\UserLogManagement\SessionRepository;
 use App\Models\Sessions\Sessions;
+use App\Models\Contacts\Contact;
+use App\Models\Subscribmails\Subscribmail;
+use Yajra\DataTables\Facades\DataTables;
 use Auth;
 use DB;
 
@@ -101,17 +104,6 @@ class SessionController extends Controller
   
   public function userLogDelete(Request $request){
     $session = DB::delete('delete from sessions where user_session_id = ?',[$request->detid]);
-
-     //print_r($session);
-     //die;
-//     if($session){
-//     toastr()->success('User Log Details Deleted Successfully ');
-//    }else{
-//     toastr()->warning('User Log Details Not Deleted ');   
-//    }
-   
-   
-
    return view('backend.userlogmanagement.customer_component', [
     'customers'=>$this->repository->customerDetails(),
     ]);
@@ -124,8 +116,6 @@ class SessionController extends Controller
      // print_r($id); die;
     $customers = DB::table('sessions')
             ->join('users', 'sessions.user_id', '=', 'users.id')
-            //->join('role_user', 'users.id', '=', 'role_user.user_id')
-            //->whereIn('role_user.role_id', [3])
             ->where('sessions.user_session_id', $id)
             ->first();
 
@@ -135,6 +125,53 @@ class SessionController extends Controller
   }
 
     //==================================
+
+public function contactDetails(Request $request)
+    { 
+        //print_r($request->ajax()); die;
+        $data = $this->repository->customercontactDetails();
+        if ($request->ajax()) {
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+                           $btn = '<a href="'.url('admin/contactDetails').'/'.$row->id.'" class="edit btn btn-primary btn-sm">View</a>';
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+       
+        return view('backend.userlogmanagement.contact');
+           
+    }
+
+public function contactDetailsSingle(Request $request, $id){
+    //$customers = $this->repository->contactDetailsSingle($id);
+    //print_r($customers); die;
+    return new ViewResponse('backend.userlogmanagement.contact_details',[
+        'customers' => $this->repository->contactDetailsSingle($id),
+    ]);     
+}    
+    
+//------------------
+public function subscriberDetails(Request $request)
+    { 
+        $data = $this->repository->customersubscriberDetails();
+        if ($request->ajax()) {
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+                           $btn = '<a href="'.url('admin/contactDetails').'/'.$row->id.'" class="edit btn btn-primary btn-sm">View</a>';
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+       
+        return view('backend.userlogmanagement.subscriber');
+    } 
+    
+//--------------------    
 
 
 

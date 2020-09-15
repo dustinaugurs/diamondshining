@@ -18,7 +18,7 @@
     width:100%;
 }
 .price-range-block .ui-widget-header {
-   /* background: #2196f3; */
+   /* background: #002853; */
         background-image: linear-gradient(90deg,#6fbcfe 0,#998dff 51%,#6fbcfe);
     background-size: 200% auto;
 }
@@ -40,7 +40,7 @@
        /* width: 49%;
     min-width: 16%; */
     background-color: #f9f9f9;
-    border: 2px solid #2196f3;
+    border: 2px solid #002853;
     color: black;
     
     
@@ -55,8 +55,8 @@
 }
 
 .price-range-block .ui-state-default{     
-    border: 1px solid #2196f3 !important;
-    background: #2196f3 !important;     
+    border: 1px solid #002853 !important;
+    background: #002853 !important;     
     width: 20px !important;
     height: 20px !important;
     top: -7px !important; }

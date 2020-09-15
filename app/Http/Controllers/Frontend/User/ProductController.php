@@ -22,6 +22,7 @@ use App\Models\Orders\Order;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMailable;
 use App\Mail\SendMailableProduct;
+use App\Models\MeleeDiamonds\MeleeDiamond;
 
 use PDF;
 use App;
@@ -72,24 +73,10 @@ class ProductController extends Controller
 
 	public function ourProduct(Request $request,  $base = null){
 	  $multiplier = $this->multiplier(); 
-	// $products = DB::table('diamond_feeds')->take(20)->get();
-	//   foreach($products as $product){
-	// 		echo $product->stock_id.'====';
-	// 		echo $product->price.'====';
-	// 		foreach($multiplier as $mlusd){
-	// 			if($product->price >= $mlusd->vat_from_usd && $product->price <= $mlusd->vat_to_usd){
-	// 			echo $mlusd->multiplier_usd;	
-	// 			}
-	// 		}
-	// 		echo '<br>';
-	//          }				
-	//   echo '<pre>'; print_r($multiplier->toArray());				
-	// 	die;
-
-
+		$meleediamondRound = MeleeDiamond::where('shape', 'ROUND')->get();
+		$meleediamondPrincess = MeleeDiamond::where('shape', 'PRINCESS')->get();
 		$setting = Setting::first();
 		$base = Auth::user()->currency_code;
-		//print_r("Auth ID : ".$id); die;
 		$allcurrency = Currency::where('code', $base)->first();
 		$code = $allcurrency['code'];
 		$symbol = $allcurrency['symbol']; 
@@ -98,37 +85,11 @@ class ProductController extends Controller
 		$rate = (array) $price_arr['rates'];
 
 		$current_currency = $rate[$code];
-		
-		// echo '<pre>';
-		// print_r($price_arr); die; 
-		// print_r($rate['USD']);
-		// die;
-
-		// if($base == 'EUR' ){
-		// 	$symbol ='€';
-		// 	$current_currency = $rate['EUR'];
-		// }elseif($base == 'GBP'){
-		// 	$symbol ='£';
-		// 	$current_currency = $rate['GBP'];
-		// }else{
-		// 	$symbol ='$';
-		// 	$current_currency = $rate['USD'];
-		// }
-		// ->paginate(15);
 		$request->session()->put('current_currency',$current_currency);
 		$request->session()->put('symbol',$symbol);
-		
-		//$products = DB::table('diamond_feeds')->take(100)->get();
-
-		$products = DiamondFeed::sortable()->orderBy('price', 'asc')->paginate(25);
-
-	//	$products = DB::table('diamond_feeds')->select('*');
-        //$aa=  datatables()->of($products)
-            //->make(true);
-	   // print_r($aa); die;
-	   $total_diamond_found = DB::table('diamond_feeds')->count();
-		//print_r($total_diamond_found); die;
-       return view('frontend.pages.our_products', compact('products' ,$products , 'multiplier', $multiplier, 'current_currency' , $current_currency ,'symbol' ,$symbol, 'total_diamond_found' , $total_diamond_found, 'setting', $setting))->render();
+		$products = DiamondFeed::sortable()->where('active', 1)->orderBy('price', 'asc')->paginate(25);
+	   $total_diamond_found = DB::table('diamond_feeds')->where('active', 1)->count();
+       return view('frontend.pages.our_products', compact('products' ,$products , 'multiplier', $multiplier, 'current_currency' , $current_currency ,'symbol' ,$symbol, 'total_diamond_found' , $total_diamond_found, 'setting', $setting, 'meleediamondRound', $meleediamondRound, 'meleediamondPrincess', $meleediamondPrincess ))->render();
 	  }
    
 	 public function SearchourProduct(Request $request,  $base = null){
@@ -154,9 +115,9 @@ class ProductController extends Controller
 		$request->session()->put('symbol',$symbol);
 		
 		//$products = DB::table('diamond_feeds')->where('stock_id', $stockId)->get();
-		$products = DB::table('diamond_feeds')->whereIn('stock_id', $sid)->paginate(25);
+		$products = DB::table('diamond_feeds')->where('active', 1)->whereIn('stock_id', $sid)->paginate(25);
 		//dd($products); die;
-	   $total_diamond_found = DB::table('diamond_feeds')->whereIn('stock_id', $sid)->count();
+	   $total_diamond_found = DB::table('diamond_feeds')->where('active', 1)->whereIn('stock_id', $sid)->count();
 		//print_r($total_diamond_found); die;
        return view('frontend.pages.search_products', compact('products' ,$products , 'multiplier', $multiplier, 'current_currency' , $current_currency ,'symbol' ,$symbol, 'total_diamond_found' , $total_diamond_found, 'stockId', $stockId, 'setting', $setting));
 	  }
@@ -249,8 +210,8 @@ class ProductController extends Controller
 				$query->whereBetween('lwratio' , [$min, $max]);
     		 }
     		
-			 $total_diamond_found = $query->count();
-			$products = $query->orderBy('price', 'asc')->paginate(25);
+			 $total_diamond_found = $query->where('active', 1)->count();
+			$products = $query->where('active', 1)->orderBy('price', 'asc')->paginate(25);
 			
 	    	
 		    return view('frontend.pages.component.product_component', compact('products' ,$products , 'multiplier', $multiplier, 'current_currency' , $current_currency ,'symbol' ,$symbol, 'total_diamond_found' , $total_diamond_found, 'setting', $setting));
@@ -259,7 +220,7 @@ class ProductController extends Controller
 	 public function productDetail(Request $request ,$id){
 		$multiplier = $this->multiplier(); 
 		$setting = Setting::first();
-		$product_details = DB::table('diamond_feeds')->where('id', $id)->first();
+		$product_details = DB::table('diamond_feeds')->where('active', 1)->where('id', $id)->first();
 		$current_currency = $request->session()->get('current_currency');
 		$symbol = $request->session()->get('symbol');
         return view('frontend.pages.products_details', compact('product_details' ,$product_details , 'multiplier', $multiplier, 'current_currency' ,$current_currency , 'symbol' , $symbol, 'setting', $setting));
@@ -403,6 +364,58 @@ class ProductController extends Controller
 	   //$pdfs = PDF::loadView('emails.productmail', ['products' => $products, 'mydata' => $mydata]);
 	   //return view('emails.productmail', ['products' => $products, 'mydata' => $mydata]);
 	  }
+
+
+	 //---------------------------------
+	 
+	 public function imageVideoRequest(Request $request){
+		//print_r($request->all()); die;
+		$requestStatus = '';
+		$productID = '';
+		$reqmsg = '';
+		if(!empty($request->imgproductID) && !empty($request->imgstatus)){
+			$productID = $request->imgproductID;
+			$requestStatus = $request->imgstatus; 	
+		}
+		if(!empty($request->videoproductID) && !empty($request->videostatus)){
+			$productID = $request->videoproductID;
+			$requestStatus = $request->videostatus; 
+		}
+		if(!empty($request->pdfproductID) && !empty($request->pdfstatus)){
+			$productID = $request->pdfproductID;
+			$requestStatus = $request->pdfstatus; 
+		}
+		if($requestStatus == 6){
+            $reqmsg = 'Image';
+		}elseif($requestStatus == 7){
+			$reqmsg = 'Video'; 
+		}elseif($requestStatus == 8){
+			$reqmsg = 'Certificate'; 
+		}else{
+		    $reqmsg = '';	
+		}
+
+		$dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
+		$productrequest = new Order();
+		$productrequest->user_id = Auth::user()->id; 
+		$productrequest->diamondFeed_id = $productID;
+		$productrequest->userEmail = Auth::user()->email;
+		$productrequest->client = Auth::user()->first_name.' '.Auth::user()->last_name;  
+		$productrequest->order_status = $requestStatus; //Image Request=6, Video Request=7, 
+		$productrequest->order_date = $dateTime->format("d/m/Y  h:i A");		   
+		$productrequest->date = date('m_Y');
+	
+		if($productrequest->save()){
+			toastr()->success('Thank You, I will Update Your '.$reqmsg.' Request Very Soon');
+		}else{
+			toastr()->warning('Not Sent');
+		}
+	   return redirect('our-products');
+	   
+	  }
+
+
+	  //------------------------
 
 
 	  //----------------------------

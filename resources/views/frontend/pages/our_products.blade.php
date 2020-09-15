@@ -18,12 +18,16 @@
 								<div class="col-md-12">
 										<nav>
 											<div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-												<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#certified-colourless-diamonds" role="tab" aria-controls="nav-home" aria-selected="true" onclick="myFunction()">Certified diamonds</a>
-												<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#fancy-coloured-diamonds" role="tab" aria-controls="nav-profile" aria-selected="false">Fancy coloured diamonds</a>
+												<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#certified-colourless-diamonds" role="tab" aria-controls="nav-home" aria-selected="true" onclick="myFunction()">{{ trans('frontend.product.tab.certified') }}</a>
+
+												<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#fancy-coloured-diamonds" role="tab" aria-controls="nav-profile" aria-selected="false">{{ trans('frontend.product.tab.fancy') }}</a>
 								
-												<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#canada-mark-diamonds" role="tab" aria-controls="nav-contact" aria-selected="false">Canada mark diamonds</a>
-												<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#lab-Grown-Diamonds" role="tab" aria-controls="nav-contact" aria-selected="false">Lab Grown Diamonds</a>
-												<a class="nav-item nav-link hide55" id="nav-contact-tab" data-toggle="tab" href="#melee-diamonds" role="tab" aria-controls="nav-contact" aria-selected="false">Melee diamonds</a>
+												<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#canada-mark-diamonds" role="tab" aria-controls="nav-contact" aria-selected="false">{{ trans('frontend.product.tab.canada') }}</a>
+
+												<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#lab-Grown-Diamonds" role="tab" aria-controls="nav-contact" aria-selected="false">{{ trans('frontend.product.tab.lab') }}</a>
+
+												<a class="nav-item nav-link hide55" id="nav-contact-tab" data-toggle="tab" href="#melee-diamonds" role="tab" aria-controls="nav-contact" aria-selected="false">{{ trans('frontend.product.tab.melee') }}</a>
+
 											</div>
 										</nav>
 
@@ -433,8 +437,8 @@
 </div>
 
 <!-- Fancy coloured diamonds -->
-<div class="tab-pane fade" id="canada-mark-diamonds" role="tabpanel" aria-labelledby="nav-contact-tab">
-<h4>Canada mark diamonds</h4>
+<div class="tab-pane fade canadamarkdiamond" id="canada-mark-diamonds" role="tabpanel" aria-labelledby="nav-contact-tab">
+<!-- <h4>Canada mark diamonds</h4> -->
 
 <div class="col-lg-12 table-accordion-wrp">
 		 <div  class="text-center loader" style="display: none">
@@ -444,7 +448,7 @@
 </div>
 <div class="table-responsive" id="product_div">
 
-@include('frontend.pages.component.product_component1')
+@include('frontend.pages.component.product_component')
 </div>
 </div> 
 
@@ -485,7 +489,7 @@
 </div>
 		
 <div class="table-responsive" id="product_div4">
-@include('frontend.pages.component.product_component')
+@include('frontend.pages.component.meleediamond_component')
 </div>
 </div> 
 

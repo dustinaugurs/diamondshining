@@ -45,7 +45,7 @@
         </div>
     </th>
     <th>IP Address</th>
-    <th>MAC Address</th>
+    <!-- <th>MAC Address</th> -->
     <th>Browser
     <div class="changedata">
             <select name="browser_name" id="browser_name" class="browser_name">

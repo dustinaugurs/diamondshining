@@ -140,7 +140,7 @@ return [
 	],
 	],
 	"language-picker" => [
-	"language" => "Language",
+	"language" => "English",
 	"langs" => [
 	"ar" => "Arabic",
 	"da" => "Danish",

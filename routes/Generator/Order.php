@@ -22,6 +22,18 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'as' => 'admin.', '
         Route::get('notificationOrders', 'OrdersController@notificationOrders')->name('notificationOrders');
         Route::get('notificationEnquiries', 'OrdersController@notificationEnquiries')->name('notificationEnquiries');
         Route::post('notificationUpdate', 'OrdersController@notificationUpdate')->name('notificationUpdate');
+
+        Route::get('requestForImage', 'OrdersController@requestForImage')->name('requestForImage');
+        Route::get('requestForVideo', 'OrdersController@requestForVideo')->name('requestForVideo');
+        Route::get('requestForPdf', 'OrdersController@requestForPdf')->name('requestForPdf');
+       
+        Route::get('requestEditForm/{productID}/{orderStatus}', 'OrdersController@requestEditForm')->name('requestEditForm');
+
+        Route::GET('updateReq', 'OrdersController@updateReq')->name('updateReq');
+
+        Route::get('generateInvoicePDF', 'OrdersController@generateInvoicePDF')->name('generateInvoicePDF');
+
+        
         
     });
     

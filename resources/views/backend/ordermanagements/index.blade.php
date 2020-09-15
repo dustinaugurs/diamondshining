@@ -82,7 +82,7 @@
                 <thead>
 <tr>
 <th>#</th>
-<th>Date 
+<th>Date
         <div class="changedatabox">
             <select name="changedatetimeOrder" class="changedatetimeOrder">
             <option value="all">All</option>    
@@ -140,6 +140,7 @@
         </div>
     </th>
     <th>ETA</th>
+    <th>Invoice</th>
 </tr>
  </thead>
  <tbody id="dataafterfilterOrder">

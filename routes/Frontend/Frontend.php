@@ -40,7 +40,10 @@ Route::group(['middleware' => 'auth'], function () {
 	   
         Route::get('product_detail/{id}', 'ProductController@productDetail')->name('product-detail');
         Route::get('ajax_get_products', 'ProductController@ajax_get_products');
-		Route::get('get_currency', 'ProductController@get_currency');
+        Route::get('get_currency', 'ProductController@get_currency');
+        
+
+        Route::post('imageVideoRequest', 'ProductController@imageVideoRequest')->name('imageVideoRequest');
 
         /*
          * User Dashboard Specific
@@ -73,5 +76,9 @@ Route::group(['middleware' => 'auth'], function () {
 */
 Route::get('pages/{slug?}', 'FrontendController@showPage')->name('pages.show');
 Route::get('contact-us', 'FrontendController@contactUs')->name('contact-us');
+
+Route::post('contactussend', 'FrontendController@contactUsend')->name('contact-send');
+
+Route::post('SubscriberMail', 'FrontendController@SubscriberMail')->name('subscriber-send');
 
 

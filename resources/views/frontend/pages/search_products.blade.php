@@ -433,8 +433,8 @@
 </div>
 
 <!-- Fancy coloured diamonds -->
-<div class="tab-pane fade" id="canada-mark-diamonds" role="tabpanel" aria-labelledby="nav-contact-tab">
-<h4>Canada mark diamonds</h4>
+<div class="tab-pane fade canadamarkdiamond" id="canada-mark-diamonds" role="tabpanel" aria-labelledby="nav-contact-tab">
+<!-- <h4>Canada mark diamonds</h4> -->
 
 <div class="col-lg-12 table-accordion-wrp">
 		 <div  class="text-center loader" style="display: none">
@@ -444,7 +444,7 @@
 </div>
 <div class="table-responsive" id="product_div">
 
-@include('frontend.pages.component.product_component1')
+@include('frontend.pages.component.product_component')
 </div>
 </div> 
 

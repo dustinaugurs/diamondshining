@@ -142,6 +142,13 @@
 </td>
 
 <td>{{$order->ETA}}</td>
+<td>
+@if($order->checkStatus == 2 || $order->checkStatus == 2)
+<a target="_blank" href="{{url('public/invoicepdf/')}}/{{$order->invoice_file}}">{{$order->invoice_number}}</a>
+@else
+
+@endif
+</td>
 </tr>
 @endforeach
 @else

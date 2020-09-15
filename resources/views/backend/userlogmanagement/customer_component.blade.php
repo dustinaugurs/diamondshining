@@ -7,7 +7,7 @@
 <td>{{ $customer->login_time }}</td>
 <td>{{$customer->first_name}} {{$customer->last_name}}</td>
 <td>{{ $customer->ip_address }}</td>
-<td>{{ $customer->mac_address }}</td>
+<!-- <td>{{ $customer->mac_address }}</td> -->
 <td>{{ $customer->browser }}</td>
 <td>{{ $customer->plateform }}</td>
 <td>{{ $customer->login_time }}</td>

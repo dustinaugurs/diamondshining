@@ -14,6 +14,8 @@ use App\Models\DiamondFeeds\DiamondFeed;
 use App\Models\DiamondTemplates\DiamondTemplate;
 use App\Models\Access\User\User;
 use App\Models\Currency;
+use App\Models\Contacts\Contact;
+use App\Models\Subscribmails\Subscribmail;
 
 /**
  * Class OrderRepository.
@@ -59,6 +61,21 @@ class SessionRepository extends BaseRepository
                     ->whereIn('role_user.role_id', [3])
                     ->get();
        return $customers;              
+    }
+
+    public function customercontactDetails(){
+        $customers = Contact::select('*');
+       return $customers;              
+    }
+    
+    public function contactDetailsSingle($id=''){
+        $customers = Contact::where('id', $id)->first();
+        return $customers; 
+    }
+
+    public function customersubscriberDetails(){
+        $customers = Subscribmail::select('*');
+        return $customers;    
     }
     //=========================
 }

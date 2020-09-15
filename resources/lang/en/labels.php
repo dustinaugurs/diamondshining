@@ -326,13 +326,25 @@ return [
 	"id" => "Id",
 	"createdat" => "Created At",
 	],
+	'customerrequest' => 'Customer Request',
+	'videorequest' => 'Video Request',
+	'imagerequest' => 'Image Request',
+	'pdfrequest' => 'Certificate Request',
 	],
+
+	"meleediamonds" => [
+		"add" => "Add Melee Diamonds",
+		"edit" => "Edit Melee Diamonds",
+		"princeslist" => "PRINCESS LIST",
+		"roundlist" => "ROUND LIST",
+		"management" => "Melee Diamonds Management",
+	],
+
+
 	"userlogs" => [
-		"create" => "Create Order",
-		"edit" => "Edit Order",
-		"management" => "User Log Management",
-		"enquiry" => "Enquiry Management",
-		"title" => "Orders",
+		"management" => "Customer Log Management",
+		"subscriber" => "Customer Subscriber Details",
+		"contact" => "Customer Contact Details",
 		],
 	],
 	"frontend" => [

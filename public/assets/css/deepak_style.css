@@ -23,6 +23,10 @@ li.custnameblock{font-size: 14px;
 li.curreny-wrap.admincurrency{margin: 10px 20px;}
 li.curreny-wrap.admincurrency select{background:#495867; color: #f2f2f2; padding:5px; cursor: pointer;}
 
+.touch_details.contactinfo a{display:block; margin-bottom: 15px;}
+.touch_details.contactinfo a span{display:inline-table; }
+.touch_details.contactinfo a span:first-child{font-size: 20px; margin:0 10px 0 0;}
+.touch_details.contactinfo h4{display:block;}
 .reportblock{margin-top: 15px;}
 h4.reportheading{margin: 0px; position: relative;
   padding: 12px;
@@ -61,10 +65,79 @@ h4.reportheading{margin: 0px; position: relative;
     top: 18px; background-position: 54% !important;
     height: 51px;
     width: 55px;}
+.Search-for-Diamonds-wrp .shape-filter input:checked ~ .checkmark:after {
+      display: none;
+  }  
+
+.Search-for-Diamonds-wrp .shape-filter-btn .checkmark{border:2px solid #002853;}
+  
+.Search-for-Diamonds-wrp .price-range-block #searchResults1, .Search-for-Diamonds-wrp .price-range-block #searchResults{display: none !important;}
+
 .Search-for-Diamonds-wrp .price-range-block .price-range-field{
   height: 30px;
   padding: 0 10px;
 }
+
+.boxHeader{width:100%; margin:0px; padding: 0px;}
+.boxHeader button{width: 33.3%;}
+.boxHeader button a{padding:10px 30px; display: block; 
+  text-transform: uppercase; color: #000; font-size: 15px;}
+
+.requestbox{position: relative;}
+.requestbox img{position: relative;}
+.requestbox form{position: absolute;
+  top: 150px;
+  right: 0px;
+  left: 0px;
+  bottom: 0px;}
+.requestbox button.requestform{background: #002853;
+  font-size: 12px;
+  padding: 3px 10px;
+  border: none;
+  color: #fff;
+  border-radius: 20px;
+  text-transform: uppercase;}
+
+  .requestbox.certifform form{position: relative; top:0px;}
+.meleeformbox{border: 1px solid #495867;
+  padding: 20px; overflow: hidden;
+  margin-bottom: 50px;
+  position: relative;
+  border-radius: 5px 5px 0px 0px;
+}
+.meleeformbox h4{background: #495867;
+  position: absolute;
+  top: -10px;
+  width: 100%;
+  left: 0;
+  color: #fff;
+  padding: 8px 15px}
+  
+  .boxHeader.meleeheading .tab{border-color: #495867; border-right:0px; border-left:0px;} 
+  .boxHeader.meleeheading .tab button.active{background-color: #495867;}
+  .boxHeader.meleeheading .tab button.active a{color:#fff}
+
+  .frontmeleediamondbox{width: 100%; margin:0px; padding: 0px;}
+  .frontmeleediamondbox h5{margin: 0px;
+    padding: 8px 15px;
+    font-size: 15px;
+    border: 1px solid #002853;
+    background: #f2f2f2;
+    text-transform: uppercase;}
+  .frontmeleediamondbox .table-bordered {border: 1px solid #002853;}
+  .frontmeleediamondbox .margboxws{padding:0px !important}
+
+  .princessSection{display:none;}
+  .roundSection{display:block;}
+
+  .delnotdisplay{display:none;}
+
+  .meleeformbox form{margin:30px 0 0 0;}
+
+.meleeformbox .padlabel{padding-right: 0;
+  text-align: right;
+  line-height: 31px;}  
+
 .shape-filter{font-size: 10px !important;}
 
 
@@ -75,7 +148,7 @@ h4.reportheading{margin: 0px; position: relative;
 .table-accordion-wrp .table-responsive .table th{    
     padding: 5px 5px;
     font-size: 13px;
-    background: #007bff;
+    background: #002853;
     color: #f2f2f2;} 
 .table-accordion-wrp .table-responsive .table td{padding: 5px 5px; font-size: 13px;} 
 .table-accordion-wrp .table-responsive .table td p{width: 35px; height: 35px; overflow: hidden;}
@@ -97,8 +170,8 @@ h4.reportheading{margin: 0px; position: relative;
 
 .totaldimondbox h5 span{display: inline-block;}
 .totaldimondbox h5 span:nth-child(2){margin: 0 5px;} 
-.totaldimondbox h5 span:nth-child(2), .totaldimondbox h5 span:last-child{color:#007bff; font-weight: 900;}   
-.diamondserachbox{}
+.totaldimondbox h5 span:nth-child(2), .totaldimondbox h5 span:last-child{color:#002853; font-weight: 900;}   
+/* .diamondserachbox{} */
 .diamondserachbox .form-group{margin-bottom: 0px; position: relative;}
 .diamondserachbox .form-group  button.searchbtn{
     width: 100%;  
@@ -227,7 +300,7 @@ h4.reportheading{margin: 0px; position: relative;
 .searchproductPage .resetvisibility{visibility: visible;}
 .ourproductPage .resetvisibility{visibility: hidden;}
 
-.certifieddiamond_heading, .fancyclrdiamon_heading, .labgrowndiamond_heading, .meleediamond_heading{display: none;}
+.certifieddiamond_heading, .fancyclrdiamon_heading, .labgrowndiamond_heading, .canadamarkdiamond_heading, .meleediamond_heading{display: none;}
 
 /* .fancyclrdiamon .fancyclrdiamon_heading{display: block;} */
 
@@ -237,11 +310,16 @@ h4.reportheading{margin: 0px; position: relative;
 .fancyclrdiamon .certifieddiamond_heading{display: none;}
 .fancyclrdiamon .fancyclrdiamon_heading{display: block;}
 
+.canadamarkdiamond .canadamarkdiamond_heading{display: block;}
+
 .labgrowndiamond .labgrowndiamond_heading{display: block;}
-.labgrowndiamond .fancyclrdiamon_heading, .labgrowndiamond .certifieddiamond_heading, .labgrowndiamond .meleediamond_heading{display: none;}
+.labgrowndiamond .fancyclrdiamon_heading, .canadamarkdiamond .canadamarkdiamond_heading, .labgrowndiamond .certifieddiamond_heading, .labgrowndiamond .meleediamond_heading{display: none;}
 
 .meleediamond .meleediamond_heading{display: block;}
-.meleediamond .fancyclrdiamon_heading, .meleediamond .certifieddiamond_heading, .meleediamond .labgrowndiamond_heading{display: none;}
+.meleediamond .fancyclrdiamon_heading, .canadamarkdiamond .canadamarkdiamond_heading, .meleediamond .certifieddiamond_heading, .meleediamond .labgrowndiamond_heading{display: none;}
+
+.canadamarkdiamond .canadamarkdiamond_heading{display: block;}
+.canadamarkdiamond .fancyclrdiamon_heading, .canadamarkdiamond .meleediamond_heading, .canadamarkdiamond .certifieddiamond_heading, .canadamarkdiamond .labgrowndiamond_heading{display: none;}
 
 .changecurrencybox .nice-select{background: transparent;
   border: none; position: relative;
@@ -272,10 +350,18 @@ h4.reportheading{margin: 0px; position: relative;
 }
 .enquiryboxmodel h1 i{font-size: 15px; text-transform: capitalize;}
 .enquiryboxmodel h1 strong{text-transform: uppercase; font-size: 20px;}
-.btn.custombtn{background: #007bff;
+.btn.custombtn{background: #002853;
   padding: 12px 15px;
   color: #fff;
   text-transform: uppercase;}
+
+  .shiningbox{display: block; text-decoration:none; text-align: center; color:#000}
+  .shiningbox span{display: inline-block; text-transform: uppercase;}
+  .shiningbox span:first-child{font-size: 30px;
+    letter-spacing: 3px;
+    border-bottom: 1px solid #333;
+    margin-bottom: 5px;}
+  .shiningbox span:last-child{ letter-spacing: 8px;}
 
   .navbar.notboxes .navbar-nav>.messages-menu>.dropdown-menu>li.header, .navbar.notboxes .navbar-nav>.notifications-menu>.dropdown-menu>li.header, .navbar.notboxes .navbar-nav>.tasks-menu>.dropdown-menu>li.header{
     border-top-left-radius: 4px; 

@@ -42,13 +42,17 @@
                 <li class="curreny-wrap admincurrency">
                 <form id="currencyform" class="changecurrencybox"  method="POST" action="{{url('account/mycurrency')}}">
                 {{ csrf_field() }}
+                    @php
+                    $langs = ['USD'=>'$', 'GBP'=>'£'];
+                    @endphp
                 <select name="currency_code" id="changecurrency">
+                    <option selected value="{{Auth::user()->currency_code}}">{{Auth::user()->currency_symbol}} {{Auth::user()->currency_code}}</option>
 
-                <option selected value="<?php echo Auth::user()->currency_code; ?>"><?php echo Auth::user()->currency_symbol.' '.Auth::user()->currency_code; ?></option>
-
-                <option value="USD">$ USD</option>
-                <!-- <option value="EUR">€ EUR</option> -->
-                <option value="GBP">£ GBP</option>
+                    @foreach($langs as $key => $value)
+                    @if($key !== Auth::user()->currency_code)
+                    <option value="{{$key}}">{{$value}} {{$key}}</option>
+                    @endif
+                    @endforeach
                 </select>
                 <!-- <input name="select_date" type="submit" /> -->
                 </form>

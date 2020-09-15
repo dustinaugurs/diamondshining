@@ -140,5 +140,58 @@ class OrderRepository extends BaseRepository
                   //->get();
      return $orders;             
    }
+
+   //--------------------------
+   public function requestForImageVideo($orderStatus = ''){
+    $orders = Order::with('user','diamondfeed','multiplierprice')
+                  ->where('order_status', $orderStatus)
+                  ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
+                  ->orderBy('order_date', 'desc')
+                  ->get();
+     return $orders;              
+           }
+
+    public function requestForImgVideo($orderStatus = ''){
+        $orders = DB::table('orders')
+				->join('users', 'orders.user_id', '=', 'users.id')
+				->join('diamond_feeds', 'orders.diamondFeed_id', '=', 'diamond_feeds.id')
+				->where('orders.order_status', $orderStatus)
+                ->where('orders.status_from_admin', 1)    //Confirm=1, Unconfirm=2
+                ->where('diamond_feeds.image', '') 
+                ->where('diamond_feeds.active', 1) 
+                ->orderBy('orders.order_date', 'desc')
+				->select('users.first_name', 'users.last_name', 'users.email', 'diamond_feeds.stock_id', 'diamond_feeds.shape', 'diamond_feeds.image', 'diamond_feeds.video', 'diamond_feeds.id as productID', 'diamond_feeds.ReportNo', 'diamond_feeds.supplier_name', 'diamond_feeds.lab', 'diamond_feeds.pdf', 'orders.order_date', 'orders.id as orderID', 'orders.order_status')
+                ->get();
+        return $orders;        
+               }  
+               
+    public function requestForVidImage($orderStatus = ''){
+          $orders = DB::table('orders')
+          ->join('users', 'orders.user_id', '=', 'users.id')
+          ->join('diamond_feeds', 'orders.diamondFeed_id', '=', 'diamond_feeds.id')
+          ->where('orders.order_status', $orderStatus)
+          ->where('orders.status_from_admin', 1)    //Confirm=1, Unconfirm=2
+          ->where('diamond_feeds.video', '') 
+          ->where('diamond_feeds.active', 1) 
+          ->orderBy('orders.order_date', 'desc')
+          ->select('users.first_name', 'users.last_name', 'users.email', 'diamond_feeds.stock_id', 'diamond_feeds.shape', 'diamond_feeds.image', 'diamond_feeds.video', 'diamond_feeds.id as productID', 'diamond_feeds.ReportNo', 'diamond_feeds.supplier_name', 'diamond_feeds.lab', 'diamond_feeds.pdf', 'orders.order_date', 'orders.id as orderID', 'orders.order_status')
+          ->get();
+          return $orders;        
+            }   
+            
+            
+   public function requestForCertificate($orderStatus = ''){
+    $orders = DB::table('orders')
+    ->join('users', 'orders.user_id', '=', 'users.id')
+    ->join('diamond_feeds', 'orders.diamondFeed_id', '=', 'diamond_feeds.id')
+    ->where('orders.order_status', $orderStatus)
+    ->where('orders.status_from_admin', 1)    //Confirm=1, Unconfirm=2
+    ->where('diamond_feeds.pdf', '') 
+    ->where('diamond_feeds.active', 1) 
+    ->orderBy('orders.order_date', 'desc')
+    ->select('users.first_name', 'users.last_name', 'users.email', 'diamond_feeds.stock_id', 'diamond_feeds.shape', 'diamond_feeds.image', 'diamond_feeds.video', 'diamond_feeds.id as productID', 'diamond_feeds.ReportNo', 'diamond_feeds.supplier_name', 'diamond_feeds.lab', 'diamond_feeds.pdf', 'orders.order_date', 'orders.id as orderID', 'orders.order_status')
+    ->get();
+    return $orders;
+   }         
     //=========================
 }

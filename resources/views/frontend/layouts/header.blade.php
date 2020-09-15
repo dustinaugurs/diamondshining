@@ -17,7 +17,7 @@
 
                             <div class="welcome-message">
 
-                                <p>Welcome to Summers By Diamond Jewellery online store</p>
+                                <p>{{ trans('frontend.welcome') }}</p>
 
                             </div>
 
@@ -32,13 +32,18 @@
                                     <li class="curreny-wrap">
                                     <form id="currencyform" class="changecurrencybox"  method="POST" action="{{url('account/mycurrency')}}">
                                     {{ csrf_field() }}
+                                    @php
+                                    $langs = ['USD'=>'$', 'EUR'=>'€', 'GBP'=>'£',];
+                                     @endphp
+                                     
                                     <select name="currency_code" id="changecurrency">
+                                    <option selected value="{{Auth::user()->currency_code}}">{{Auth::user()->currency_symbol}} {{Auth::user()->currency_code}}</option>
 
-                                    <option selected value="<?php echo Auth::user()->currency_code; ?>"><?php echo Auth::user()->currency_symbol.' '.Auth::user()->currency_code; ?></option>
-
-                                    <option value="USD">$ USD</option>
-                                    <option value="EUR">€ EUR</option>
-                                    <option value="GBP">£ GBP</option>
+                                    @foreach($langs as $key => $value)
+                                    @if($key !== Auth::user()->currency_code)
+                                    <option value="{{$key}}">{{$value}} {{$key}}</option>
+                                    @endif
+                                    @endforeach
                                     </select>
                                     <!-- <input name="select_date" type="submit" /> -->
                                     </form>
@@ -61,21 +66,29 @@
 
                                     </li> @endif
 
-                                    <li class="language">
-
-                                        <img src="{{url('assets/img/icon/en.png')}}" alt="flag"> English
-
-                                        <i class="fa fa-angle-down"></i>
-
+                                    <!-- <li class="language">
+                                    <i class="fa fa-language"></i> {{ trans('menus.language-picker.language') }}
+                                    <i class="fa fa-angle-down"></i>
+                                       @php
+                                       $languages = config('locale.languages');
+                                       @endphp
                                         <ul class="dropdown-list">
-
-                                            <li><a href="#"><img src="{{url('assets/img/icon/en.png')}}" alt="flag"> english</a></li>
-
-                                            <li><a href="#"><img src="{{url('assets/img/icon/fr.png')}}" alt="flag"> french</a></li>
-
+                                            <li><a href="{{url('lang/en')}}">english</a></li>
+                                            <li><a href="{{url('lang/fr')}}">french</a></li>
                                         </ul>
+                                    </li> -->
 
-                                    </li>
+                                    <!-------------------->
+                                    <!-- <li class="language">
+                                    <img src="{{url('assets/img/icon/en.png')}}" alt="flag"> English
+                                    <i class="fa fa-angle-down"></i>
+                                    <ul class="dropdown-list">
+                                    <li><a href="#"><img src="{{url('assets/img/icon/en.png')}}" alt="flag"> english</a></li>
+                                    <li><a href="#"><img src="{{url('assets/img/icon/fr.png')}}" alt="flag"> french</a></li>
+                                    </ul>
+                                    </li> -->
+                                    <!-------------------->
+
 
                                 </ul>
 
@@ -130,11 +143,11 @@
                         <div class="customnavbar">
                          <ul>
                          <!-- @if($logged_in_user) <li> <a href="{{url('dashboard')}}" class="active">Dashboard</a></li>@endif -->
-                             <li> <a href="{{url('pages')}}/about-us" class="active">About Us</a></li>
-                             @if($logged_in_user) <li> <a href="{{url('our-products')}}" class="">Our Products</a></li>
-                             <li> <a href="{{url('enquiry-order')}}" class=""> Enquiries / Orders</a></li> @endif
-                             <li> <a href="{{url('pages')}}/news"  class="">News</a></li>
-                             <li> <a href="{{url('contact-us')}}" class="">Contact Us</a></li>
+            <li> <a href="{{url('pages')}}/about-us" class="active">{{ trans('frontend.menu.aboutus') }}</a></li>
+                             @if($logged_in_user) <li> <a href="{{url('our-products')}}" class="">{{ trans('frontend.menu.ourproduct') }}</a></li>
+                             <li> <a href="{{url('enquiry-order')}}" class=""> {{ trans('frontend.menu.enqorder') }}</a></li> @endif
+                             <li> <a href="{{url('pages')}}/news"  class="">{{ trans('frontend.menu.news') }}</a></li>
+                             <li> <a href="{{url('contact-us')}}" class="">{{ trans('frontend.menu.contactus') }}</a></li>
                          </ul>
                         </div>
                         </div>

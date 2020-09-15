@@ -7,6 +7,7 @@
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 <h4 class="certifieddiamond_heading">Certified diamonds</h4>
 <h4 class="fancyclrdiamon_heading">Fancy coloured diamonds</h4>
+<h4 class="canadamarkdiamond_heading">Canada mark diamonds</h4>
 <h4 class="labgrowndiamond_heading">Lab Grown Diamonds</h4>
 <h4 class="meleediamond_heading">Melee diamonds</h4>
 </div>
@@ -71,7 +72,7 @@
 @forelse($products as $product) 
 <tr colspan="16" data-toggle="collapse" data-target="#p{{$product->id}}" class="accordion-toggle">               
     <td>@if($product->video == '')
-	  <p><img src="http://diamonds.augurstech.com/public/assets/img/product/No_image.jpg" alt="product" class="sec-img img33"></p>
+	  <p><img src="{{url('/')}}/public/assets/img/product/No_image.jpg" alt="product" class="sec-img img33"></p>
 	@else
 	 <p>
       <video width="75" height="75" controls>
@@ -82,7 +83,7 @@
 	@endif</td>
     <td>
 	@if($product->image == '' || $product->image == 'true' )
-	  <p><img src="http://diamonds.augurstech.com/public/assets/img/product/No_image.jpg" alt="product" class="sec-img img33"></p>
+	  <p><img src="{{url('/')}}/public/assets/img/product/No_image.jpg" alt="product" class="sec-img img33"></p>
 	@else
 	 <p><img src="{{$product->image}}" alt="product" class="sec-img img33"></p>
 	@endif
@@ -159,31 +160,44 @@
 <div class="product-img-tabs">    
 <ul class="nav nav-tabs">
   <li class="nav-item">
-    <a class="nav-link active" data-toggle="tab" href="#home11">Image</a>
+    <a class="nav-link active" data-toggle="tab" href="#home1{{$product->id}}">Image</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" data-toggle="tab" href="#menu1">Video</a>
+    <a class="nav-link" data-toggle="tab" href="#menu{{$product->id}}">Video</a>
   </li>
 </ul>
 
 <!-- Tab panes -->
 <div class="tab-content">
-  <div class="tab-pane imgbox  active container" id="home11">
-@if($product->image == '' || $product->image == 'true' )
-    <p class="m-0  p-0"><img src="http://diamonds.augurstech.com/public/assets/img/product/No_image.jpg" alt="product" class="sec-img w-100">
+  <div class="tab-pane imgbox  active container" id="home1{{$product->id}}">
+@if(!empty($product->image))
+<p class="m-0  p-0"><img src="{{$product->image}}" alt="product" class="sec-img w-100"></p>
 @else
- <img src="{{$product->image}}" alt="product" class="sec-img w-100"></p>
+<div class="m-0  p-0 requestbox"><img src="{{url('/')}}/public/assets/img/product/No_image.jpg" alt="product" class="sec-img w-100">
+<form action="{{url('imageVideoRequest')}}" method="post">
+@csrf
+<input type="hidden" value="{{$product->id}}" name="imgproductID" >
+<input type="hidden" value="6" name="imgstatus" > <!---Order_status=6----->
+<button class="requestform" type="submit">Send Request For Product Image</button>
+</form>
+</div>
 @endif
 </div>
-  <div class="tab-pane imgbox container" id="menu1">
-@if($product->video == '')
-<p class="m-0  p-0">
- <img src="http://diamonds.augurstech.com/public/assets/img/product/No_image.jpg" alt="video" class="sec-img w-100">
-@else
+  <div class="tab-pane imgbox container" id="menu{{$product->id}}">
+@if(!empty($product->video))
 <button data-toggle="modal" data-target="#videopopup_{{$product->id}}">
   <video height="200" controls>
   <source src="{{$product->video}}" >
-</video></button></p>
+</video></button>
+@else
+<div class="m-0  p-0 requestbox"><img src="{{url('/')}}/public/assets/img/product/No_image.jpg" alt="video" class="sec-img w-100">
+<form action="{{url('imageVideoRequest')}}" method="post">
+@csrf
+<input type="hidden" value="{{$product->id}}" name="videoproductID" >
+<input type="hidden" value="7" name="videostatus" > <!---Order_status=7----->
+<button class="requestform" type="submit">Send Request For Product Video</button>
+</form>
+</div>
 @endif
 <!----======start-video-popup===========---->
 <div class="modal fade" id="videopopup_{{$product->id}}" role="dialog">
@@ -218,7 +232,20 @@
             <td><strong>Stock Number:</strong></td>   
             <td>{{$product->stock_id}}</td>
             <td><strong>Certificate:</strong></td>  
-            <td><a target="new" href="{{$product->pdf}}">{{$product->lab}}</a></td>
+            <td>
+            @if(!empty($product->pdf))
+            <a target="new" href="{{$product->pdf}}">{{$product->lab}}</a>
+@else
+<div class="m-0  p-0 requestbox certifform">
+<form action="{{url('imageVideoRequest')}}" method="post">
+@csrf
+<input type="hidden" value="{{$product->id}}" name="pdfproductID" >
+<input type="hidden" value="8" name="pdfstatus" > <!---Order_status=6----->
+<button class="requestform" type="submit">Send Request For Certificate</button>
+</form>
+</div>
+@endif
+            </td>
           </tr>
           
           <tr>
@@ -321,7 +348,7 @@
 @endforeach
 </div>
 
-<div class="copy-btn-wrp" onclick="copyPopup({{$product->id}})" ><a href="#" data-toggle="modal" data-target="#CopyModal" class="enquire-btn"> Copy </a>
+<div class="copy-btn-wrp" onclick="copyPopup({{$product->id}})" ><a href="#" data-toggle="modal" data-target="#CopyModal" class="enquire-btn"> Share details </a>
 <input type="hidden" class="stocknumc_{{$product->id}}" value="{{$product->stock_id}}">
 @foreach($multiplier as $mlusd)
  			@if($product->price >= $mlusd->vat_from_usd && $product->price <= $mlusd->vat_to_usd)

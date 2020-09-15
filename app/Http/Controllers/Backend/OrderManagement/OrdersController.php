@@ -17,8 +17,16 @@ use App\Http\Requests\Backend\OrderManagement\StoreOrderRequest;
 use App\Http\Requests\Backend\OrderManagement\EditOrderRequest;
 use App\Http\Requests\Backend\OrderManagement\UpdateOrderRequest;
 use App\Http\Requests\Backend\OrderManagement\DeleteOrderRequest;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Mail;
 use Auth;
 use DB;
+use PDF;
+use App;
+Use Session;
+use DateTime;
+use DateTimeZone;
+use App\Mail\SendInvoice;
 
 /**
  * OrdersController
@@ -95,7 +103,57 @@ class OrdersController extends Controller
                'symbol'=>$symbol,
               ]);
                   
-          }      
+          } 
+          
+  //--------------------------------------------
+  public function generateInvoicePDF($oid = ''){
+      $lastinvid = Order::orderBy('id', 'DESC')->first(); 
+      $invoice = ((int)$lastinvid->id)+'1';
+    //print_r($invoiceNumber);
+    //die;
+       //-------Generate-Invoice-Section-------
+        $order = Order::with('user','diamondfeed')->where('id', $oid)->first();
+        $setting = Setting::first();
+        $dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
+        $date = $dateTime->format("d-m-Y");
+        $uID = 'UID'.$order->user->id;
+        $invoiceNumber = $uID.'F'.$invoice.time(); 
+        $uipStockid = $order->diamondfeed->stock_id;
+        $filename = $uipStockid.'-'.$uID.'-'.$date.'-'.time().'.pdf'; 	
+        $pdf_invoice_file_path = public_path('invoicepdf/').$filename;
+        $pdf = PDF::loadView('emails.sendinvoice', [
+            'order' => $order,
+            'setting' => $setting,
+            'invoicenumber' => $invoiceNumber
+            ]);
+        $pdf->save($pdf_invoice_file_path);
+         $pdf->stream();
+         
+         $order->invoice_number = $invoiceNumber;
+         $order->invoice_file = $filename;
+         $order->save();
+        //---------Mail-Section-------------
+        $products = [ 
+              'fileName' => $pdf_invoice_file_path,
+              'address' => $setting->company_address,
+              'fromName' => $setting->from_name, 
+              'customername'=> $order->user->first_name.' '.$order->user->last_name,
+              'invoiceNumber' => $order->invoice_number,
+              'stockNumber' => $order->diamondfeed->stock_id,
+              'duedate' => $order->order_date,  
+              ];
+
+         //$sendmail = $order->userEmail;     
+         $sendmail = 'augurstest@gmail.com';
+		if($sendmail !== ''){	
+			$mail = \Mail::to($sendmail)->send(new SendInvoice($products));
+			toastr()->success('Product Details Successfully Sent on '.$sendmail.'');
+			   }else{
+				toastr()->warning('Product Details Not Sent');
+            }
+        //----------------------------    
+    }
+    //-----------------
     
     public function OrderStatusAndPaymentUpdate(Request $request){
         $allordstatus = explode(',', $request->allordstatus);
@@ -128,7 +186,9 @@ class OrdersController extends Controller
         }
 
         if($check_status !== 'undefined'){
+
             if($check_status==2 || $check_status==3){
+                $this->generateInvoicePDF($oid);
             $orderUpdate->checkStatus = $check_status;
             $orderUpdate->deliverycost_from_admin = $deliverycost;
             $orderUpdate->orderTrackingId = $orderTrackingId;
@@ -429,6 +489,132 @@ public function EnqdateAndPaymentFilter(Request $request){
         return response()->json(['rescode'=>$rescode, 'message'=>$message, 'order_status'=>$order_status]);
         
     }
+
+//---------------------------------------
+
+public function requestForImage(Request $request){
+    $orderStatus = 6 ; // order_status = 6 for Image request
+
+    $data = $this->repository->requestForImgVideo($orderStatus);
+     //echo '<pre>'; print_r($data->toArray()); die;;
+        if ($request->ajax()) {
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('id', function($row){return 1;})
+                    ->addColumn('customer', function($row){return $row->first_name.' '.$row->last_name;})
+                    ->addColumn('certificate', function($row){
+                        $btn = '<a href="'.$row->pdf.'">'.$row->lab.'</a>';
+                         return $btn;
+                      })
+            
+                    ->addColumn('action', function($row){
+                           $btn = '<a href="'.url('admin/requestEditForm').'/'.$row->productID.'/'.$row->order_status.'" class="edit btn btn-primary btn-sm">Update Image</a>';
+                            return $btn;
+                    })
+                    ->rawColumns(['action','certificate'])
+                    ->make(true);
+        }
+       
+        return view('backend.ordermanagements.requestimage');
+}
+
+public function requestForVideo(Request $request){
+    $orderStatus = 7 ; // order_status = 6 for Image request
+
+    $data = $this->repository->requestForVidImage($orderStatus);
+     //echo '<pre>'; print_r($data->toArray()); die;;
+        if ($request->ajax()) {
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('id', function($row){return 1;})
+                    ->addColumn('customer', function($row){return $row->first_name.' '.$row->last_name;})
+                    ->addColumn('certificate', function($row){
+                        $btn = '<a href="'.$row->pdf.'">'.$row->lab.'</a>';
+                         return $btn;
+                      })
+            
+                    ->addColumn('action', function($row){
+                           $btn = '<a href="'.url('admin/requestEditForm').'/'.$row->productID.'/'.$row->order_status.'" class="edit btn btn-primary btn-sm">Update Video</a>';
+                            return $btn;
+                    })
+                    ->rawColumns(['action','certificate'])
+                    ->make(true);
+        }
+       
+        return view('backend.ordermanagements.requestvideo');
+}
+
+public function requestForPdf(Request $request){
+    $orderStatus = 8 ; // order_status = 6 for Image request
+
+    $data = $this->repository->requestForCertificate($orderStatus);
+     //echo '<pre>'; print_r($data->toArray()); die;;
+        if ($request->ajax()) {
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('id', function($row){return 1;})
+                    ->addColumn('customer', function($row){return $row->first_name.' '.$row->last_name;})
+                    ->addColumn('certificate', function($row){
+                        $btn = '<a href="'.$row->pdf.'">'.$row->lab.'</a>';
+                         return $btn;
+                      })
+            
+                    ->addColumn('action', function($row){
+                           $btn = '<a href="'.url('admin/requestEditForm').'/'.$row->productID.'/'.$row->order_status.'" class="edit btn btn-primary btn-sm">Update Certificate</a>';
+                            return $btn;
+                    })
+                    ->rawColumns(['action','certificate'])
+                    ->make(true);
+        }
+       
+        return view('backend.ordermanagements.requestpdf');
+}
+
+//----------------------------
+public function requestEditForm(Request $request, $productID = '', $orderStatus = ''){
+        return view('backend.ordermanagements.edit', [
+            'orderStatus' => $orderStatus,
+            'productID' => $productID, 
+        ]);
+}
+
+public function updateReq(Request $request){
+        $orderStatus = $request->orderStatus;
+        $id = $request->productID;
+        $redirectURL = '';
+        $updatesuccess = '';
+        if($orderStatus == 6 && !empty($request->image)){
+        $updatesuccess = DB::update('update diamond_feeds SET image = ? where id = ? ', [$request->image, $id]); 
+        $redirectURL = redirect('admin/requestForImage');
+        }
+        
+        if($orderStatus == 7 && !empty($request->video)){
+        $updatesuccess = DB::update('update diamond_feeds SET video = ? where id = ? ', [$request->video, $id]); 
+        $redirectURL = redirect('admin/requestForVideo'); 
+        }
+        
+        if($orderStatus == 8 && !empty($request->pdf)){
+        $updatesuccess = DB::update('update diamond_feeds SET pdf = ? where id = ? ', [$request->pdf, $id]); 
+        $redirectURL = redirect('admin/requestForPdf');  
+        }
+        
+        if($updatesuccess){
+			toastr()->success('Request Updated Successfully');
+		}else{
+			toastr()->warning('Not Update');
+        }
+        
+       //print_r($order); die;
+
+        return $redirectURL;
+
+    }
+
+
+//-------------------------
+
+
+
 
 
 
