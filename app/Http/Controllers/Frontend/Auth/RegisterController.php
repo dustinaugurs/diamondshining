@@ -39,7 +39,7 @@ class RegisterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function showRegistrationForm()
-    {
+    { 
         return view('frontend.auth.register');
     }
 
@@ -49,7 +49,7 @@ class RegisterController extends Controller
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function register(RegisterRequest $request)
-    {
+    {  //echo '<pre>'; print_r($request->all()); die; 
         if (config('access.users.confirm_email')) {
             $user = $this->user->create($request->all());
             event(new UserRegistered($user));

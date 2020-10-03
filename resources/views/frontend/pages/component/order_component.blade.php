@@ -44,6 +44,12 @@
 <td>{{$order->diamondfeed->shape}}</td>
 
 <td class="trackingid">{{$order->orderTrackingId}}</td>
+
+<td class="invoicenumber">
+@if($order->checkStatus == '2' || $order->checkStatus == '3')
+<a target="_blank" href="{{url('public/invoicepdf')}}/{{$order->invoice_file}}">{{$order->invoice_number}}</a>@endif
+</td>
+
 <td class="status">
 @switch($order->checkStatus)
     @case(1)

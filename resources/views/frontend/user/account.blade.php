@@ -1,35 +1,48 @@
+@php
+$pageName = 'account';
+@endphp
 @extends('frontend.layouts.app')
 
 @section('content')
 <!--================Banner Area =================-->
-<section class="banner_area">
+
+ <!-- breadcrumb area start -->
+ <div class="breadcrumb-area">
             <div class="container">
-                <div class="banner_inner_text2">
-                    <h2>{{ trans('navs.frontend.user.account') }}</h2>
-                    
+                <div class="row">
+                    <div class="col-12">
+                        <div class="breadcrumb-wrap">
+                            <nav aria-label="breadcrumb">
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-home"></i></a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">{{ trans('navs.frontend.user.account') }}</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </section>
-        <!--================End Banner Area =================-->
+        </div>
+
         <section class="challange_area">
             <div class="container">
 
-                 <div class="row">
+                 <!-- <div class="row">
 				 
 <a class="btn-primary view-product" href="{{url('our-products')}}" >View Product</a>
 
-                 </div>
+                 </div> -->
 
 
-                <div class="row signup">
+                <div class="row userprofileupdate signup">
 
                         <div class="col-lg-12 account-box">
                         <div role="tabpanel">
 
 <!-- Nav tabs -->
-<ul class="nav " >
+<ul class="nav"  id="myTab">
     <li role="presentation" class="active nav-tabs" id="li-profile">
-        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" class="nav-link">{{ trans('navs.frontend.user.profile') }}</a>
+        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" class="active nav-link">{{ trans('navs.frontend.user.profile') }}</a>
     </li>
 
     <li role="presentation" id="li-edit" class="nav-tabs">
@@ -49,12 +62,12 @@
         @include('frontend.user.account.tabs.profile')
     </div><!--tab panel profile-->
 
-    <div role="tabpanel" class="tab-pane mt-30" id="edit">
+    <div role="tabpanel" class="tab-pane" id="edit">
         @include('frontend.user.account.tabs.edit')
     </div><!--tab panel profile-->
 
     @if ($logged_in_user->canChangePassword())
-        <div role="tabpanel" class="tab-pane mt-30" id="password">
+        <div role="tabpanel" class="tab-pane" id="password">
             @include('frontend.user.account.tabs.change-password')
         </div><!--tab panel change password-->
     @endif
@@ -76,36 +89,15 @@
 @section('after-scripts')
 
 <script type="text/javascript">
-    $(document).ready(function() {
-
-        // To Use Select2
-        Backend.Select2.init();
-
-        if($.session.get("tab") == "edit")
-        {
-            $("#li-password").removeClass("active");
-            $("#li-profile").removeClass("active");
-            $("#li-edit").addClass("active");
-
-            $("#profile").removeClass("active");
-            $("#password").removeClass("active");
-            $("#edit").addClass("active");
-        }
-        else if($.session.get("tab") == "password")
-        {
-            $("#li-password").addClass("active");
-            $("#li-profile").removeClass("active");
-            $("#li-edit").removeClass("active");
-
-            $("#profile").removeClass("active");
-            $("#password").addClass("active");
-            $("#edit").removeClass("active");
-        }
-
-        $(".tabs").click(function() {
-            var tab = $(this).attr("aria-controls");
-            $.session.set("tab", tab);
-        });
+    
+$(document).ready(function(){
+    $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+        localStorage.setItem('activeTab', $(e.target).attr('href'));
     });
+    var activeTab = localStorage.getItem('activeTab');
+    if(activeTab){
+        $('#myTab a[href="' + activeTab + '"]').tab('show');
+    }
+});
 </script>
 @endsection

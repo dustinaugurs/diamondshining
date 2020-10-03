@@ -33,6 +33,8 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'as' => 'admin.', '
 
         Route::get('generateInvoicePDF', 'OrdersController@generateInvoicePDF')->name('generateInvoicePDF');
 
+        Route::get('getinvoice/{oid}', 'OrdersController@getInvoice')->name('getinvoice');
+
         
         
     });

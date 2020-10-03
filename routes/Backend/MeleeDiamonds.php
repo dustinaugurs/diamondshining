@@ -14,7 +14,7 @@ Route::post('submitMeleeDiamond', 'MeleeDiamonds\MeleeDiamondsController@submitM
 
 Route::post('updateMeleeDiamond', 'MeleeDiamonds\MeleeDiamondsController@updateMeleeDiamond')->name('updateMeleeDiamond');
 
-Route::get('deleteMeleeDiamond/{id}', 'MeleeDiamonds\MeleeDiamondsController@deleteMeleeDiamond')->name('deleteMeleeDiamond');
+Route::get('deleteMeleeDiamond', 'MeleeDiamonds\MeleeDiamondsController@deleteMeleeDiamond')->name('deleteMeleeDiamond');
 
 
 

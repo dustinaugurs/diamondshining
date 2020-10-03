@@ -95,6 +95,8 @@ class UserRepository extends BaseRepository
         $user->last_name         = $data['last_name'];
         $user->email             = $data['email'];
         $user->company           = $data['company'];
+        $user->VATnumber         = $data['VATnumber'];
+        $user->company           = $data['company'];
         $user->designation       = $data['designation'];
         $user->phone_no          = $data['phone_no'];
         $user->website           = $data['website'];
@@ -257,8 +259,18 @@ class UserRepository extends BaseRepository
     public function updateProfile($id, $input)
     {
         $user = $this->find($id);
-        $user->first_name = $input['first_name'];
-        $user->last_name = $input['last_name'];
+        $user->first_name       = $input['first_name'];
+        $user->last_name        = $input['last_name'];
+        $user->company          = $input['company'];
+        $user->VATnumber        = $input['VATnumber'];
+        $user->cregNumber       = $input['cregNumber'];
+        $user->address_line1    = $input['address_line1'];
+        $user->address_line2    = $input['address_line2'];
+        $user->address_line3    = $input['address_line3'];
+        $user->city             = $input['city'];
+        $user->state            = $input['state'];
+        $user->country          = $input['country'];
+        $user->zip              = $input['zip'];
         $user->updated_by = access()->user()->id;
 
         if ($user->canChangeEmail()) {
@@ -268,7 +280,6 @@ class UserRepository extends BaseRepository
                 if ($this->findByEmail($input['email'])) {
                     throw new GeneralException(trans('exceptions.frontend.auth.email_taken'));
                 }
-
                 // Force the user to re-verify his email address
                 $user->confirmation_code = md5(uniqid(mt_rand(), true));
                 $user->confirmed = 0;

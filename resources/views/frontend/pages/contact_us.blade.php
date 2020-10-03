@@ -1,64 +1,90 @@
+@php
+$pageName = 'contact';
+@endphp
   @extends('frontend.layouts.app')
   @section('title') Contact Us @endsection
 @section('meta_description')Contact Us @endsection
 @section('meta_keywords') Contact Us @endsection
 
 @section('content')
- <!--================Banner Area =================-->
-        <section class="banner_area">
-            <div class="container">
-                <div class="banner_inner_text">
-                    <h2>Contact</h2>
-                    <p>Get in touch</p>
-                </div>
-            </div>
-        </section>
-        <!--================End Banner Area =================-->
-        
-        <!--================Get in Touch Area =================-->
-        <section class="get_in_touch_area p_100">
-            <div class="container">
-                <div class="row get_touch_inner">
-                    <div class="col-lg-6">
-                        <form class="contact_us_form row" action="{{url('contactussend')}}" method="post" id="contactForm">
-                        @csrf
-                            <div class="form-group col-lg-4">
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Name*" required>
-                            </div>
-                            <div class="form-group col-lg-4">
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Email*" required>
-                            </div>
-                            <div class="form-group col-lg-4">
-                                <input type="text" class="form-control" id="contact_no" name="contact_no" placeholder="Contact Number*" maxlength="10" onkeypress="return isNumber(event)" required >
-                            </div>
-                            <div class="form-group col-lg-12">
-                                <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject*" required>
-                            </div>
-                            <div class="form-group col-lg-12">
-                                <textarea class="form-control" name="message" id="message" rows="1" placeholder="Message"></textarea>
-                            </div>
-                            <div class="form-group col-lg-12">
-                                <button type="submit" value="submit" class="btn submit_btn form-control" >Send</button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="touch_details contactinfo">
-                            <div class="l_title">
-                                <img src="{{url('public/img/frontend/img/icon/title-icon.png')}}" alt="">
-                                <h6>Say hello</h6>
-                                <h2>Get in touch, send us an e-mail or call us</h2>
-                            </div>
-                            <a href="tel:+0207869525"><span><i class="fa fa-phone" aria-hidden="true"></i></span> <span>Telephone number :</span> <h4>0207 869525</h4></a>
 
-                            <a href="mailto:enquries@shiningqualities.com"> <span><i class="fa fa-envelope-o" aria-hidden="true"></i></span> <span>Email :</span> <h4>enquries@shiningqualities.com</h4></a>
-                            <a href="https://wa.me/7969852535?text=Hi, Summerby Diamond, Do You Want to Chat with me ?"><span><i class="fa fa-whatsapp" aria-hidden="true"></i></span> <span>Whatsapp number :</span> <h4>+44 7969 852535</h4></a>
-
+ <!-- breadcrumb area start -->
+ <div class="breadcrumb-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="breadcrumb-wrap">
+                            <nav aria-label="breadcrumb">
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-home"></i></a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">contact us</li>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+        <!-- breadcrumb area end -->
+
+     
+
+        <!-- contact area start -->
+        <div class="contact-area section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="contact-message">
+                            <h4 class="contact-title">Tell Us Your Project</h4>
+                            <form class="" action="{{url('contactussend')}}" method="post" id="contactForm">
+                            @csrf   
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <input type="text"  id="name" name="name" placeholder="Name*" required>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <input type="email"  id="email" name="email" placeholder="Email*" required>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <input type="text"  id="contact_no" name="contact_no" placeholder="Contact Number*" maxlength="10" onkeypress="return isNumber(event)" required >
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <input type="text"  id="subject" name="subject" placeholder="Subject*" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="contact2-textarea text-center">
+                                        <textarea class="form-control2" name="message" id="message" rows="1" placeholder="Message"></textarea>
+                                          
+                                        </div>
+                                        <div class="contact-btn">
+                                            <button class="btn btn-sqr" type="submit" value="submit">Send Message</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 d-flex justify-content-center">
+                                        <p class="form-messege"></p>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-5">
+                        <div class="contact-info">
+                            <h4 class="contact-title">Contact us</h4>
+                            <p>Get in touch, send us an e-mail or call us</p>
+                                
+                                <ul>
+                                    <li><a href=""><i class="fa fa-map-marker" aria-hidden="true"></i> Address : Shining Qualities USA</a></li>
+                                    <li><a href=""><i class="fa fa-phone"></i>0207 869525</a></li>
+                                    <li><a href="mailto:enquries@shiningqualities.com"><i class="fa fa-envelope-o"></i> enquries@shiningqualities.com</li>
+                                    <li><a href="https://wa.me/7969852535?text=Hi, Summerby Diamond, Do You Want to Chat with me ?"><i class="fa fa-whatsapp" aria-hidden="true"></i> +44 7969 852535</a></li>
+                                </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- contact area end -->
 
         <script>
 

@@ -44,7 +44,7 @@
 
 <!-- <td class="trackingid">{{$order->orderTrackingId}}</td> -->
 
-<td class="status">
+<!-- <td class="status">
 @switch($order->checkStatus)
     @case(1)
         Checking availability
@@ -59,7 +59,7 @@
        Checking availability
 @endswitch
 <span class="changests  checkStatus_{{$order->id}} checkstatusOrder_{{$order->id}}"><a class="getcheckstatusOrder" href="javascript:void(0);" checkOrder="{{$order->id}}" chStatus="{{$order->checkStatus}}">Change</a></span>
-</td>
+</td> -->
 
 <td>{{$order->multiplier_id}} X</td>
 

@@ -86,7 +86,7 @@ class DiamondFeedsController extends Controller
 		//print_r('hello'); die;
         $data = $request->except(['_token']);
         //Create the model using repository create method
-		//echo '<pre>'; print_r($input); die;
+		echo '<pre>'; print_r($input); die;
         $value=DB::table('diamond_feeds')->where('stock_id', $data['stock_id'])->get();
         if($value->count() == 0){
            DB::table('diamond_feeds')->insert($data);

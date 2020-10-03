@@ -268,6 +268,47 @@ public function EnquiryToOrderSend(Request $request){
    
   }
   //-----------------------------
+
+  public function SearchInvoice(Request $request){
+    $base = Auth::user()->currency_code;
+    $allcurrency = Currency::where('code', $base)->first();
+    $code = $allcurrency['code'];
+    $symbol = $allcurrency['symbol']; 
+    $price_arr = $this->orders->get_currency();
+    $rate = (array) $price_arr['rates'];
+    $current_currency = $rate[$code];
+    $setting = Setting::first();
+          return view('frontend.pages.search_invoice', [
+            'cancelled'=>'cancelled',
+            //'products' => $this->orders->productSingle($stockID),
+            'current_currency' => $current_currency,
+            'symbol' => $symbol,
+            'setting' => $setting,
+          ]);
+              
+      } 
+
+      public function getInvoice(Request $request){
+        $setting = Setting::first();
+        $invoice_number = explode(",",$request->invoice_number);
+        //print_r($invoice_number); die;
+        $base = Auth::user()->currency_code;
+        $allcurrency = Currency::where('code', $base)->first();
+        $code = $allcurrency['code'];
+        $symbol = $allcurrency['symbol']; 
+        $price_arr = $this->orders->get_currency();
+        $rate = (array) $price_arr['rates'];
+        $current_currency = $rate[$code];
+         $orders = $this->orders->OrdersearchInvoice($invoice_number);
+        return view('frontend.pages.component.invoicesearch_component', [
+          'enquiry'=> 'enquiry',
+          'orders' => $orders,
+          'current_currency' => $current_currency,
+          'symbol' => $symbol,
+          'setting' => $setting,
+        ]);
+        //return response()->json(['data'=>$order, 'setting' => $setting, 'current_currency'=>$current_currency, 'symbol'=>$symbol]);
+      }       
     
     
 //=====---End-Order-request-ajax-function----====== 

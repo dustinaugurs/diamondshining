@@ -83,7 +83,7 @@
         if (!confirm("Do you want to delete")){
          return false;
          }else{
-            $('.delnotdisplay')[0].click();
+            $('form#submitdelete').submit();
             //return true;
          }
          

@@ -43,6 +43,8 @@ class User extends Authenticatable
         'last_name',
         'email',
         'company',
+        'cregNumber',
+        'VATnumber',
         'designation',
         'phone_no',
         'website',

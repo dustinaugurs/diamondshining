@@ -77,5 +77,16 @@ class OrderRepository
  return $orders;             
 }
 
+
+public function OrdersearchInvoice($invoice_number = ''){
+  $orders = Order::with('user','diamondfeed','multiplierprice')
+              ->whereIn('invoice_number', $invoice_number)
+              ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
+              ->whereIn('checkStatus', [2,3])
+              ->orderBy('order_date', 'desc')
+              ->get();
+ return $orders;             
+}
+
    
 }

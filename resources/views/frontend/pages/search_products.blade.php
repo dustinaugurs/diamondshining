@@ -1,3 +1,6 @@
+@php
+$pageName = 'searchproduct';
+@endphp
 @extends('frontend.layouts.app')
 
 @section('title') Our Product @endsection
@@ -393,7 +396,7 @@
 <!-------------------->
 
 
-<div class="col-lg-12 table-accordion-wrp">
+<div class="table-accordion-wrp">
 		<div  class="text-center loader" style="display: none">
 		 <div class="spinner-border text-primary" role="status">
 	<span class="sr-only">Loading...</span>
@@ -415,7 +418,7 @@
 
 <div class="tab-pane fade fancyclrdiamon" id="fancy-coloured-diamonds" role="tabpanel" aria-labelledby="nav-profile-tab">
 <!-- <h4>Fancy coloured diamonds</h4> -->
-<div class="col-lg-12 table-accordion-wrp">
+<div class="table-accordion-wrp">
 		 <div  class="text-center loader" style="display: none">
 		 <div class="spinner-border text-primary" role="status">
 	<span class="sr-only">Loading...</span>
@@ -436,7 +439,7 @@
 <div class="tab-pane fade canadamarkdiamond" id="canada-mark-diamonds" role="tabpanel" aria-labelledby="nav-contact-tab">
 <!-- <h4>Canada mark diamonds</h4> -->
 
-<div class="col-lg-12 table-accordion-wrp">
+<div class="table-accordion-wrp">
 		 <div  class="text-center loader" style="display: none">
 		 <div class="spinner-border text-primary" role="status">
 	<span class="sr-only">Loading...</span>
@@ -456,7 +459,7 @@
 <div class="tab-pane fade labgrowndiamond" id="lab-Grown-Diamonds" role="tabpanel" aria-labelledby="nav-contact-tab">
 <!-- <h4>Lab Grown Diamonds</h4> -->
 
-<div class="col-lg-12 table-accordion-wrp">
+<div class="table-accordion-wrp">
 		
 <div class="table-responsive" id="product_div">
  <div  class="text-center loader" style="display: none">
@@ -477,7 +480,7 @@
 <div class="tab-pane fade meleediamond" id="melee-diamonds" role="tabpanel" aria-labelledby="nav-contact-tab">
  <!-- <h4>Melee diamonds</h4> -->
 
- <div class="col-lg-12 table-accordion-wrp">
+ <div class="table-accordion-wrp">
 		 <div  class="text-center loader" style="display: none">
 		 <div class="spinner-border text-primary" role="status">
 	<span class="sr-only">Loading...</span>
@@ -521,23 +524,35 @@
 		//console.log('id='+id);
 		var stockiid =  $('.stocknum_'+id).val();
 		var multiplierusd =  $('.multiplierUsd_'+id).val();
+		var c_symbol =  $('.c_symbol_'+id).val();
+		var p_finalprice =  $('.p_finalprice_'+id).val();
+		var p_price_without_vat =  $('.p_price_without_vat_'+id).val();
+		var p_vat =  $('.p_vat_'+id).val();
 		$('#diamondFeed_id').val(id);
 		$('#stock_number').val(stockiid);
 		$('#multiplier_usd').val(multiplierusd);
+		$('#c_symbol').val(c_symbol);
+		$('#p_finalprice').val(p_finalprice);
+		$('#p_price_without_vat').val(p_price_without_vat);
+		$('#p_vat').val(p_vat);
 		//return true;
 				}
 
 	function orderPopup(id){
 		//console.log('id='+id);
-		var stockiido =  $('.stocknumo_'+id).val();
-		var multiplierusd =  $('.multiplierUsdo_'+id).val();
-		var c_symbol =  $('.c_symbolo_'+id).val();
-		var p_finalprice =  $('.p_finalpriceo_'+id).val();
-		$('#diamondFeed_ido').val(id);
-		$('#stock_numbero').val(stockiido);
-		$('#multiplier_usdo').val(multiplierusd);
-		$('#c_symbolo').val(c_symbol);
-		$('#p_finalpriceo').val(p_finalprice);
+			var stockiido =  $('.stocknumo_'+id).val();
+			var multiplierusd =  $('.multiplierUsdo_'+id).val();
+			var c_symbol =  $('.c_symbolo_'+id).val();
+			var p_finalprice =  $('.p_finalpriceo_'+id).val();
+			var p_price_without_vat =  $('.p_price_without_vato_'+id).val();
+			var p_vat =  $('.p_vato_'+id).val();
+			$('#diamondFeed_ido').val(id);
+			$('#stock_numbero').val(stockiido);
+			$('#multiplier_usdo').val(multiplierusd);
+			$('#c_symbolo').val(c_symbol);
+			$('#p_finalpriceo').val(p_finalprice);
+			$('#p_price_without_vato').val(p_price_without_vat);
+			$('#p_vato').val(p_vat);
 			//return true;
 	} 
 
@@ -549,20 +564,45 @@
 			$('#stock_numberc').val(stockiido);
 			$('#multiplier_usdc').val(multiplierusd);
 			//return true;
-	}       
+	}  
+
+
+function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).attr('href')).select();
+  document.execCommand("copy");
+  $temp.remove();
+  toastr.success('copy your link : '+$(element).attr('href'));
+} 
+
+function copyToAll(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+  toastr.success('copy your link : '+$(element).text());
+} 
+
+function numeric_only (event, input) {
+    if ((event.which < 32) || (event.which > 126)) return true; 
+    return jQuery.isNumeric ($(input).val () + String.fromCharCode (event.which));
+}// numeric_only;
+      
 
 	//==================
-function myFunction() {
-	var x = document.getElementById("Search-for-Diamonds-wrp");
-	if (x.style.display === "block") {
-		x.style.display = "none";
-	} else {
-		x.style.display = "block";
-	}
-	$(".hide55").click(function(){
-	$("Search-for-Diamonds").hide();
-});
-}
+// function myFunction() {
+// 	var x = document.getElementById("Search-for-Diamonds-wrp");
+// 	if (x.style.display === "block") {
+// 		x.style.display = "none";
+// 	} else {
+// 		x.style.display = "block";
+// 	}
+// 	$(".hide55").click(function(){
+// 	$("Search-for-Diamonds").hide();
+// });
+// }
 //===================
 // $('.hideFilter').hide();
 // $("#Search-for-Diamonds-wrp").slideDown();
@@ -1050,15 +1090,73 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 $(".button1").click(function () { 
 					history.go(0); 
 					alert('reset all filter'); 
-			});  
-			 
-			 
+			}); 
+			//-----------------------------------
+		$('body').on('submit', '#ordersubmit', function(event){
+           event.preventDefault();
+		   $('#OrderModal').modal('hide');
+		   if($('#orderform').submit()){
+			   $('.loaderdisplay').show();
+			   $('#ordersubmit').attr('disabled', 'disabled');
+		   }else{
+			$('.loaderdisplay').hide();  
+		   };
+		});
+    //------------------------------
+	$('#sameaddressbox').css('display', 'none');
+    $('#otheraddressbox').css('display', 'none');
+    $('.addressradio input[type="radio"]').on('click', function() {
+        var id = $(this).val();
+        console.log('value_'+id );
+        if (id == "sameAddress") {
+			$('.othervalidate').removeAttr('required');
+			$('.samevalidate').attr('required','true');
+            $('#sameaddressbox').css('display', 'block');
+			$('#otheraddressbox').css('display', 'none');
+        }else if(id == "otherAddress"){
+			$('.samevalidate').removeAttr('required');
+			$('.othervalidate').attr('required','true');
+            $('#otheraddressbox').css('display', 'block');
+			$('#sameaddressbox').css('display', 'none');
+        }else{
+			$('#sameaddressbox').css('display', 'block');
+            $('#otheraddressbox').css('display', 'none');	
+		} 
+
+
+	});
+	//---------------------------
+
+	$('#qsameaddressbox').css('display', 'none');
+    $('#qotheraddressbox').css('display', 'none');
+    $('.qaddressradio input[type="radio"]').on('click', function() {
+        var id = $(this).val();
+        console.log('value_'+id );
+        if (id == "sameAddress") {
+			$('.qothervalidate').removeAttr('required');
+			$('.qsamevalidate').attr('required','true');
+            $('#qsameaddressbox').css('display', 'block');
+			$('#qotheraddressbox').css('display', 'none');
+        }else if(id == "otherAddress"){
+			$('.qsamevalidate').removeAttr('required');
+			$('.qothervalidate').attr('required','true');
+            $('#qotheraddressbox').css('display', 'block');
+			$('#qsameaddressbox').css('display', 'none');
+        }else{
+			$('#qsameaddressbox').css('display', 'block');
+            $('#qotheraddressbox').css('display', 'none');	
+		} 
+
+		
+	});
+	
+
+
+	//----------------------------  
 		});
 
 		//-----------------------------------
-		
-		//--------------------------------------
-
+	
 	
 	</script>
 

@@ -53,8 +53,7 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  /*   padding: 10px; */
-  padding: 0px 10px 20px;
+  padding: 10px 0px 10px 0px;
 }
 #js_carat_filter .Carat-filter-container,
 #js_price_filter .price-filter-container {
@@ -157,10 +156,11 @@ color: rgb(73, 80, 87);
 display: flex;
 flex-direction: column;
 }
-.price-col .price-wrp{
- margin-top: 0px;
+.price-col .price-wrp {
+  margin-top: 0px;
+  font-weight: 600;
+  font-size: 20px;
 }
-
 
 .price-col .order-btn-wrp{
 width: auto;
@@ -169,13 +169,12 @@ padding: 0px;
 height: auto;
 }
 .price-col .order-btn-wrp .order-btn, .price-col .enquire-btn-wrp .enquire-btn, .price-col .enquire-btn{
- margin: 10px 10px 10px;
- font-size: 18px;
- line-break:  inherit;
- width: 150px !important;
- text-transform: uppercase;
-  height: 48.8px;
-  line-height: 24px;
+  margin: 10px 10px 5px 0;
+  font-size: 16px;
+  line-break: inherit;
+  width: auto !important;
+  text-transform: uppercase;
+  float: left;
 }
 
 .price-col .enquire-btn-wrp{
@@ -203,9 +202,9 @@ color:  #002853;
 }
 
 .project-tab .nav-tabs .nav-item.show .nav-link,.project-tab .nav-tabs .nav-link.active,.project-tab .nav-tabs .nav-item.show .nav-link,.project-tab .nav-tabs .nav-link:hover, .project-tab .nav-tabs .nav-item.show .nav-link, .project-tab .nav-tabs .nav-link:focus{
-background: transparent !important;
-border-bottom: 3px solid  #002853 !important;
-color: #002853 !important;
+background: #444 !important;
+border-bottom: 0px !important;
+color: #fff !important;
 }
   
   

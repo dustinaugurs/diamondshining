@@ -162,6 +162,27 @@ class DiamondFeedRepository extends BaseRepository
                 }
                 fclose($handle);
                 foreach ($importData_arr as $importData) {
+                    $videoFileName = NULL;
+                    $imgFileName = NULL;
+                   $pdfFileName = NULL;
+                     //video save
+                    if(!empty($importData[28])){
+                        $videoFileName = 'video_'.$importData[1].'.'.\File::extension($importData[28]);
+                    if(!empty(\File::extension($importData[28]))){
+                    copy($importData[28], public_path('webscrap/video') . DIRECTORY_SEPARATOR . $videoFileName);
+                        }}
+                    //pdf save
+                    if(!empty($importData[31]) || $importData[31] !== 'TRUE'){
+                        if(\File::extension($importData[31])=='pdf'){
+                    $pdfFileName = 'pdf_'.$importData[1].'.'.\File::extension($importData[31]);
+                    copy($importData[31], public_path('webscrap/pdf') . DIRECTORY_SEPARATOR . $pdfFileName);
+                        }}
+                    //image save
+                    if(!empty($importData[30])){
+                    $imgFileName = 'image_'.$importData[1].'.'.\File::extension($importData[30]);
+                    copy($importData[30], public_path('webscrap/image') . DIRECTORY_SEPARATOR . $imgFileName);
+                        }
+                    //die;
 
                     $insertData = array(
                         "stock_id"            => $importData[1],
@@ -175,7 +196,7 @@ class DiamondFeedRepository extends BaseRepository
                         "symm"                => $importData[9],
                         "flo"                 => $importData[10],
                         "floCol"              => $importData[11],
-                        "lwratio"             => $importData[12],
+                        "lwratio"             => $importData[13]/$importData[14],
                         "length"              => $importData[13],
                         "width"               => $importData[14],
                         "height"              => $importData[15],
@@ -188,20 +209,25 @@ class DiamondFeedRepository extends BaseRepository
                         "brown"               => $importData[22],
                         "green"               => $importData[23],
                         "milky"               => $importData[24],
-                        "actual_supplier"     => $importData[25],
-                        "discount"            => $importData[26],
-                        "price"               => $importData[27],
-                        "price_per_carat"     => $importData[28],
-                        "video"               => $importData[29],
-                        "video_frames"        => $importData[30],
-                        "image"               => $importData[31],
-                        "pdf"                 => $importData[32],
-                        "mine_of_origin"      => $importData[33],
-                        "canada_mark_eligble" => $importData[34],
-						"supplier_name"      =>  $importData[35],
-						"location"           =>  $importData[36],
-						"is_returnable"       =>  $importData[37],
-						"supplier_id"       =>  $importData[38]);
+                        "actual_supplier"     => $importData[34],
+                        "discount"            => $importData[25],
+                        "price"               => $importData[26],
+                        "price_per_carat"     => $importData[27],
+                        "video"               => $importData[28],
+                        "video_frames"        => $importData[29],
+                        "image"               => $importData[30],
+                        "pdf"                 => $importData[31],
+                        "mine_of_origin"      => $importData[32],
+                        "canada_mark_eligble" => $importData[33],
+                        "supplier_name"       => $importData[34],
+                        "location"            => $importData[35],
+                        "is_returnable"       => $importData[36],
+                        "supplier_id"         => $importData[37],
+                         "video_url"          => $videoFileName, 
+                         "img_url"            => $imgFileName, 
+                         "pdf_url"            => $pdfFileName, 
+                         "uniqueId"           => $importData[5].'Z'.$importData[1].'X',
+                    );
 		//print_r($insertData); die;
                     DiamondFeed::insertData($insertData);
 

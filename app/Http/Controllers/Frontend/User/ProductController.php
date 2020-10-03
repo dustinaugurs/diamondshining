@@ -227,6 +227,37 @@ class ProductController extends Controller
 	}
 
 	public function EnquirySend(Request $request){
+		//echo '<pre>'; print_r($request->all()); die; 
+		$deliveryaddress = $request->qdeliveryaddress;  // otherAddress, sameAddress
+	//----------------
+	$auth = Auth::user();
+	$saddressline_1 = $request->qaddressline_1;
+	$saddressline_2 = $request->qaddressline_2; 
+	$saddressline_3 = $request->qaddressline_3;
+	$scity = $request->qcity; 
+	$sstate = $request->qstate; 
+	$scountry = $request->qcountry;
+	$szip = $request->qzip;
+	if(!empty($deliveryaddress)){
+	if($deliveryaddress == 'sameAddress'){
+		$auth->address_line1 = $saddressline_1;	
+		$auth->address_line2 = $saddressline_2;	
+		$auth->address_line3 = $saddressline_3;	
+		$auth->city = $scity;
+		$auth->state = $sstate;
+		$auth->country = $scountry;	
+		$auth->zip = $szip;
+		$auth->save();
+	} }
+	//-------------
+	$oaddressline_1 = $request->qoaddressline_1;
+	$oaddressline_2 = $request->qoaddressline_2; 
+	$oaddressline_3 = $request->qoaddressline_3;
+	$ocity = $request->qocity; 
+	$ostate = $request->qostate; 
+	$ocountry = $request->qocountry;
+	$ozip = $request->qozip; 
+	//--------------- 
 		$multiplier = $this->multiplier(); 
 		$setting = Setting::first();
 		//print_r($request->diamondFeed_id); die; 
@@ -241,6 +272,25 @@ class ProductController extends Controller
 		$order->multiplier_id = $request->multiplier_usd;
 		$order->order_date = $dateTime->format("d/m/Y  h:i A");		   
 		$order->date = date('m_Y');
+		$order->c_symbol = $request->c_symbol; 
+		$order->p_finalprice = $request->p_finalprice; 
+		$order->p_price_without_vat = $request->p_price_without_vat;
+		$order->p_vat = $request->p_vat;
+		$order->VATnumber = $request->vatnumber;
+		if(!empty($deliveryaddress)){
+			if($deliveryaddress == 'otherAddress'){
+				$order->delivery_location = 'otherAddress'; 
+				$order->address_line1 = $oaddressline_1;	
+				$order->address_line2 = $oaddressline_2;	
+				$order->address_line3 = $oaddressline_3;	
+				$order->city = $ocity;
+				$order->state = $ostate;
+				$order->country = $ocountry;	
+				$order->zip = $ozip;
+			}else{
+				$order->delivery_location = 'sameAddress'; 
+			} 
+		}
 		if($order->save()){
 			toastr()->success('Order Successfully Sent');
 		}else{
@@ -270,6 +320,38 @@ class ProductController extends Controller
 
 
 	  public function OrderSend(Request $request){
+		//echo '<pre>'; print_r($request->all()); die;
+		
+	$deliveryaddress = $request->deliveryaddress;  // otherAddress, sameAddress
+	//----------------
+	$auth = Auth::user();
+	$saddressline_1 = $request->addressline_1;
+	$saddressline_2 = $request->addressline_2; 
+	$saddressline_3 = $request->addressline_3;
+	$scity = $request->city; 
+	$sstate = $request->state; 
+	$scountry = $request->country;
+	$szip = $request->zip;
+	if(!empty($deliveryaddress)){
+	if($deliveryaddress == 'sameAddress'){
+		$auth->address_line1 = $saddressline_1;	
+		$auth->address_line2 = $saddressline_2;	
+		$auth->address_line3 = $saddressline_3;	
+		$auth->city = $scity;
+		$auth->state = $sstate;
+		$auth->country = $scountry;	
+		$auth->zip = $szip;
+		$auth->save();
+	} }
+	//-------------
+	$oaddressline_1 = $request->oaddressline_1;
+	$oaddressline_2 = $request->oaddressline_2; 
+	$oaddressline_3 = $request->oaddressline_3;
+	$ocity = $request->ocity; 
+	$ostate = $request->ostate; 
+	$ocountry = $request->ocountry;
+	$ozip = $request->ozip; 
+	//---------------     
 		$multiplier = $this->multiplier(); 
 		$setting = Setting::first();
 		//print_r($request->diamondFeed_ido); die; 
@@ -286,6 +368,23 @@ class ProductController extends Controller
 		$order->date = date('m_Y');
 		$order->c_symbol = $request->c_symbolo; 
 		$order->p_finalprice = $request->p_finalpriceo; 
+		$order->p_price_without_vat = $request->p_price_without_vato;
+		$order->p_vat = $request->p_vato;
+		$order->VATnumber = $request->vatnumbero;
+		if(!empty($deliveryaddress)){
+			if($deliveryaddress == 'otherAddress'){
+				$order->delivery_location = 'otherAddress'; 
+				$order->address_line1 = $oaddressline_1;	
+				$order->address_line2 = $oaddressline_2;	
+				$order->address_line3 = $oaddressline_3;	
+				$order->city = $ocity;
+				$order->state = $ostate;
+				$order->country = $ocountry;	
+				$order->zip = $ozip;
+			}else{
+				$order->delivery_location = 'sameAddress'; 
+			} 
+		}
 		if($order->save()){
 			toastr()->success('Order Successfully Sent');
 		}else{

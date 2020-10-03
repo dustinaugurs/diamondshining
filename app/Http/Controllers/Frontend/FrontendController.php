@@ -29,8 +29,9 @@ class FrontendController extends Controller
     {
         $settingData = Setting::first();
         $google_analytics = $settingData->google_analytics;
+        $aboutus = DB::table('pages')->where('page_slug', 'about-us')->first();
 
-        return view('frontend.index', compact('google_analytics', $google_analytics));
+        return view('frontend.index', compact('google_analytics', $google_analytics, 'aboutus', $aboutus));
     }
 
     /**
@@ -127,12 +128,12 @@ class FrontendController extends Controller
 
 
     public function contactUsend(Request $request){
-        //print_r($request->all()); die;
+        $setting = Setting::first();
         if(empty($request->name) || empty($request->email) || empty($request->contact_no) || empty($request->subject)){
         toastr()->warning('Please Fill Up the Name, Email, Contact No. & Subject In Proper Way');
         return redirect('contact-us');
         }
-        
+       
         $ua=$this->getBrowser();
         $dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
 		$contact = new Contact();
@@ -145,14 +146,15 @@ class FrontendController extends Controller
         $contact->plateform = $ua['platform'];
         $contact->subject = $request->subject;
         $contact->message = $request->message;	
-        $contact->datetime = $dateTime->format("d/m/Y  h:i A");		   
+        $contact->datetime = $dateTime->format("d/m/Y  h:i A");	
+        	   
 		if($contact->save()){
 			toastr()->success('Thank You, I will contact with you very soon');
 		}else{
 			toastr()->warning('Not Sent');
 		}
-		//---------start-mail-section-------------
-		if($request->email !== ''){	
+        //---------start-mail-section-------------
+		if(!empty($setting->incomingInfoEmailID)){	
             $contact = [
 				'name'=> $request->name,
 				'email'=> $request->email, 
@@ -160,8 +162,9 @@ class FrontendController extends Controller
 				'message' => $request->message,
 				'datetime'=> $dateTime->format("d/m/Y  h:i A")
             ];
-            $mail = \Mail::to(env('MAIL_GETTO'))->send(new SendContact($contact));
-			   }	
+            $mail = Mail::to($setting->incomingInfoEmailID)->send(new SendContact($contact));
+               }	
+               
 	   //---------End-mail-section-------------	
 
         return redirect('contact-us');
@@ -169,6 +172,7 @@ class FrontendController extends Controller
 
 
     public function SubscriberMail(Request $request){
+        $setting = Setting::first();
         //print_r($request->all()); die;
         if(empty($request->mcemail)){
         toastr()->warning('Please Enter Your Email Address');
@@ -189,12 +193,12 @@ class FrontendController extends Controller
 			toastr()->warning('Not Sent');
 		}
 		//---------start-mail-section-------------
-		if($request->mcemail !== ''){	
+		if(!empty($setting->incomingInfoEmailID)){	
             $subscribedata = [
 				'email'=> $request->mcemail, 
 				'datetime'=> $dateTime->format("d/m/Y  h:i A")
             ];
-            $mail = \Mail::to(env('MAIL_GETTO'))->send(new SendSubscribe($subscribedata));
+            $mail = \Mail::to($setting->incomingInfoEmailID)->send(new SendSubscribe($subscribedata));
 
 			   }	
 	   //---------End-mail-section-------------	

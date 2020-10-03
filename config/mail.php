@@ -100,6 +100,7 @@ return [
     */
 
     'sendmail' => '/usr/sbin/sendmail -bs',
+    //'sendmail' => 'D:\xamp7.2.33\sendmail\sendmail.exe -t',
 
     /*
     |--------------------------------------------------------------------------

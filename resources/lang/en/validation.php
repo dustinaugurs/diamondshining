@@ -213,6 +213,8 @@ return [
                 'companydetails'  => [
                     'address'       => 'Company Address',
                     'contactnumber' => 'Contact Number',
+                    'cregistration' => 'Company Registration',
+                    'cvatnumber' => 'Company VAT Number',
                 ],
                 'mail'            => [
                     'fromname'  => 'From Name',
@@ -271,6 +273,8 @@ return [
                 'website'                   => 'Website URL',
                 'enquiry'                   => 'Enquiry',
                 'find_us'                   => 'Where you find us',
+                'vatnumber'                 => 'Company VAT Number',
+                'cregNumber'                => 'Company Registration'
             ],
         ],
     ],

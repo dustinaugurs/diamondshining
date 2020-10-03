@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 use File;
+use PDF;
 
 
 
@@ -48,8 +49,56 @@ class CsvAutoUploadController extends Controller
       $this->storage   = Storage::disk('public');
   }
 
-    
+
+  public function scrapingfromhtmlpdf($url='', $filename=''){
+    $context = stream_context_create(
+    array(
+    "http" => array(
+    "header" => "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"
+                  )
+         )
+                                   );
+    $pdfcontent = file_get_contents($url, false, $context); 
+    //print_r($content); die;
+    $pdf_invoice_file_path = public_path('webscrap/zzz-dom/').$filename;
+
+      $pdf = PDF::loadHTML($pdfcontent);
+      $pdf->save($pdf_invoice_file_path);
+       $pdf->stream();
+    return $pdf;
+   }
+
+  public function pdfWithoutExtension($url='', $filename=''){
+      $context = stream_context_create(
+      array(
+      "http" => array(
+      "header" => "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"
+                    )
+           )
+                                     );
+      $pdfcontent = file_get_contents($url, false, $context); 
+      header('Content-Type: application/pdf');
+      header('Content-Length: '.strlen($pdfcontent));
+      header('Content-disposition: inline; filename="' . $filename . '"');
+      header('Cache-Control: public, must-revalidate, max-age=0');
+      header('Pragma: public');
+      header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+      header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+      //print_r($pdfcontent); die;
+      $getpdf = copy($url, public_path('webscrap/xyz') . DIRECTORY_SEPARATOR . $filename);
+      return $getpdf;
+  }
+
+              
 	  public function index(Request $request){
+      //$url1 = 'https://www.igi.org/viewpdf.php?r=425072875';
+      // $filename = time().'.pdf'; 
+      // $file = $this->pdfWithoutExtension($url1, $filename);
+
+      $url = 'https://www.gia.edu/report-check?reportno=1349200880';
+      $filename1 = time().'.pdf'; 
+      $file = $this->scrapingfromhtmlpdf($url1, $filename1);
+       echo $file; die;
 //-----checking-internet--------
 $host_name = 'www.google.com';
 $port_no = '80';
@@ -77,14 +126,12 @@ $ch = curl_init ($csvUrl);
 curl_setopt($ch, CURLOPT_HEADER, 0);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_BINARYTRANSFER,1);
-//$downloadUrl=curl_exec($ch);
-$downloadUrl= 'C:\xampp\htdocs\augurslp-diamondwtvy\csvfile.txt';
+$downloadUrl=curl_exec($ch);
+//$downloadUrl= 'D:\xamp7.2.33\htdocs\summerbydiamondwd\summersby202009300803-1.csv';
 $file = file_get_contents($downloadUrl);
  $fsave = file_put_contents($saveto.'/'.'summersby_'.date('d-m-Y').'_'.time().'.csv', $file);
  echo '<p style="text-align:center"> Your Latest file <b>'.$latestcsv.'</b> download successfully'.'</p>';
- //print_r($file);
-  // die;
-  
+
     //========================  
      
   
@@ -92,12 +139,12 @@ $file = file_get_contents($downloadUrl);
         
           if (($handle = fopen(public_path('csvautoupload\\') . $input, 'r')) !== false) {
 
-          // echo '<pre>'; print_r(fgetcsv($handle, 1000, ',')); die;
+           //echo '<pre>'; print_r(fgetcsv($handle, 1000, ',')); die;
 
               $importData_arr = array();
               $i              = 0;
               while (($fileData = fgetcsv($handle, 1000, ',')) !== false) {
-          //print_r($fileData); die;
+              //echo '<pre>'; print_r($fileData); die;
                   $num = count($fileData);
                 //  if($num !== 34){
                       //throw new GeneralException('Invalid CSV File Data');
@@ -114,7 +161,29 @@ $file = file_get_contents($downloadUrl);
 
               }
               fclose($handle);
+              //echo '<pre>';print_r($importData_arr); die;
               foreach ($importData_arr as $importData) {
+                $videoFileName = NULL;
+                $imgFileName = NULL;
+               $pdfFileName = NULL;
+                //video save
+               if(!empty($importData[28])){
+                $videoFileName = 'video_'.$importData[1].'.'.\File::extension($importData[28]);
+               if(!empty(\File::extension($importData[28]))){
+               copy($importData[28], public_path('webscrap/video') . DIRECTORY_SEPARATOR . $videoFileName);
+                  }}
+               //pdf save
+               if(!empty($importData[31]) || $importData[31] !== 'TRUE'){
+                if(\File::extension($importData[31])=='pdf'){
+               $pdfFileName = 'pdf_'.$importData[1].'.'.\File::extension($importData[31]);
+               copy($importData[31], public_path('webscrap/pdf') . DIRECTORY_SEPARATOR . $pdfFileName);
+                   }}
+               //image save
+               if(!empty($importData[30])){
+               $imgFileName = 'image_'.$importData[1].'.'.\File::extension($importData[30]);
+               copy($importData[30], public_path('webscrap/image') . DIRECTORY_SEPARATOR . $imgFileName);
+                 }
+                //die;
 
                   $insertData = array(
                       "stock_id"            => $importData[1],
@@ -128,7 +197,7 @@ $file = file_get_contents($downloadUrl);
                       "symm"                => $importData[9],
                       "flo"                 => $importData[10],
                       "floCol"              => $importData[11],
-                      "lwratio"             => $importData[12],
+                      "lwratio"             => $importData[13]/$importData[14],
                       "length"              => $importData[13],
                       "width"               => $importData[14],
                       "height"              => $importData[15],
@@ -141,21 +210,27 @@ $file = file_get_contents($downloadUrl);
                       "brown"               => $importData[22],
                       "green"               => $importData[23],
                       "milky"               => $importData[24],
-                      "actual_supplier"     => $importData[25],
-                      "discount"            => $importData[26],
-                      "price"               => $importData[27],
-                      "price_per_carat"     => $importData[28],
-                      "video"               => $importData[29],
-                      "video_frames"        => $importData[30],
-                      "image"               => $importData[31],
-                      "pdf"                 => $importData[32],
-                      "mine_of_origin"      => $importData[33],
-                      "canada_mark_eligble" => $importData[34],
-                      "supplier_name"       => $importData[35],
-                      "location"            => $importData[36],
-                      "is_returnable"       => $importData[37],
-                      "supplier_id"         => $importData[38]);
-  //print_r($insertData); die;
+                      "actual_supplier"     => $importData[34],
+                      "discount"            => $importData[25],
+                      "price"               => $importData[26],
+                      "price_per_carat"     => $importData[27],
+                      "video"               => $importData[28],
+                      "video_frames"        => $importData[29],
+                      "image"               => $importData[30],
+                      "pdf"                 => $importData[31],
+                      "mine_of_origin"      => $importData[32],
+                      "canada_mark_eligble" => $importData[33],
+                      "supplier_name"       => $importData[34],
+                      "location"            => $importData[35],
+                      "is_returnable"       => $importData[36],
+                      "supplier_id"         => $importData[37],
+                       "video_url"          => $videoFileName, 
+                       "img_url"            => $imgFileName, 
+                       "pdf_url"            => $pdfFileName, 
+                       "uniqueId"           => $importData[5].'Z'.$importData[1].'X',
+                       
+                        );
+
                   DiamondFeed::insertData($insertData);
               }
               echo '<p style="text-align:center">Data Inserted/Updated Successfully</p>';

@@ -40,7 +40,7 @@ class MeleeDiamondsController extends Controller
                     ->addColumn('IJ_SI1', function($row) use($symbol, $current_currency) {return $symbol.''.round($current_currency*$row->IJ_SI1,2);})
 
                     ->addColumn('action', function($row){
-                           $btn = '<a href="'.url('admin/addMeleeDiamond').'/'.$row->id.'/'.$row->shape.'" class="edit btn btn-primary btn-sm"><i class="fa fa-edit"></i></a> <a id="delbutton" href="javascript:void(0)" class="edit btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> <a class="delnotdisplay" href="'.url('admin/deleteMeleeDiamond').'/'.$row->id.'" ></a> ';
+                           $btn = '<a href="'.url('admin/addMeleeDiamond').'/'.$row->id.'/'.$row->shape.'" class="edit btn btn-primary btn-sm"><i class="fa fa-edit"></i></a> <form id="submitdelete"  action="'.url('admin/deleteMeleeDiamond').'" method="get"><button type="submit" id="delbutton" name="id" value="'.$row->id.'" class="edit btn btn-danger btn-sm"><i class="fa fa-trash"></i></button> </form> ';
                             return $btn;
                     })
                     ->rawColumns(['action', 'EF_VS', 'GH_VS', 'EF_SI1', 'GH_SI1', 'EF_SI2', 'GH_SI2', 'IJ_SI1'])
@@ -69,7 +69,7 @@ class MeleeDiamondsController extends Controller
                     ->addColumn('EF_SI', function($row) use($symbol, $current_currency) {return $symbol.''.round($current_currency*$row->EF_SI,2);})
                     ->addColumn('GH_SI', function($row) use($symbol, $current_currency) {return $symbol.''.round($current_currency*$row->GH_SI,2);})
                    ->addColumn('action', function($row){
-                          $btn = '<a href="'.url('admin/addMeleeDiamond').'/'.$row->id.'/'.$row->shape.'" class="edit btn btn-primary btn-sm"><i class="fa fa-edit"></i></a> <a href="'.url('admin/deleteMeleeDiamond').'/'.$row->id.'" class="edit btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>';
+                          $btn = '<a href="'.url('admin/addMeleeDiamond').'/'.$row->id.'/'.$row->shape.'" class="edit btn btn-primary btn-sm"><i class="fa fa-edit"></i></a> <form id="submitdelete" action="'.url('admin/deleteMeleeDiamond').'" method="get"><button type="submit" id="delbutton" name="id" value="'.$row->id.'" class="edit btn btn-danger btn-sm"><i class="fa fa-trash"></i></button> </form>';
                            return $btn;
                    })
                    ->rawColumns(['action', 'EF_VS', 'GH_VS', 'EF_SI', 'GH_SI'])
@@ -203,9 +203,10 @@ public function updateMeleeDiamond(Request $request){
 
    //--------------------------
    
-   public function deleteMeleeDiamond($id=''){
-    $meleediamonds = MeleeDiamond::find($id);
-    //echo '<pre>'; print_r($meleediamonds->toArray()); die;
+   public function deleteMeleeDiamond(Request $request){
+       $id = $request->id;
+    $meleediamonds = MeleeDiamond::findOrFail($id);
+    //echo '<pre>'; print_r($request->all()); die;
     if($meleediamonds->delete()){
         toastr()->success('Data Remove Successfully');
     }else{

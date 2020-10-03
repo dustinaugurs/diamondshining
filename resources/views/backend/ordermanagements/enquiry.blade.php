@@ -103,16 +103,16 @@
     <th>Certificate</th>
     <th>Shape</th>
     <!-- <th>Tracking ID</th> -->
-    <th>Status  
-    <!-- <div class="changedata">
+    <!--<th>Status  
+     <div class="changedata">
             <select name="checkStatus" class="checkStatus">
                 <option value="all">All</option>
                 <option value="1">Checking availability</option>
                 <option value="2">Order confirmed</option>
                 <option value="3">Order sent with tracking</option>
             </select>
-        </div> -->
-    </th>
+        </div>
+    </th> -->
         <th>Multiplier</th>
         <th>Final Price ((Inc VAT))</th>
      <!---<th>Delivery Cost</th> -->

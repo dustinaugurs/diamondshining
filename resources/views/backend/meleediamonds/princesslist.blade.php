@@ -76,13 +76,13 @@
 
   $(document).ready(function(){
     $('body').on('click', '#delbutton', function(){
-        alert();
         if (!confirm("Do you want to delete")){
          return false;
          }else{
-            $('.delnotdisplay').click();
-            return true;
+            $('form#submitdelete').submit();
+            //return true;
          }
+         
         
     });
 });

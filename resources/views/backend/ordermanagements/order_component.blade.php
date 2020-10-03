@@ -42,7 +42,7 @@
 
 <td>{{$order->diamondfeed->shape}}</td>
 
-<td class="trackingid">{{$order->orderTrackingId}}</td>
+<td class="trackingid_{{$order->id}}">{{$order->orderTrackingId}}</td>
 <td class="status">
 @switch($order->checkStatus)
     @case(1)
@@ -57,7 +57,11 @@
     @default
        Checking availability
 @endswitch
+@if($order->checkStatus !== '3')
+@if($order->order_status==5)
 <span class="changests  checkStatus_{{$order->id}} checkstatusOrder_{{$order->id}}"><a class="getcheckstatusOrder" href="javascript:void(0);" checkOrder="{{$order->id}}" chStatus="{{$order->checkStatus}}">Change</a></span>
+@endif
+@endif
 </td>
 
 <td>{{$order->multiplier_id}} X</td>
@@ -143,7 +147,7 @@
 
 <td>{{$order->ETA}}</td>
 <td>
-@if($order->checkStatus == 2 || $order->checkStatus == 2)
+@if($order->checkStatus == 2 || $order->checkStatus == 3)
 <a target="_blank" href="{{url('public/invoicepdf/')}}/{{$order->invoice_file}}">{{$order->invoice_number}}</a>
 @else
 
@@ -152,6 +156,6 @@
 </tr>
 @endforeach
 @else
-<tr><td colspan="16">No Data Found</td></tr>
+<tr><td colspan="18">No Data Found</td></tr>
 @endif
 

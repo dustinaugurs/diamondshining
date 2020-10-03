@@ -37,4 +37,12 @@ class ChangePasswordController extends Controller
 
         return redirect()->route('frontend.user.account')->withFlashSuccess(trans('strings.frontend.user.password_updated'));
     }
+
+    
+
+
+
+
+
+
 }

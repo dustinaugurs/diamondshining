@@ -22,6 +22,7 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Fill Up Details</h4>
         </div>
+        <form class="checkstatupdatetwothree2">
         <div class="modal-body">
 
         <!----->
@@ -56,10 +57,10 @@
           <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="input-group">
           <span class="input-group-addon">Select Status : </span>
-          <select name="checkstatustt" class="checkstatustt form-control">
+          <select readonly name="checkstatustt" class="checkstatustt form-control">
                 <!-- <option value="1">Checking availability</option> -->
-                <option value="2">Order confirmed</option>
-                <option value="3">Order sent with tracking</option>
+                <!-- <option value="2">Order confirmed</option>
+                <option value="3">Order sent with tracking</option> -->
             </select>
           </div>
           </div>
@@ -71,6 +72,8 @@
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button class="btn btn-primary checkstatupdatetwothree">Update</button>
         </div>
+        </form>
+
         </div>
        </div>
        </div>
@@ -278,14 +281,22 @@ $('body').on('click', '.getpaystatusOrder', function(){
 //--------------------------------------
 $('body').on('click', '.getcheckstatusOrder', function(){
     console.log('check Status_ '+$(this).attr('checkOrder'));
+    optionStatus = '', disable = ''; 
     var pid = $(this).attr('checkOrder')
     var chstatus = $(this).attr('chStatus')  
-  var options = '<span><select class="checkstatupdateOrder" prID="'+pid+'" chhstatus="'+chstatus+'">'+
-                '<option value="NULL">--Select--</option>'+
-                '<option value="1">Checking availability</option>'+
-                '<option value="2">Order confirmed</option>'+
-                '<option value="3">Order sent with tracking</option>'+
-                '</select></span>'+'<span><a class="clrred closecheckOrder" checkOrder="'+pid+'" href="javascript:void(0)">X</a></span>';
+    if(chstatus==1){
+     optionStatus = '<option value="2">Order confirmed</option>';  
+    }else if(chstatus==2){
+        optionStatus = '<option  value="3">Order sent with tracking</option>';
+    }else if(chstatus==3){
+        disable = "disabled";
+        optionStatus = '<option selected="selected" value="3">Order sent with tracking</option>';
+    }
+
+  var options = '<span>'+
+                '<select '+disable+' class="checkstatupdateOrder" prID="'+pid+'" chhstatus="'+chstatus+'">'+
+                '<option value="NULL">--Select--</option>'+optionStatus+
+                '</select></span>'+'<span><a class="clrred closecheckOrder" chStatus="'+chstatus+'" checkOrder="'+pid+'" href="javascript:void(0)">X</a></span>';
        $('span.checkStatus_'+pid).css('display', 'block');
        $('.checkstatusOrder_'+pid).html(options);
     }
@@ -293,8 +304,9 @@ $('body').on('click', '.getcheckstatusOrder', function(){
      );
 
   $('body').on('click', '.closecheckOrder', function(){
-    var pid = $(this).attr('checkOrder')
-  var options = '<span><a class="getcheckstatusOrder" checkOrder="'+pid+'" href="javascript:void(0)">Change</a></span>';
+    var pid = $(this).attr('checkOrder');
+    var chstatus = $(this).attr('chStatus') 
+  var options = '<span class="changests  checkStatus_'+pid+' checkstatusOrder_'+pid+'"><a class="getcheckstatusOrder" checkOrder="'+pid+'" chStatus="'+chstatus+'" href="javascript:void(0)">Change</a></span>';
       $('span.checkStatus_'+pid).css('display', 'inline');
        $('.checkstatusOrder_'+pid).html(options);
      });      
@@ -356,15 +368,25 @@ $('body').on('click', '.getcheckstatusOrder', function(){
 		});
 //--------------Start--Update-CheckStatus-1-------------------
         $('body').on('change', '.checkstatupdateOrder', function(){
-      var  payment_status='', order_status='', date='', check_status='', prid=''  ;
+      var  payment_status='', order_status='', date='', check_status='', prid='', options = '', trackingID = ''  ;
          prid = $(this).attr('prID');
          date = $(".changedatetimeOrder").find("option:selected").val();
          payment_status = $(".paystatupdateOrder").find("option:selected").val();
          check_status = $(".checkstatupdateOrder").find("option:selected").val();
          order_status = $(".orderstatuptOrder").find("option:selected").val();
+         if(check_status==2){
+            options = '<option value="2">Order confirmed</option>'; 
+            trackingID = ''; 
+         }else if(check_status==3){
+            options = '<option value="3">Order sent with tracking</option>';
+            trackingID = $('.trackingid_'+prid).text();
+           }
+
          if($('.checkstatupdateOrder').click()){
         if(check_status != 1){
             $('#checkid23').val(prid);
+            $('.checkstatustt').html(options);
+            $('#trackingid').val(trackingID); 
             $('#myModal').modal({
            show: 'show'
             });
@@ -391,8 +413,9 @@ $('body').on('click', '.getcheckstatusOrder', function(){
             });
 		});
 //--------------Start--Update-CheckStatus-2AND3-------------------
-$('body').on('click', '.checkstatupdatetwothree', function(){
-      var payment_status='', order_status='', date='', check_status='', deliveryCost='', prid='', etadate='', trackingid='';
+$('.checkstatupdatetwothree2').on('submit', function(event){
+    event.preventDefault()
+      var payment_status='', order_status='', date='', check_status='', deliveryCost='', prid='', etadate='', trackingid='', allordstatus = '';
 
       $('#myModal').modal('hide');
       
@@ -406,7 +429,7 @@ $('body').on('click', '.checkstatupdatetwothree', function(){
          trackingid = $('#trackingid').val();
          etadate = $('#etadate').val();
 
-         var allordstatus = [2,3,4,5];
+          allordstatus = [2,3,4,5];
       
 			var data = 'date='+date+'&pid='+prid+'&payment_status='+payment_status+'&order_status='+order_status+'&check_status='+check_status+'&deliveryCost='+deliveryCost+'&etadate='+etadate+'&allordstatus='+allordstatus+'&trackingid='+trackingid+'&_token={{ csrf_token() }}';
              //console.log('clickupdatedata_'+data); return false;
@@ -417,7 +440,7 @@ $('body').on('click', '.checkstatupdatetwothree', function(){
                 cache:false,
 				       // dataType:'json',
                 beforeSend: function(){
-                    $(".dataafterfilterOrder").html('<tr><td colspan="16"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
+                    $("#dataafterfilterOrder").html('<tr><td colspan="18"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
                 },
                 success: function(result) {
               toastr.success('Your Data Successfully Updated');

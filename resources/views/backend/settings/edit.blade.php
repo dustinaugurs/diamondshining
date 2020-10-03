@@ -149,6 +149,27 @@
 					</div>
 				</div>
 				<!--form control-->
+
+				<div class="form-group">
+					{{ Form::label('company_registration', trans('validation.attributes.backend.settings.companydetails.cregistration'), ['class'
+					=> 'col-lg-2 control-label']) }}
+
+					<div class="col-lg-10">
+						{{ Form::text('company_registration', null,['class' => 'form-control', 'placeholder' => trans('validation.attributes.backend.settings.companydetails.cregistration'),
+						'rows' => 2]) }}
+					</div>
+				</div>
+				<!--form control-->
+				<div class="form-group">
+					{{ Form::label('VATnumber', trans('validation.attributes.backend.settings.companydetails.cvatnumber'), ['class'
+					=> 'col-lg-2 control-label']) }}
+
+					<div class="col-lg-10">
+						{{ Form::text('VATnumber', null,['class' => 'form-control', 'placeholder' => trans('validation.attributes.backend.settings.companydetails.cvatnumber'),
+						'rows' => 2]) }}
+					</div>
+				</div>
+				<!--form control-->
 			</div>
 			<div role="tabpanel" class="tab-pane" id="tab3">
 				<div class="form-group">

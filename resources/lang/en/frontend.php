@@ -27,6 +27,7 @@ return [
             "news" => "News",
             "enqorder" => "Enquiries / Orders",
             "ourproduct" => "Our Products",
+            "Edit Profile" => "Edit Profile"
             ],     
     
 ];

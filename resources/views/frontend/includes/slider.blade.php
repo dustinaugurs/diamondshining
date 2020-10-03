@@ -1,214 +1,143 @@
-<section class="main_slider_area">
-            <div id="main_slider" class="rev_slider" data-version="5.3.1.6">
-                <ul>
-                    <li data-index="rs-1587" data-transition="fade" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off"  data-easein="default" data-easeout="default" data-masterspeed="300" data-rotate="0"  data-saveperformance="off"  data-title="Creative" data-param1="01" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
-                        <!-- LAYER NR. 1 -->
-                        <div class="slider_text_box">
-                            <div class="tp-caption tp-resizeme first_text" 
-                            data-x="['left','left','left','left','15','center']" 
-                            data-hoffset="['0','80','80','0']" 
-                            data-y="['top','top','top','top']" 
-                            data-voffset="['400','400','400','250','180','180']" 
-                            data-fontsize="['72','72','72','50','50','30']"
-                            data-lineheight="['82','82','82','62','62','42']"
-                            data-width="['none']"
-                            data-height="none"
-                            data-whitespace="nowrape"
-                            data-type="text" 
-                            data-responsive_offset="on" 
-                            data-frames="[{&quot;delay&quot;:10,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:0px;s:inherit;e:inherit;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;y:[175%];&quot;,&quot;mask&quot;:&quot;x:inherit;y:inherit;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;}]"
-                            data-textAlign="['left','left','left','left','left','center']">Choose a powerful <br />design for your Start-up</div>
-                            
-                            <div class="tp-caption tp-resizeme secand_text" 
-                                data-x="['left','left','left','left','15','center']" 
-                                data-hoffset="['0','80','80','0']" 
-                                data-y="['top','top','top','top']" 
-                                data-voffset="['575','575','575','400','320','300']"  
-                                data-fontsize="['24','24','24','18','16','16']"
-                                data-lineheight="['36','36','36','26','26','26']"
-                                data-width="['none','none','none','none','none']"
-                                data-height="none"
-                                data-whitespace="nowrape"
-                                data-type="text" 
-                                data-responsive_offset="on"
-                                data-transform_idle="o:1;"
-                                data-frames="[{&quot;delay&quot;:10,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:[100%];s:inherit;e:inherit;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;y:[175%];&quot;,&quot;mask&quot;:&quot;x:inherit;y:inherit;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;}]"
-                                data-textAlign="['left','left','left','left','left','center']">Get your freebie template now!
-                            </div>
-                            
-                            <div class="tp-caption tp-resizeme" 
-                                data-x="['left','left','left','left','15','center']" data-hoffset="['0','80','80','0']" 
-                                data-y="['top','top','top','top']" 
-                                data-voffset="['670','670','670','480','370','350']" 
-                                data-fontsize="['14','14','14','14']"
-                                data-lineheight="['46','46','46','46']"
-                                data-width="none"
-                                data-height="none"
-                                data-whitespace="nowrap"
-                                data-type="text" 
-                                data-responsive_offset="on" 
-                                data-frames="[{&quot;delay&quot;:10,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:[100%];s:inherit;e:inherit;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;y:[175%];&quot;,&quot;mask&quot;:&quot;x:inherit;y:inherit;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;}]">
-                                <a class="more_btn" href="#">Discover</a>
-                            </div>
-                            <div class="tp-caption tp-resizeme single_img" 
-                            data-x="['right','right','right','right','right','right']" 
-                            data-hoffset="['0','0','0','0']" 
-                            data-y="['top','top','top','top']" 
-                            data-voffset="['180','180','180','180','0']" 
-                            data-fontsize="['65','65','60','40','25']"
-                            data-lineheight="['75','75','75','50','35']"
-                            data-width="['485','485','485','485','485']"
-                            data-height="none"
-                            data-whitespace="normal"
-                            data-type="text" 
-                            data-responsive_offset="on" 
-                            data-frames="[{&quot;delay&quot;:10,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:0px;s:inherit;e:inherit;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;y:[175%];&quot;,&quot;mask&quot;:&quot;x:inherit;y:inherit;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;}]"
-                            data-textAlign="['left','left','left','left','left','center']">
-                                <img src="{{url('public/img/frontend/img/home-slider/slider-m-1.png')}}" alt="">
-                            </div>
-                        </div>
-                    </li>
-                    <li data-index="rs-1588" data-transition="fade" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off"  data-easein="default" data-easeout="default" data-masterspeed="300" data-rotate="0"  data-saveperformance="off"  data-title="Creative" data-param1="01" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
-                    <!-- LAYERS -->
-                        <!-- LAYERS -->
+<div class="custom-design">
+   <section class="sliderhomepage">
+      <div class="nav">
+         <div class="container-fluid">
+            <div class="row">
+               <div class="col-md-3 col-lg-2">
+                  <div class="logo"><a href="{{url('/')}}"><img src="{{url('/')}}/assets/img/logo/logo-light.svg" class="logo-white">
+                  <img src="{{url('/')}}/assets/img/logo/logo-black.svg" class="logo-blk"></a></div>
+               </div>
+               <div class="col-md-7 col-lg-9">
+                  <div class="login-btns">
+                  @if (!$logged_in_user)
+                     {{ link_to_route('frontend.auth.login', trans('navs.frontend.login')) }}
+                     {{ link_to_route('frontend.auth.register', trans('navs.frontend.register')) }}
+                  @else
+                     {{ link_to_route('frontend.auth.logout', trans('navs.general.logout')) }}
+                  @endif
+                  </div>
+               </div>
+               <div class="col-md-2 col-lg-1">
+                  <div class="toggle-btn downclass">
+                     <span class="one"></span>
+                     <span class="two"></span>
+                     <span class="three"></span>
+                     <span class="close-icn">
+                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                           viewBox="0 0 512.001 512.001" style="enable-background:new 0 0 512.001 512.001;" xml:space="preserve">
+                           <path d="M284.286,256.002L506.143,34.144c7.811-7.811,7.811-20.475,0-28.285c-7.811-7.81-20.475-7.811-28.285,0L256,227.717
+                              L34.143,5.859c-7.811-7.811-20.475-7.811-28.285,0c-7.81,7.811-7.811,20.475,0,28.285l221.857,221.857L5.858,477.859
+                              c-7.811,7.811-7.811,20.475,0,28.285c3.905,3.905,9.024,5.857,14.143,5.857c5.119,0,10.237-1.952,14.143-5.857L256,284.287
+                              l221.857,221.857c3.905,3.905,9.024,5.857,14.143,5.857s10.237-1.952,14.143-5.857c7.811-7.811,7.811-20.475,0-28.285
+                              L284.286,256.002z"/>
+                        </svg>
+                     </span>
+                  </div>
+                  <div class="menu">
+                     <div class="data-outer">
+                        <div class="data-inner">
+                           <ul>
+                              <li></li>
+                              <li><a href="{{url('/')}}">Home</a></li>
+                              <li><a href="#about-sec" >About</a></li>
+                              @if($logged_in_user) 
+                             
+                        <li> <a href="{{url('account')}}" class="">{{ trans('frontend.menu.Edit Profile') }}</a></li>
 
-                        <!-- LAYER NR. 1 -->
-                        <div class="slider_text_box">
-                            <div class="tp-caption tp-resizeme first_text" 
-                            data-x="['left','left','left','left','15','center']" 
-                            data-hoffset="['0','80','80','0']" 
-                            data-y="['top','top','top','top']" 
-                            data-voffset="['400','400','400','250','180','180']" 
-                            data-fontsize="['72','72','72','50','50','30']"
-                            data-lineheight="['82','82','82','62','62','42']"
-                            data-width="['none']"
-                            data-height="none"
-                            data-whitespace="nowrape"
-                            data-type="text" 
-                            data-responsive_offset="on" 
-                            data-frames="[{&quot;delay&quot;:10,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:0px;s:inherit;e:inherit;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;y:[175%];&quot;,&quot;mask&quot;:&quot;x:inherit;y:inherit;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;}]"
-                            data-textAlign="['left','left','left','left','left','center']">Choose a powerful <br />design for your Start-up</div>
-                            
-                            <div class="tp-caption tp-resizeme secand_text" 
-                                data-x="['left','left','left','left','15','center']" 
-                                data-hoffset="['0','80','80','0']" 
-                                data-y="['top','top','top','top']" 
-                                data-voffset="['575','575','575','400','320','300']"  
-                                data-fontsize="['24','24','24','18','16','16']"
-                                data-lineheight="['36','36','36','26','26','26']"
-                                data-width="['none','none','none','none','none']"
-                                data-height="none"
-                                data-whitespace="nowrape"
-                                data-type="text" 
-                                data-responsive_offset="on"
-                                data-transform_idle="o:1;"
-                                data-frames="[{&quot;delay&quot;:10,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:[100%];s:inherit;e:inherit;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;y:[175%];&quot;,&quot;mask&quot;:&quot;x:inherit;y:inherit;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;}]"
-                                data-textAlign="['left','left','left','left','left','center']">Get your freebie template now!
-                            </div>
-                            
-                            <div class="tp-caption tp-resizeme" 
-                                data-x="['left','left','left','left','15','center']" data-hoffset="['0','80','80','0']" 
-                                data-y="['top','top','top','top']" 
-                                data-voffset="['670','670','670','480','370','350']" 
-                                data-fontsize="['14','14','14','14']"
-                                data-lineheight="['46','46','46','46']"
-                                data-width="none"
-                                data-height="none"
-                                data-whitespace="nowrap"
-                                data-type="text" 
-                                data-responsive_offset="on" 
-                                data-frames="[{&quot;delay&quot;:10,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:[100%];s:inherit;e:inherit;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;y:[175%];&quot;,&quot;mask&quot;:&quot;x:inherit;y:inherit;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;}]">
-                                <a class="more_btn" href="#">Discover</a>
-                            </div>
-                            <div class="tp-caption tp-resizeme single_img" 
-                            data-x="['right','right','right','right','right','right']" 
-                            data-hoffset="['0','0','0','0']" 
-                            data-y="['top','top','top','top']" 
-                            data-voffset="['180','180','180','180','0']" 
-                            data-fontsize="['65','65','60','40','25']"
-                            data-lineheight="['75','75','75','50','35']"
-                            data-width="['485','485','485','485','485']"
-                            data-height="none"
-                            data-whitespace="normal"
-                            data-type="text" 
-                            data-responsive_offset="on" 
-                            data-frames="[{&quot;delay&quot;:10,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:0px;s:inherit;e:inherit;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;y:[175%];&quot;,&quot;mask&quot;:&quot;x:inherit;y:inherit;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;}]"
-                            data-textAlign="['left','left','left','left','left','center']">
-                                <img src="{{url('public/img/frontend/img/home-slider/slider-m-1.png')}}" alt="">
-                            </div>
+                              <li> <a href="{{url('our-products')}}" class="">{{ trans('frontend.menu.ourproduct') }}</a></li>
+                              <li> <a href="{{url('enquiry-order')}}" class=""> {{ trans('frontend.menu.enqorder') }}</a></li> 
+                              @endif
+                              <li><a href="{{url('pages')}}/news"  class="">{{ trans('frontend.menu.news') }}</a></li>
+                              <li><a href="#contact-sec">Contact</a></li>
+                           </ul>
                         </div>
-                    </li>
-                    <li data-index="rs-1589" data-transition="fade" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off"  data-easein="default" data-easeout="default" data-masterspeed="300" data-rotate="0"  data-saveperformance="off"  data-title="Creative" data-param1="01" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
-                    <!-- LAYERS -->
-                        <!-- LAYERS -->
-
-                        <!-- LAYER NR. 1 -->
-                        <div class="slider_text_box">
-                            <div class="tp-caption tp-resizeme first_text" 
-                            data-x="['left','left','left','left','15','center']" 
-                            data-hoffset="['0','80','80','0']" 
-                            data-y="['top','top','top','top']" 
-                            data-voffset="['400','400','400','250','180','180']" 
-                            data-fontsize="['72','72','72','50','50','30']"
-                            data-lineheight="['82','82','82','62','62','42']"
-                            data-width="['none']"
-                            data-height="none"
-                            data-whitespace="nowrape"
-                            data-type="text" 
-                            data-responsive_offset="on" 
-                            data-frames="[{&quot;delay&quot;:10,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:0px;s:inherit;e:inherit;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;y:[175%];&quot;,&quot;mask&quot;:&quot;x:inherit;y:inherit;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;}]"
-                            data-textAlign="['left','left','left','left','left','center']">Choose a powerful <br />design for your Start-up</div>
-                            
-                            <div class="tp-caption tp-resizeme secand_text" 
-                                data-x="['left','left','left','left','15','center']" 
-                                data-hoffset="['0','80','80','0']" 
-                                data-y="['top','top','top','top']" 
-                                data-voffset="['575','575','575','400','320','300']"  
-                                data-fontsize="['24','24','24','18','16','16']"
-                                data-lineheight="['36','36','36','26','26','26']"
-                                data-width="['none','none','none','none','none']"
-                                data-height="none"
-                                data-whitespace="nowrape"
-                                data-type="text" 
-                                data-responsive_offset="on"
-                                data-transform_idle="o:1;"
-                                data-frames="[{&quot;delay&quot;:10,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:[100%];s:inherit;e:inherit;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;y:[175%];&quot;,&quot;mask&quot;:&quot;x:inherit;y:inherit;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;}]"
-                                data-textAlign="['left','left','left','left','left','center']">Get your freebie template now!
-                            </div>
-                            
-                            <div class="tp-caption tp-resizeme" 
-                                data-x="['left','left','left','left','15','center']" data-hoffset="['0','80','80','0']" 
-                                data-y="['top','top','top','top']" 
-                                data-voffset="['670','670','670','480','370','350']" 
-                                data-fontsize="['14','14','14','14']"
-                                data-lineheight="['46','46','46','46']"
-                                data-width="none"
-                                data-height="none"
-                                data-whitespace="nowrap"
-                                data-type="text" 
-                                data-responsive_offset="on" 
-                                data-frames="[{&quot;delay&quot;:10,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:[100%];s:inherit;e:inherit;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;y:[175%];&quot;,&quot;mask&quot;:&quot;x:inherit;y:inherit;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;}]">
-                                <a class="more_btn" href="#">Discover</a>
-                            </div>
-                            <div class="tp-caption tp-resizeme single_img" 
-                            data-x="['right','right','right','right','right','right']" 
-                            data-hoffset="['0','0','0','0']" 
-                            data-y="['top','top','top','top']" 
-                            data-voffset="['180','180','180','180','0']" 
-                            data-fontsize="['65','65','60','40','25']"
-                            data-lineheight="['75','75','75','50','35']"
-                            data-width="['485','485','485','485','485']"
-                            data-height="none"
-                            data-whitespace="normal"
-                            data-type="text" 
-                            data-responsive_offset="on" 
-                            data-frames="[{&quot;delay&quot;:10,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:0px;s:inherit;e:inherit;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;y:[175%];&quot;,&quot;mask&quot;:&quot;x:inherit;y:inherit;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;}]"
-                            data-textAlign="['left','left','left','left','left','center']">
-                                <img src="{{url('public/img/frontend/img/home-slider/slider-m-1.png')}}" alt="">
-                                
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                     </div>
+                  </div>
+               </div>
             </div>
-        </section>
+         </div>
+      </div>
+      <div id="carouselExampleInterval" class="carousel slide carousel-fade" data-ride="carousel">
+         <div class="carousel-inner">
+            <div class="carousel-item active" data-interval="10000">
+               <img src="assets/img/banner/img1.jpg" />
+               <div class="carousel-caption  d-md-block">
+                  <h1><a href="{{url('/')}}" class="shiningbox"><img src="{{url('/')}}/assets/img/logo/logo-icon-white.svg"></a></h1>
+               </div>
+            </div>
+            <div class="carousel-item" data-interval="2000">
+               <img src="assets/img/banner/img2.jpg" />
+               <div class="carousel-caption  d-md-block">
+                  <h1><a href="{{url('/')}}" class="shiningbox"><img src="{{url('/')}}/assets/img/logo/logo-icon-white.svg"></a></h1>
+               </div>
+            </div>
+            <div class="carousel-item">
+               <img src="assets/img/banner/img3.jpg" />
+               <div class="carousel-caption  d-md-block">
+                  <h1><a href="{{url('/')}}" class="shiningbox"><img src="{{url('/')}}/assets/img/logo/logo-icon-white.svg"></a></h1>
+               </div>
+            </div>
+         </div>
+         <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
+         <!-- <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+         <span class="sr-only">Previous</span> -->
+         </a>
+         <a class="carousel-control-next" href="#carouselExampleInterval" role="button" data-slide="next">
+         <!-- <span class="carousel-control-next-icon" aria-hidden="true"></span>
+         <span class="sr-only">Next</span> -->
+         </a>
+      </div>
+   </section>
+   <section class="about" id="about-sec">
+      <div class="container">
+         <div class="row">
+            <div class="col-md-10">
+            <h5>{!! $aboutus->title !!}</h5>
+            {!! $aboutus->description !!}
+            </div>
+         </div>
+      </div>
+   </section>
+</div>
+<script>
+   $(document).ready(function(){
+        $(window).on('scroll', function() { 
+             if ($(window).scrollTop() >= 700) { 
+                  $('.logo-blk').show();
+                  $('.logo-white').hide();
+                  $('.toggle-btn span').css("background-color", "#555");
+                  $('.toggle-btn span.close-icn').css("background-color", "transparent"); 
+                  $('.nav').addClass('navbg');
+             } 
+             else{
+                  $('.logo-blk').hide()
+                  $('.logo-white').show();
+                  $('.toggle-btn span').css("background-color", "#fff");
+                  $('.toggle-btn span.close-icn').css("background-color", "transparent");
+                  $('.nav').removeClass('navbg');
+                  }
+        });
+        $('.sliderhomepage .menu').css('top', '-100%').slideUp(700);
+             $("body").on('click', '.downclass', function(){
+                  $("body").css('overflow','hidden');
+                  $('.sliderhomepage .menu').css('top', '0%').slideDown(700);
+                  $(this).removeClass('downclass').addClass('upclass');
+             });
+             $("body").on('click', '.upclass', function(){
+                  $("body").css('overflow','auto');
+                  $('.sliderhomepage .menu').css('top', '-100%').slideUp(700);
+                  $(this).removeClass('upclass').addClass('downclass');
+             
+             });
+             $(".menu ul li a[href^='#']").click(function() {
+                  $(this).closest('.menu').hide()
+                  $( ".upclass" ).trigger('click');
+                  
+                    id=$(this).attr("href")
+                    $('html, body').animate({
+                         scrollTop: $(id).offset().top 
+                    }, 2000);
+               });
+   });
+   
+</script>

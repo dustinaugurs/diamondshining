@@ -31,17 +31,22 @@ Route::group(['middleware' => 'auth'], function () {
          Route::get('enquiries', 'EnquiryOrderController@enquiries')->name('enquiries');
          Route::get('enquiry-order/ordersPlaced', 'EnquiryOrderController@ordersPlaced')->name('ordersPlaced');
          Route::get('enquiry-order/ordersCompleted', 'EnquiryOrderController@ordersCompleted')->name('ordersCompleted');
+
+         Route::get('enquiry-order/SearchInvoice', 'EnquiryOrderController@SearchInvoice')->name('SearchInvoice');
+         Route::post('getInvoice', 'EnquiryOrderController@getInvoice')->name('getInvoice');
          
          Route::post('changedate', 'EnquiryOrderController@EnquiryChangeDateTime')->name('changedate');
          Route::post('orderchangedate', 'EnquiryOrderController@OrderChangeDateTime')->name('orderchangedate');
          
          Route::post('EnquiryToOrderSend', 'EnquiryOrderController@EnquiryToOrderSend')->name('EnquiryToOrderSend');
 
+         
+
 	   
         Route::get('product_detail/{id}', 'ProductController@productDetail')->name('product-detail');
         Route::get('ajax_get_products', 'ProductController@ajax_get_products');
         Route::get('get_currency', 'ProductController@get_currency');
-        
+
 
         Route::post('imageVideoRequest', 'ProductController@imageVideoRequest')->name('imageVideoRequest');
 
@@ -63,6 +68,9 @@ Route::group(['middleware' => 'auth'], function () {
          * User Profile Specific
          */
         Route::patch('profile/update', 'ProfileController@update')->name('profile.update');
+
+        Route::post('profileUpdate', 'ProfileController@profileUpdate')->name('profileUpdate');
+        Route::post('passwordChanged', 'ProfileController@passwordChanged')->name('passwordChanged');
 
         /*
          * User Profile Picture

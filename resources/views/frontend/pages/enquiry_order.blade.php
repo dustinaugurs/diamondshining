@@ -1,3 +1,6 @@
+@php
+$pageName = 'enquiryorder';
+@endphp
 @extends('frontend.layouts.app')
 
 @section('title') Enquiry @endsection
@@ -21,6 +24,7 @@
   <button class="tablinks active"><a href="{{url('enquiry-order')}}">Enquiries</a></button>
   <button class="tablinks"><a href="{{url('enquiry-order/ordersPlaced')}}">Orders Placed</a></button>
   <button class="tablinks"><a href="{{url('enquiry-order/ordersCompleted')}}">Orders Completed</a></button>
+  <button class="tablinks"><a href="{{url('enquiry-order/SearchInvoice')}}">Search Invoice</a></button>
 </div>
 
 <!-- Tab content -->

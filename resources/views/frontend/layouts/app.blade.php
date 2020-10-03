@@ -33,7 +33,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <meta name="keywords" content="">
-        <!-- <link rel="shortcut icon" href="http://shiningqualities.com/assets/img/favicon.ico" type="image/x-icon" /> -->
+        <link rel="shortcut icon" href="assets/img/logo/logo-icon-black.png" type="image/x-icon" />
         @yield('meta')
 
         <!-- Styles -->
@@ -90,7 +90,9 @@
     {!! Html::style('assets/css/price_range_style.css') !!}
     {!! Html::style('assets/css/filter-style.css') !!}
 
-    
+    <!-- komal --->
+    {!! Html::style('assets/css/custom.css') !!}
+     
      <!-- Modernizer JS -->
 	 {!! Html::script('assets/js/vendor/modernizr-3.6.0.min.js') !!}
     <!-- jQuery JS -->
@@ -113,12 +115,30 @@ if (!empty($google_analytics)) {
 ?>
     </head>
     <body> 
+    <!-- <div class="loader-wrapper">
+        
+        <h1><span>shining</span> <span>qualities</span></h1>
+    
+    </div> -->
         <div id="app">      
             @include('includes.partials.logged-in-as')
             <!--================Header Menu Area =================-->
             @include('frontend.includes.nav')
             <!--================End Header Menu Area =================-->
+            @if(!$logged_in_user)
+            @if(!empty($pageName))
+            @if($pageName == 'contact' || $pageName == 'pages' || $pageName == 'login' || $pageName == 'register')
 			@include('frontend.layouts.header')
+            @endif
+            @endif
+            @endif
+
+            @if($logged_in_user)
+            @if($pageName !== 'home')
+			@include('frontend.layouts.header')
+            @endif
+            @endif
+
 			  @yield('content')
 			@include('frontend.layouts.footer')
 
@@ -128,7 +148,7 @@ if (!empty($google_analytics)) {
             @endif
                
            
-                </div>
+            </div>
         <!-- Scripts -->
         @yield('before-scripts')
         {!! Html::script(mix('js/frontend.js')) !!}
@@ -188,31 +208,37 @@ if (!empty($google_analytics)) {
 	{!! Html::script('assets/js/plugins/google-map.js') !!}
     <!-- Main JS -->
 	{!! Html::script('assets/js/main.js') !!}
-	{!! Html::script('assets/js/price_range_script.js') !!}		
-	<script type="text/javascript">
-            if("{{Route::currentRouteName()}}" !== "frontend.user.account")
-            {
-              //  $.session.clear();
-            }
-            
-        </script>
-        
+    {!! Html::script('assets/js/price_range_script.js') !!}
+    
+    
+    <script type="text/javascript">
+      
+        if("{{Route::currentRouteName()}}" !== "frontend.user.account")
+        {
+            //  $.session.clear();
+        } 
+    </script>
+    @include('includes.partials.ga')
 
-        @include('includes.partials.ga')
-
-<!-------------------------->
-<script type='text/javascript'>
-var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
- $(document).ready(function() {
-        $('#changecurrency').on('change', function() {
-            this.form.submit();
+    <!-------------------------->
+    <script type='text/javascript'>
+    $('.carousel').carousel({
+        interval: 1000,
+        autoplay:true
+        })
+    $(window).on("load",function(){
+          $(".loader-wrapper").fadeOut(6000);
         });
-    })
-</script>
-
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        $(document).ready(function() {
+            $('#changecurrency').on('change', function() {
+                this.form.submit();
+            });
+        })
+    </script>
 
 <!-------------------------->
-    </body>
+</body class="fix">
 {!! Html::script('assets/js/toastr.min.js') !!}
 @toastr_render
 </html>

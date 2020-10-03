@@ -104,6 +104,31 @@ class OrdersController extends Controller
               ]);
                   
           } 
+
+ //------------------------------------
+ public function getInvoice(Request $request, $oid=''){
+    $lastinvid = Order::orderBy('id', 'DESC')->first(); 
+    $invoice = ((int)$lastinvid->id)+'1';
+  //print_r($invoiceNumber);
+  //die;
+     //-------Generate-Invoice-Section-------
+      $order = Order::with('user','diamondfeed')->where('id', $oid)->first();
+      $setting = Setting::first();
+      $dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
+      $date = $dateTime->format("d-m-Y");
+      $uID = 'UID'.$order->user->id;
+      $invoiceNumber = $uID.'F'.$invoice.time();
+      $invoice_date = $dateTime->format("d-m-Y h:i A"); 
+      $uipStockid = $order->diamondfeed->stock_id;
+      $filename = $uipStockid.'-'.$uID.'-'.$date.'-'.time().'.pdf'; 	
+      $pdf_invoice_file_path = public_path('invoicepdf/').$filename;
+    return view('emails.sendinvoice', [
+        'order' => $order,
+            'setting' => $setting,
+            'invoicenumber' => $invoiceNumber,
+            'invoice_date' => $invoice_date
+        ]);
+ }         
           
   //--------------------------------------------
   public function generateInvoicePDF($oid = ''){
@@ -117,14 +142,17 @@ class OrdersController extends Controller
         $dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
         $date = $dateTime->format("d-m-Y");
         $uID = 'UID'.$order->user->id;
-        $invoiceNumber = $uID.'F'.$invoice.time(); 
+        $invoiceNumber = $uID.'F'.$invoice.time();
+        $invoice_date = $dateTime->format("d-m-Y h:i A"); 
         $uipStockid = $order->diamondfeed->stock_id;
         $filename = $uipStockid.'-'.$uID.'-'.$date.'-'.time().'.pdf'; 	
         $pdf_invoice_file_path = public_path('invoicepdf/').$filename;
+
         $pdf = PDF::loadView('emails.sendinvoice', [
             'order' => $order,
             'setting' => $setting,
-            'invoicenumber' => $invoiceNumber
+            'invoicenumber' => $invoiceNumber,
+            'invoice_date' => $invoice_date
             ]);
         $pdf->save($pdf_invoice_file_path);
          $pdf->stream();
@@ -140,22 +168,24 @@ class OrdersController extends Controller
               'customername'=> $order->user->first_name.' '.$order->user->last_name,
               'invoiceNumber' => $order->invoice_number,
               'stockNumber' => $order->diamondfeed->stock_id,
-              'duedate' => $order->order_date,  
+              'duedate' => $order->order_date, 
               ];
 
-         //$sendmail = $order->userEmail;     
-         $sendmail = 'augurstest@gmail.com';
+         $sendmail = $order->userEmail;     
+         //$sendmail = 'augurstest@gmail.com';
 		if($sendmail !== ''){	
 			$mail = \Mail::to($sendmail)->send(new SendInvoice($products));
 			toastr()->success('Product Details Successfully Sent on '.$sendmail.'');
 			   }else{
 				toastr()->warning('Product Details Not Sent');
             }
+
         //----------------------------    
     }
     //-----------------
     
     public function OrderStatusAndPaymentUpdate(Request $request){
+        $dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
         $allordstatus = explode(',', $request->allordstatus);
         $date = $request->date;
         $oid = $request->pid;
@@ -164,6 +194,7 @@ class OrdersController extends Controller
         $check_status = $request->check_status;
         $deliverycost = $request->deliveryCost;
         $etadate = $request->etadate;
+        $invoiceDate = $dateTime->format("d-m-Y h:i A");
 
         //$orderTrackingId = strtoupper(substr(sha1(mt_rand() . microtime()), mt_rand(0,15), 15));
 
@@ -186,13 +217,13 @@ class OrdersController extends Controller
         }
 
         if($check_status !== 'undefined'){
-
             if($check_status==2 || $check_status==3){
                 $this->generateInvoicePDF($oid);
             $orderUpdate->checkStatus = $check_status;
             $orderUpdate->deliverycost_from_admin = $deliverycost;
             $orderUpdate->orderTrackingId = $orderTrackingId;
             $orderUpdate->ETA = $etadate;
+            $orderUpdate->invoice_date = $invoiceDate;
             $MsgText = 'Status Successfully Changed'.'trackid: '.$orderTrackingId;
         }else if($check_status==1){
         $orderUpdate->checkStatus = $check_status; 
@@ -583,20 +614,36 @@ public function updateReq(Request $request){
         $id = $request->productID;
         $redirectURL = '';
         $updatesuccess = '';
+        $videoFileName = NULL;
+        $imgFileName = NULL;
+       $pdfFileName = NULL;
+       $product = DB::table('diamond_feeds')->where('id', $id)->first();
+       $stockID = $product->stock_id;
         if($orderStatus == 6 && !empty($request->image)){
-        $updatesuccess = DB::update('update diamond_feeds SET image = ? where id = ? ', [$request->image, $id]); 
+        $imgFileName = 'image_'.$stockID.'.'.\File::extension($request->image);
+        copy($request->image, public_path('webscrap/image') . DIRECTORY_SEPARATOR . $imgFileName);
+        $updatesuccess = DB::update('update diamond_feeds SET image = ?, img_url = ? where id = ? ', [$request->image, $imgFileName, $id]); 
         $redirectURL = redirect('admin/requestForImage');
         }
         
         if($orderStatus == 7 && !empty($request->video)){
-        $updatesuccess = DB::update('update diamond_feeds SET video = ? where id = ? ', [$request->video, $id]); 
+        $videoFileName = 'video_'.$stockID.'.'.\File::extension($request->video);
+       if(!empty(\File::extension($request->video))){
+       copy($request->video, public_path('webscrap/video') . DIRECTORY_SEPARATOR . $videoFileName);
+       }
+        $updatesuccess = DB::update('update diamond_feeds SET video = ?, video_url = ? where id = ? ', [$request->video, $videoFileName, $id]); 
+        
         $redirectURL = redirect('admin/requestForVideo'); 
         }
         
         if($orderStatus == 8 && !empty($request->pdf)){
-        $updatesuccess = DB::update('update diamond_feeds SET pdf = ? where id = ? ', [$request->pdf, $id]); 
+        $pdfFileName = 'pdf_'.$stockID.'.'.\File::extension($request->pdf);
+        copy($request->pdf, public_path('webscrap/pdf') . DIRECTORY_SEPARATOR . $pdfFileName); 
+        $updatesuccess = DB::update('update diamond_feeds SET pdf = ?, pdf_url = ? where id = ? ', [$request->pdf, $pdfFileName, $id]);
         $redirectURL = redirect('admin/requestForPdf');  
         }
+
+        //--------------------
         
         if($updatesuccess){
 			toastr()->success('Request Updated Successfully');

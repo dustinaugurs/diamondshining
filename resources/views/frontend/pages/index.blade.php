@@ -1,3 +1,6 @@
+@php
+$pageName = 'pages';
+@endphp
 @extends('frontend.layouts.app')
 
 @section('title'){{ $page->seo_title }}@endsection
@@ -6,23 +9,39 @@
 
 @section('content')
  <!--================Banner Area =================-->
- <section class="banner_area">
+ <div class="breadcrumb-area">
             <div class="container">
-                <div class="banner_inner_text">
-                    <h2>{!! $page->title !!} </h2>
-                    <p>Get to know us</p>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="breadcrumb-wrap">
+                            <nav aria-label="breadcrumb">
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-home"></i></a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">{!! $page->title !!}</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </section>
-        <!--================End Banner Area =================-->
-        <!--================Challange Area =================-->
-        <section class="challange_area p_100">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-10">
-                     {!! $page->description !!} 
-                     </div>
-                     </div>
-            </div>
-        </section>
+        </div>
+<section class="pageContent">
+
+<div class="container">
+    <div class="section-box">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{!! $page->title !!} </h2>
+            <!-- <p>Get to know us</p> -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+        {!! $page->description !!} 
+        </div>
+    </div>
+</div>
+</div>
+</section>
+
 @endsection
