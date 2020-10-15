@@ -9,7 +9,7 @@
                 <div class="row align-items-center">
                        
                          
-                        <div class="col-sm-9 col-6">
+                        <div class="col-sm-5 col-4">
                             <div class="mobile-logo">
                                 <a href="{{url('/')}}">
                                     <img src="{{url('/')}}/public/assets/img/logo/logo-light.svg" alt="Brand Logo" class="white_logo">
@@ -17,7 +17,12 @@
                                 </a>
                             </div>
                           </div>    
-
+                         
+                         <div class="col-sm-4 col-2 diamondheading">
+                         @if($pageName=='ourproduct' || $pageName=='searchproduct')
+                        <!--<h1> {{ trans('frontend.menu.ourproduct') }} </h1>-->
+                         @endif
+                         </div>
                              
                           <div class="col-sm-2 col-4">
                             <div class="header-top-settings">

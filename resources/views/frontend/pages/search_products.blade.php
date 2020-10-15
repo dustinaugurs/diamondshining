@@ -3,11 +3,11 @@ $pageName = 'searchproduct';
 @endphp
 @extends('frontend.layouts.app')
 
-@section('title') Our Product @endsection
+@section('title') Diamonds @endsection
 	
-@section('meta_description')Our product @endsection
+@section('meta_description') Diamonds @endsection
 
-@section('meta_keywords') Our Product  @endsection
+@section('meta_keywords') Diamonds  @endsection
 
 @section('content')
 
@@ -21,11 +21,18 @@ $pageName = 'searchproduct';
 								<div class="col-md-12">
 										<nav>
 											<div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-												<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#certified-colourless-diamonds" role="tab" aria-controls="nav-home" aria-selected="true" onclick="myFunction()">Certified diamonds</a>
-												<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#fancy-coloured-diamonds" role="tab" aria-controls="nav-profile" aria-selected="false">Fancy coloured diamonds</a>
+												<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#certified-colourless-diamonds" role="tab" aria-controls="nav-home" aria-selected="true" >Certified diamonds</a>
+
+												<!-- <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#fancy-coloured-diamonds" role="tab" aria-controls="nav-profile" aria-selected="false">{{ trans('frontend.product.tab.fancy') }}</a> -->
+
+												<a class="nav-item nav-link" href="#" data-toggle="modal" data-target="#fancyMsg" >{{ trans('frontend.product.tab.fancy') }}</a>
 								
-												<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#canada-mark-diamonds" role="tab" aria-controls="nav-contact" aria-selected="false">Canada mark diamonds</a>
-												<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#lab-Grown-Diamonds" role="tab" aria-controls="nav-contact" aria-selected="false">Lab Grown Diamonds</a>
+												<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#canada-mark-diamonds" role="tab" aria-controls="nav-contact" aria-selected="false">{{ trans('frontend.product.tab.canada') }}</a>
+
+												<!-- <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#lab-Grown-Diamonds" role="tab" aria-controls="nav-contact" aria-selected="false">{{ trans('frontend.product.tab.lab') }}</a> -->
+
+												<a class="nav-item nav-link" href="#" data-toggle="modal" data-target="#grownMsg" >{{ trans('frontend.product.tab.lab') }}</a>
+
 												<a class="nav-item nav-link hide55" id="nav-contact-tab" data-toggle="tab" href="#melee-diamonds" role="tab" aria-controls="nav-contact" aria-selected="false">Melee diamonds</a>
 											</div>
 										</nav>
@@ -513,10 +520,7 @@ $pageName = 'searchproduct';
 		</div>
 		<!-- Scroll to Top End -->
 
-
-
-
-
+	@include('frontend.pages.component.diamond_modal')
 
 		<script>
 	//=================
@@ -1150,9 +1154,129 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 		
 	});
 	
+//----------------------
+ 
+$('[data-toggle="tooltip"]').tooltip()
 
+//---start-share-details---
+$('body').on('submit', '#sharesubmit', function(){
+	   var formdata = '', data = '', message = '', statusCode = '', status = ''; 
+	       formdata = $(this).serialize();
+           var $this = $(this); 
+		   var $loader = $('.loaderonclick.loaderdisplay');
+			data = formdata+'&_token={{ csrf_token() }}';
+             console.log(data);
+            $.ajax({
+                type:"POST",
+                url:"{{ url('copysend') }}",
+                data:data,
+                cache:false,
+				//async: false,
+			    dataType:'json',
+                beforeSend: function(){
+					 $loader.show();
+					 //console.log($loader);
+					$this.closest("#CopyModal").find('.close').trigger('click');
+			        $this.closest("#CopyModal").find('.close').click();
+                },
+                success: function(response) {
+                  //console.log(response);
+				  message = response.data.message; 
+				  statusCode = response.data.statusCode; 
+				  status = response.data.status;
+					if(statusCode==200){
+					toastr.success(status+': '+message);
+					}else if(statusCode==400){
+					toastr.error(status+': '+message);	 
+					}		
+                },
+				complete: function (response) {
+					$loader.hide();
+                 }
+            });
 
-	//----------------------------  
+		});
+//---End-share-details---
+
+//---start-order-details---
+$('body').on('submit', '#ordersubmit', function(){
+	   var formdata = '', data = '', message = '', statusCode = '', status = ''; 
+	       formdata = $(this).serialize();
+           var $this = $(this); 
+		   var $loader = $('.loaderonclick.loaderdisplay');
+			data = formdata+'&_token={{ csrf_token() }}';
+             console.log(data);
+            $.ajax({
+                type:"POST",
+                url:"{{ url('ordersend') }}",
+                data:data,
+                cache:false,
+				//async: false,
+			    dataType:'json',
+                beforeSend: function(){
+					 $loader.show();
+					 //console.log($loader);
+					$this.closest("#OrderModal").find('.close').trigger('click');
+			        $this.closest("#OrderModal").find('.close').click();
+                },
+                success: function(response) {
+                  //console.log(response);
+				  message = response.data.message; 
+				  statusCode = response.data.statusCode; 
+				  status = response.data.status;
+					if(statusCode==200){
+					toastr.success(status+': '+message);
+					}else if(statusCode==400){
+					toastr.error(status+': '+message);	 
+					}		
+                },
+				complete: function (response) {
+					$loader.hide();
+                 }
+            });
+
+		});
+//---End-order-details---
+//---start-enquiry-details---
+$('body').on('submit', '#enquirysubmit', function(){
+	   var formdata = '', data = '', message = '', statusCode = '', status = ''; 
+	       formdata = $(this).serialize();
+           var $this = $(this); 
+		   var $loader = $('.loaderonclick.loaderdisplay');
+			data = formdata+'&_token={{ csrf_token() }}';
+             console.log(data);
+            $.ajax({
+                type:"POST",
+                url:"{{ url('enquirysend') }}",
+                data:data,
+                cache:false,
+				//async: false,
+			    dataType:'json',
+                beforeSend: function(){
+					 $loader.show();
+					 //console.log($loader);
+					$this.closest("#EnquiryModal").find('.close').trigger('click');
+			        $this.closest("#EnquiryModal").find('.close').click();
+                },
+                success: function(response) {
+                  //console.log(response);
+				  message = response.data.message; 
+				  statusCode = response.data.statusCode; 
+				  status = response.data.status;
+					if(statusCode==200){
+					toastr.success(status+': '+message);
+					}else if(statusCode==400){
+					toastr.error(status+': '+message);	 
+					}		
+                },
+				complete: function (response) {
+					$loader.hide();
+                 }
+            });
+
+		});
+//---End-enquiry-details---
+    
 		});
 
 		//-----------------------------------

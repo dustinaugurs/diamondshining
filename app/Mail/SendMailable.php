@@ -33,7 +33,7 @@ class SendMailable extends Mailable
     public function build()
     { 
         return $this->view('emails.ordermail')
-                   ->subject('Product Enquiry/Order')
+                   ->subject($this->enquiry['subject'])
                    ->with([
                     'name' => 'xyz',
                    ]);

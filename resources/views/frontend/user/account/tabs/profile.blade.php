@@ -1,6 +1,6 @@
 <div class="row">
 
-    <div class="col-lg-6 col-md-6 col-sm-6"> <!-------start-box-------->
+    <div class="col-lg-6 col-md-6 col-sm-12"> <!-------start-box-------->
 <table class="table profiletable table-striped table-hover">
     <tr>
         <th>{{ trans('labels.frontend.user.profile.first_name') }}</th>
@@ -37,7 +37,7 @@
 </table>
 </div> <!-------end-box-------->
 
-<div class="col-lg-6 col-md-6 col-sm-6"> <!-------start-box-------->
+<div class="col-lg-6 col-md-6 col-sm-12"> <!-------start-box-------->
 <table class="table profiletable table-striped table-hover">
     <tr>
         <th>{{ trans('labels.frontend.user.profile.address_line1') }}</th>

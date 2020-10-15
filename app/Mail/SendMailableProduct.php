@@ -109,7 +109,7 @@ class SendMailableProduct extends Mailable
         '</table></body></html>');
         //print_r($pdf); die;
         return $this->view('emails.productmail')
-                   ->subject('Product Details')
+                   ->subject($this->products['subject'])
                    ->attachData($pdf->output(), $this->products["pdfname"].".pdf")
                    ->with([
                     'name' => 'xyz',

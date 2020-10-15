@@ -306,6 +306,9 @@ h4.reportheading span {
 	
 }
 
+
+
+
 a.ordermsg{position:relative; background: #DDD; border-color: #DDD; cursor: not-allowed;}
 a.ordermsg:before{content: 'Your Product Price Not Matched with Multiplier Price Range';
     position: absolute;
@@ -398,6 +401,8 @@ a.ordermsg:before{content: 'Your Product Price Not Matched with Multiplier Price
 .table-accordion-wrp .table-responsive .table td p img {
 	max-width: 100%;
 }
+
+.boxsize .tox.tox-tinymce{width:87% !important}
 
 .table-accordion-wrp .table-responsive .table td a.detail-order-btn {
 	padding: 6px 10px !important;
@@ -665,6 +670,9 @@ a.ordermsg:before{content: 'Your Product Price Not Matched with Multiplier Price
 .searchproductPage .resetvisibility {
 	visibility: visible;
 }
+
+
+.searchproductPage .displayfirst{display:none !important;}
 
 .ourproductPage .resetvisibility {
 	visibility: hidden;

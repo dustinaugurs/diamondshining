@@ -3,11 +3,11 @@
       <div class="nav">
          <div class="container-fluid">
             <div class="row">
-               <div class="col-md-3 col-lg-2">
+               <div class="col-md-3 col-sm-4 col-lg-2">
                   <div class="logo"><a href="{{url('/')}}"><img src="{{url('/')}}/assets/img/logo/logo-light.svg" class="logo-white">
                   <img src="{{url('/')}}/assets/img/logo/logo-black.svg" class="logo-blk"></a></div>
                </div>
-               <div class="col-md-7 col-lg-9">
+               <div class="col-md-7 col-sm-6 col-lg-9 ">
                   <div class="login-btns">
                   @if (!$logged_in_user)
                      {{ link_to_route('frontend.auth.login', trans('navs.frontend.login')) }}
@@ -17,7 +17,7 @@
                   @endif
                   </div>
                </div>
-               <div class="col-md-2 col-lg-1">
+               <div class="col-md-2 col-sm-2 col-lg-1">
                   <div class="toggle-btn downclass">
                      <span class="one"></span>
                      <span class="two"></span>
@@ -39,16 +39,15 @@
                            <ul>
                               <li></li>
                               <li><a href="{{url('/')}}">Home</a></li>
-                              <li><a href="#about-sec" >About</a></li>
+                              <li><a href="{{url('/about-us')}}" >About</a></li>
                               @if($logged_in_user) 
                              
-                        <li> <a href="{{url('account')}}" class="">{{ trans('frontend.menu.Edit Profile') }}</a></li>
-
+                              <li> <a href="{{url('account')}}" class="">{{ trans('frontend.menu.Edit Profile') }}</a></li>
                               <li> <a href="{{url('our-products')}}" class="">{{ trans('frontend.menu.ourproduct') }}</a></li>
                               <li> <a href="{{url('enquiry-order')}}" class=""> {{ trans('frontend.menu.enqorder') }}</a></li> 
                               @endif
                               <li><a href="{{url('pages')}}/news"  class="">{{ trans('frontend.menu.news') }}</a></li>
-                              <li><a href="#contact-sec">Contact</a></li>
+                              <li><a href="{{url('/contact-us')}}">Contact</a></li>
                            </ul>
                         </div>
                      </div>
@@ -88,21 +87,32 @@
          </a>
       </div>
    </section>
-   <section class="about" id="about-sec">
-      <div class="container">
-         <div class="row">
-            <div class="col-md-10">
-            <h5>{!! $aboutus->title !!}</h5>
-            {!! $aboutus->description !!}
-            </div>
-         </div>
-      </div>
-   </section>
+  
 </div>
 <script>
    $(document).ready(function(){
+      if($(window).width() >= 1024){
+         $(window).on('scroll', function() { 
+         
+         if ($(window).scrollTop() >= 400) { 
+          $('.logo-blk').show();
+          $('.logo-white').hide();
+          $('.toggle-btn span').css("background-color", "#555");
+          $('.toggle-btn span.close-icn').css("background-color", "transparent"); 
+          $('.nav').addClass('navbg');
+     } 
+     else{
+          $('.logo-blk').hide()
+          $('.logo-white').show();
+          $('.toggle-btn span').css("background-color", "#fff");
+          $('.toggle-btn span.close-icn').css("background-color", "transparent");
+          $('.nav').removeClass('navbg');
+          }
+});
+         }
         $(window).on('scroll', function() { 
-             if ($(window).scrollTop() >= 700) { 
+         
+                 if ($(window).scrollTop() >= 700) { 
                   $('.logo-blk').show();
                   $('.logo-white').hide();
                   $('.toggle-btn span').css("background-color", "#555");

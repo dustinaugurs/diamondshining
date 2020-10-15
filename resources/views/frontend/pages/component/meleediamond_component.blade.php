@@ -1,7 +1,7 @@
 
 
             <div class="frontmeleediamondbox">
-                <h5>Round</h5>
+                <h5>Round ( prices per carat )</h5>
             <table class="table table-condensed table-hover table-bordered" id="data-table">
             <thead>
             <tr>
@@ -44,7 +44,7 @@
       
             <div class="frontmeleediamondbox">
                 <div class="col-sm-8 margboxws">
-            <h5>Princess</h5>
+            <h5>Princess ( prices per carat )</h5>
             <table class="table table-condensed table-hover table-bordered" id="data-table2">
             <thead>
             <tr>

@@ -31,7 +31,7 @@ $pageName = 'register';
                               @enderror
                            </div>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-6">
                            <div class="single-input-item">
                            {{ Form::input('email', 'email', null, ['class' => '', 'placeholder' => trans('validation.attributes.frontend.register-user.email')]) }}
                               @error('email')
@@ -68,7 +68,7 @@ $pageName = 'register';
                         <div class="col-lg-6">
                            <div class="single-input-item">
                            {{ Form::input('text','VATnumber',null, ['class' => ' box-size', 'placeholder' => trans('validation.attributes.frontend.register-user.vatnumber')]) }}
-                              @error('company')
+                              @error('VATnumber')
                               <div class="text-danger">{{ $message }}</div>
                               @enderror
                             </div>
@@ -98,7 +98,7 @@ $pageName = 'register';
                               @enderror
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
                             <div class="single-input-item">
                             {{ Form::input('text','address_line1',null, ['class' => ' box-size', 'placeholder' => trans('validation.attributes.frontend.register-user.address_line1')]) }}
                               @error('address_line1')
@@ -106,6 +106,7 @@ $pageName = 'register';
                               @enderror
                             </div>
                         </div>
+
                         <div class="col-lg-6">
                             <div class="single-input-item">
                             {{ Form::input('text','address_line2',null, ['class' => ' box-size', 'placeholder' => trans('validation.attributes.frontend.register-user.address_line2')]) }}
@@ -114,11 +115,13 @@ $pageName = 'register';
                               @enderror
                             </div>
                         </div>
+
                         <div class="col-lg-6">
                             <div class="single-input-item">
                             {{ Form::input('text','address_line3', null,['class' => ' box-size', 'placeholder' => trans('validation.attributes.frontend.register-user.address_line3')]) }}
                             </div>
                         </div>
+                        
                         <div class="col-lg-6">
                             <div class="single-input-item">
                             {{ Form::input('text','country',null, ['class' => ' box-size', 'placeholder' => trans('validation.attributes.frontend.register-user.country')]) }}
@@ -164,13 +167,13 @@ $pageName = 'register';
                         </div>
 
                      </div>
-                     <div class="single-input-item">
+                     <div class="single-input-item" style="display:none;">
                                         <div class="login-reg-form-meta">
                                             <div class="remember-meta">
                                                 <div class="custom-control custom-checkbox">
                                                 
                                                 
-                                                    <input type="checkbox" value="1" name="is_term_accept" class="custom-control-input" id="subnewsletter">
+                                                    <input type="checkbox" checked="checked" value="1" name="is_term_accept" class="custom-control-input" id="subnewsletter">
                                                     <label class="custom-control-label" for="subnewsletter">I accept {!! link_to_route('frontend.pages.show', trans('validation.attributes.frontend.register-user.terms_and_conditions').'*', ['page_slug'=>'terms-and-conditions']) !!}</label>
                                                 </div>
                                                 @error('is_term_accept')

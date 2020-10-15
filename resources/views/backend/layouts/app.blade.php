@@ -13,13 +13,18 @@
         <meta name="author" content="@yield('meta_author', 'Augurs')">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            .tox-notifications-container{
+                display:none;
+            }
+        </style>
         @yield('meta')
         
         <!-- Styles -->
       
         @yield('before-styles')
 
-        {!! Html::style('assets/css/deepak_style.css') !!}
+        {!! Html::style('assets/css/custom_style.css') !!}
         {!! Html::style('assets/css/toastr.min.css') !!}
         <!-- Check if the language is set to RTL, so apply the RTL layouts -->
         <!-- Otherwise apply the normal LTR layouts -->
@@ -86,8 +91,10 @@
         @yield('after-scripts')
 
         <!---------Notification-start----------->
+        <script type="text/javascript" src="{{url('public/js')}}/tinymce.min.js"></script>
         <script>
         $(document).ready(function() {
+            tinymce.init({selector:'textarea'});
             setInterval(function() {			
            checkOrderLive();
            checkEnquiryLive();

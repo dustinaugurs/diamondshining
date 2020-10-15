@@ -291,29 +291,49 @@ class ProductController extends Controller
 				$order->delivery_location = 'sameAddress'; 
 			} 
 		}
-		if($order->save()){
-			toastr()->success('Order Successfully Sent');
-		}else{
-			toastr()->warning('Order Not Sent');
-		}
+		    $message = '';
+			$statusCode = '';
+			$status = '';
+			if($order->save()){
+				$message = 'Enquiry Successfully Sent';
+				$statusCode = 200;
+				$status = 'Success';
+			}else{
+				$message = 'Enquiry Not Sent';
+				$statusCode = 400;
+				$status = 'Failed';
+			}
 		//---------start-mail-section-------------
+		$diamondfeed = DiamondFeed::where('id', $request->diamondFeed_id)->where('stock_id', $request->stock_number)->first();
 		if($request->userEmail !== ''){	
             $enquiry = [
 				'username'=> Auth::user()->name,
 				'productid'=> $request->diamondFeed_id, 
-				'subject' => 'Product Enquiry',
+				'subject' => 'ENQUIRY - CHRIS POTHECARY ( '.Auth::user()->name.' ) - '.$diamondfeed->lab.' '.$diamondfeed->ReportNo,
+				'message' => 'We have received your enquiry for the following diamond. We will check the availability and quality of this diamond and revert back to you as soon at the earliest opportunity.',
 				'stock_number' => $request->stock_number,
+				'certificate_number' => '<a href="'.$diamondfeed->pdf.'">'.$diamondfeed->ReportNo.'</a>',
+				'shape' => $diamondfeed->shape,
+				'carat' => $diamondfeed->carats,
+				'colour' => $diamondfeed->col,
+				'clarity'=> $diamondfeed->clar,
+				'price' => $request->c_symbol.''.$request->p_finalprice,
 				'setting'=> $setting,
             ];
-            $mail = Mail::to($request->userEmail)->send(new SendMailable($enquiry));
+            $mail = Mail::to($request->userEmail)->cc(['enquries@shiningqualities.com'])->send(new SendMailable($enquiry));
 			   }	
 	   //---------End-mail-section-------------		   
 		//$order->save();
+		$data = [
+			'message' => $message,
+			'statusCode' => $statusCode, 
+			'status' => $status,  
+		 ];
 		
 		
 		// print_r($request->email); die;
 	   //return redirect('our-products');
-	   return redirect('our-products');
+	   return response()->json(['data'=>$data]);
 	   
 	  }
 
@@ -385,29 +405,49 @@ class ProductController extends Controller
 				$order->delivery_location = 'sameAddress'; 
 			} 
 		}
+		    $message = '';
+			$statusCode = '';
+			$status = '';
 		if($order->save()){
-			toastr()->success('Order Successfully Sent');
+			$message = 'Order Successfully Sent';
+			$statusCode = 200;
+			$status = 'Success';
 		}else{
-			toastr()->warning('Order Not Sent');
+			$message = 'Order Not Sent';
+			$statusCode = 400;
+			$status = 'Failed';
 		}
 		//---------start-mail-section-------------
+		$diamondfeed = DiamondFeed::where('id', $request->diamondFeed_ido)->where('stock_id', $request->stock_numbero)->first();
 		if($request->userEmailo !== ''){	
             $enquiry = [
 				'username'=> Auth::user()->name,
 				'productid'=> $request->diamondFeed_ido, 
-				'subject' => 'Product Order',
+				'subject' => 'ORDER REQUEST - CHRIS POTHECARY ( '.Auth::user()->name.' ) - '.$diamondfeed->lab.' '.$diamondfeed->ReportNo,
+				'message' => 'We have received your order request for the following diamond. We will check the availability and quality of this diamond and revert back to you as soon at the earliest opportunity.',
 				'stock_number' => $request->stock_numbero,
+				'certificate_number' => '<a href="'.$diamondfeed->pdf.'">'.$diamondfeed->ReportNo.'</a>',
+				'shape' => $diamondfeed->shape,
+				'carat' => $diamondfeed->carats,
+				'colour' => $diamondfeed->col,
+				'clarity'=> $diamondfeed->clar,
+				'price' => $request->c_symbolo.''.$request->p_finalpriceo,
 				'setting'=> $setting,
             ];
-            $mail = Mail::to($request->userEmailo)->send(new SendMailable($enquiry));
+            $mail = Mail::to($request->userEmailo)->cc(['enquries@shiningqualities.com'])->send(new SendMailable($enquiry));
 			   }	
 	   //---------End-mail-section-------------		   
 		//$order->save();
+		$data = [
+			'message' => $message,
+			'statusCode' => $statusCode, 
+			'status' => $status,  
+		 ];
 		
 		
 		// print_r($request->email); die;
 	   //return redirect('our-products');
-	   return redirect('our-products');
+	   return response()->json(['data'=>$data]);
 	   
 	  }
 	  //-----------------------------
@@ -427,11 +467,30 @@ class ProductController extends Controller
 		$order_date = $dateTime->format("d/m/Y  h:i A");		   
 		$date = date('m_Y');
 		$mydata = DB::table('diamond_feeds')->where('id', $diamondFeed_id)->first();
+		$vat = $setting->VAT;
+		$code = Auth::user()->currency_code;
+		$price_arr = $this->get_currency();
+		$rate = (array) $price_arr['rates'];
+        $current_currency = $rate[$code];
+        $symbol = Auth::user()->currency_symbol;
+
+   $price = ($mydata->price * $multiplier_id)+($mydata->price * $multiplier_id)*$setting->VAT/100;
+   $finalPrice = $symbol.''.number_format(floor(($current_currency * ($price))*100)/100,2, '.', '');
+
+   //print_r($finalPrice); die;
+
 		$products = [
 			'username'=> Auth::user()->name,
 			'productid'=> $request->diamondFeed_idc, 
-			'subject' => 'Product Details',
+			'subject' => 'DETAILS SHARED - CHRIS POTHECARY - '.$mydata->lab.' '.$mydata->ReportNo,
+			'message' => 'Please find attached a PDF document containing details for the diamond requested.',
 			'stock_number' => $request->stock_numberc,
+			'certificate_number' => '<a href="'.$mydata->pdf.'">'.$mydata->ReportNo.'</a>',
+			'shape' => $mydata->shape,
+			'carat' => $mydata->carats,
+			'colour' => $mydata->col,
+			'clarity'=> $mydata->clar,
+			'price' => $finalPrice,
 			'pdfname' => $request->stock_numberc.date('d-m-Y h:i:s'),
 			'setting'=> $setting,
 			//'attachment' => $attachment,
@@ -439,29 +498,28 @@ class ProductController extends Controller
 			'data' => $mydata,
 			'multiplier'=> $multiplier_id,
 		];
-		//echo '<pre>'; print_r($mydata); die;
-		//$pdf = PDF::loadView('emails.productmail', ['products' => $products, 'mydata' => $mydata]);
-		 
-		//return redirect('our-products');
-		//print_r($pdf);die;
 		//---------start-mail-section-------------
+		    $message = '';
+			$statusCode = '';
+			$status = '';
 		if($request->userEmailc !== ''){	
-			$mail = Mail::to($request->userEmailc)->send(new SendMailableProduct($products));
-			toastr()->success('Product Details Successfully Sent on '.$request->userEmailc.'');
+			$mail = Mail::to($request->userEmailc)->cc(['enquries@shiningqualities.com'])->send(new SendMailableProduct($products));
+			$message = 'Product Details Successfully Sent on '.$request->userEmailc.'';
+			$statusCode = 200;
+			$status = 'Success';
 			   }else{
-				toastr()->warning('Product Details Not Sent');
+			$message = 'Product Details Not Sent';
+			$statusCode = 400;
+			$status = 'Failed';
 			}
-				
-	   //---------End-mail-section-------------		   
-		//$order->save();
-		
-		
-		// print_r($request->email); die;
+			$data = [
+			   'message' => $message,
+			   'statusCode' => $statusCode, 
+			   'status' => $status,  
+			];
+	   //---------End-mail-section-------------	
+	   return response()->json(['data'=>$data]);	   
 	   //return redirect('our-products');
-	   //return view('emails.productmail', compact('products' ,$products ));
-	   return redirect('our-products');
-	   //$pdfs = PDF::loadView('emails.productmail', ['products' => $products, 'mydata' => $mydata]);
-	   //return view('emails.productmail', ['products' => $products, 'mydata' => $mydata]);
 	  }
 
 

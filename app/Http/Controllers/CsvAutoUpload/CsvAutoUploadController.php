@@ -95,10 +95,10 @@ class CsvAutoUploadController extends Controller
       // $filename = time().'.pdf'; 
       // $file = $this->pdfWithoutExtension($url1, $filename);
 
-      $url = 'https://www.gia.edu/report-check?reportno=1349200880';
-      $filename1 = time().'.pdf'; 
-      $file = $this->scrapingfromhtmlpdf($url1, $filename1);
-       echo $file; die;
+      // $url = 'https://www.gia.edu/report-check?reportno=1349200880';
+      // $filename1 = time().'.pdf'; 
+      // $file = $this->scrapingfromhtmlpdf($url1, $filename1);
+      //  echo $file; die;
 //-----checking-internet--------
 $host_name = 'www.google.com';
 $port_no = '80';

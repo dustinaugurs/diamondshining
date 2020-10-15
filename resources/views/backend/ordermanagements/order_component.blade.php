@@ -1,5 +1,4 @@
 
-
 @if(!$orders->isEmpty())
  @foreach($orders as $order)
 <tr id="rowupdateOrder_{{$order->id}}">

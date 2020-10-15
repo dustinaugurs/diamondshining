@@ -35,6 +35,8 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'as' => 'admin.', '
 
         Route::get('getinvoice/{oid}', 'OrdersController@getInvoice')->name('getinvoice');
 
+        Route::match(['get', 'post'], 'multipleInvoice', 'OrdersController@multipleInvoice')->name('multipleInvoice');
+
         
         
     });

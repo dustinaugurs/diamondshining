@@ -167,9 +167,8 @@ td.desbox p{ line-height:normal; margin:0px;}
             </div>
         <p>
         <strong>Address  :</strong>  
-        {{$setting->company_address}} 
+        {!! $setting->company_address !!} 
         </p>
-        <p><strong>Reg. Number   : </strong> {{$setting->company_registration}}</p>
         <p><strong>VAT Number  : </strong> {{$setting->VATnumber}} </p>
         </div>
             </td>
@@ -219,6 +218,7 @@ td.desbox p{ line-height:normal; margin:0px;}
     <thead>
     <tr>
               <th>Stock Number</th>
+              <th>Shape</th>
               <th>Certificate Number</th>
               <th>Carat Weight</th>
               <th>Colour</th>
@@ -230,6 +230,7 @@ td.desbox p{ line-height:normal; margin:0px;}
     <tbody>
     <tr>
               <td>{{$order->diamondfeed->stock_id}}</td>
+              <td>{{$order->diamondfeed->shape}}</td>
               <td>{{$order->diamondfeed->ReportNo}}</td>
               <td>{{$order->diamondfeed->carats}}</td>
               <td>{{$order->diamondfeed->col}}</td>

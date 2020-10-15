@@ -150,7 +150,7 @@
 				</div>
 				<!--form control-->
 
-				<div class="form-group">
+				<div class="form-group" style="display:none">
 					{{ Form::label('company_registration', trans('validation.attributes.backend.settings.companydetails.cregistration'), ['class'
 					=> 'col-lg-2 control-label']) }}
 

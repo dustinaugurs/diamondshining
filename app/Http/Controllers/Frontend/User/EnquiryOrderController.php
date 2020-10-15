@@ -253,7 +253,7 @@ public function EnquiryToOrderSend(Request $request){
       'stock_number' => $order->diamondfeed->stock_id,
       'setting'=> $setting,
           ];
-          $mail = Mail::to($order->userEmail)->send(new SendMailable($enquiry));
+          $mail = Mail::to($order->userEmail)->cc(['enquries@shiningqualities.com'])->send(new SendMailable($enquiry));
        }	
    //---------End-mail-section-------------	
    $orderStatus = 1 ; //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5 	   

@@ -82,7 +82,7 @@
     <!-- Nice Select css -->
     {!! Html::style('assets/css/plugins/nice-select.css') !!}
     <!--Deepak-style-custom--->
-    {!! Html::style('assets/css/deepak_style.css') !!}
+    {!! Html::style('assets/css/custom_style.css') !!}
     {!! Html::style('assets/css/toastr.min.css') !!}
     {!! Html::style('datatable/css/dataTables.bootstrap.min.css') !!}
 	{!! Html::style('assets/css/style.css') !!}
@@ -113,13 +113,16 @@ if (!empty($google_analytics)) {
     echo $google_analytics;
 }
 ?>
+
     </head>
     <body> 
-    <!-- <div class="loader-wrapper">
-        
-        <h1><span>shining</span> <span>qualities</span></h1>
-    
-    </div> -->
+    <div class="loaderonclick loaderdisplay"> <!----start-loader----->
+    <div class="loaderboxforall">
+    <p>Please be patient, It take some seconds ...</p>
+    <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> 
+    </div>
+    </div> <!----end-loader----->
+
         <div id="app">      
             @include('includes.partials.logged-in-as')
             <!--================Header Menu Area =================-->

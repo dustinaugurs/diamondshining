@@ -53,19 +53,19 @@ class RegisterController extends Controller
         if (config('access.users.confirm_email')) {
             $user = $this->user->create($request->all());
             event(new UserRegistered($user));
-
+            toastr()->success('Your application for an account is being verified. We’ll let you know when it’s ready to be used. Thank you.');
             return redirect($this->redirectPath())->withFlashSuccess(trans('exceptions.frontend.auth.confirmation.created_confirm'));
         } else {
             access()->login($this->user->create($request->all()));
             event(new UserRegistered(access()->user()));
-
+            toastr()->success('Your application for an account is being verified. We’ll let you know when it’s ready to be used. Thank you.');
             return redirect($this->redirectPath());
         }
 
         if (config('access.users.confirm_email') || config('access.users.requires_approval')) {
             $user = $this->user->create($request->all());
             event(new UserRegistered($user));
-
+            toastr()->success('Your application for an account is being verified. We’ll let you know when it’s ready to be used. Thank you.');
             return redirect($this->redirectPath())->withFlashSuccess(
                 config('access.users.requires_approval') ?
                     trans('exceptions.frontend.auth.confirmation.created_pending') :
@@ -74,8 +74,11 @@ class RegisterController extends Controller
         } else {
             access()->login($this->user->create($request->all()));
             event(new UserRegistered(access()->user()));
-
+            toastr()->success('Your application for an account is being verified. We’ll let you know when it’s ready to be used. Thank you.');
             return redirect($this->redirectPath());
         }
     }
+
+
+
 }

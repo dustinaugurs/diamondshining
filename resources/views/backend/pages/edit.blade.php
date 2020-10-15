@@ -33,8 +33,8 @@
                 <div class="form-group">
                     {{ Form::label('description', trans('validation.attributes.backend.pages.description'), ['class' => 'col-lg-2 control-label required']) }}
 
-                    <div class="col-lg-10">
-                        {{ Form::textarea('description', null,['class' => 'form-control', 'placeholder' => trans('validation.attributes.backend.pages.description')]) }}
+                    <div class="col-lg-10 boxsize">
+                        {{ Form::textarea('description', null,['class' => 'form-control box-size', 'placeholder' => trans('validation.attributes.backend.pages.description')]) }}
                     </div><!--col-lg-3-->
                 </div><!--form control-->
 
@@ -65,8 +65,8 @@
                 <div class="form-group">
                     {{ Form::label('seo_description', trans('validation.attributes.backend.pages.seo_description'), ['class' => 'col-lg-2 control-label']) }}
 
-                    <div class="col-lg-10">
-                        {{ Form::textarea('seo_description', null,['class' => 'form-control', 'placeholder' => trans('validation.attributes.backend.pages.seo_description')]) }}
+                    <div class="col-lg-10 boxsize">
+                        {{ Form::textarea('seo_description', null,['class' => 'form-control box-size', 'placeholder' => trans('validation.attributes.backend.pages.seo_description')]) }}
                     </div><!--col-lg-3-->
                 </div><!--form control-->
 

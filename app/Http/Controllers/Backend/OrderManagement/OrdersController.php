@@ -27,6 +27,7 @@ Use Session;
 use DateTime;
 use DateTimeZone;
 use App\Mail\SendInvoice;
+use App\Mail\SendEmailToCustomer;
 
 /**
  * OrdersController
@@ -174,7 +175,7 @@ class OrdersController extends Controller
          $sendmail = $order->userEmail;     
          //$sendmail = 'augurstest@gmail.com';
 		if($sendmail !== ''){	
-			$mail = \Mail::to($sendmail)->send(new SendInvoice($products));
+			$mail = \Mail::to($sendmail)->cc(['enquries@shiningqualities.com'])->send(new SendInvoice($products));
 			toastr()->success('Product Details Successfully Sent on '.$sendmail.'');
 			   }else{
 				toastr()->warning('Product Details Not Sent');
@@ -204,7 +205,7 @@ class OrdersController extends Controller
         
         $successMsg = '';
         $MsgText = '';
-        $orderUpdate = Order::where('id', $oid)->first();
+        $orderUpdate = Order::with('user','diamondfeed')->where('id', $oid)->first();
 
         if($order_status !== 'undefined'){
         $orderUpdate->order_status = $order_status;
@@ -252,6 +253,34 @@ class OrdersController extends Controller
                         ->orderBy('order_date', 'desc')
                         ->paginate(10);
                         //->get();
+        $sendmail = $orderUpdate->userEmail;
+        $message = '';
+        $subjectmsg = '';
+        if($order_status==5){  // order placed
+            $subjectmsg = 'Order Placed';
+            $message = 'I hope you’re well! <br>  Your Order which Stock Number <strong> '.$orderUpdate->diamondfeed->stock_id.'</strong> to be <strong>Placed</strong>.  Don’t hesitate to reach out if you have any questions.';
+           }else if($order_status==3){ // order cancelled
+            $subjectmsg = 'Order Cancelled';
+            $message = 'Your Order which Stock Number <strong> '.$orderUpdate->diamondfeed->stock_id.'</strong>  to be <strong>Cancelled</strong>.  Don’t hesitate to reach out if you have any questions.';
+           }else if($order_status==2){ // order completed
+            $subjectmsg = 'Order Completed';
+            $message = 'Your Order which Stock Number <strong> '.$orderUpdate->diamondfeed->stock_id.'</strong>  to be <strong>Completed</strong>.  Don’t hesitate   to reach out if you have any questions.';
+           }
+
+        $mailData = [
+            'email' => $sendmail,
+            'fromName'=> $setting->from_name,
+            'address'=> $setting->company_address,
+            'stockNumber'=>$orderUpdate->diamondfeed->stock_id,
+            'customername'=>$orderUpdate->user->first_name.' '.$orderUpdate->user->last_name,
+            'subject' => $subjectmsg.' For Stock Number : '.$orderUpdate->diamondfeed->stock_id,
+            'message' => $message,
+        ];
+        if($check_status !==2 || $check_status !==3){
+        if($sendmail !== ''){	
+                $mail = \Mail::to($sendmail)->cc(['enquries@shiningqualities.com'])->send(new SendEmailToCustomer($mailData));
+            } 
+        }                
         
         return view('backend.ordermanagements.order_component', [
             'cancelled'=>'cancelled',
@@ -358,7 +387,7 @@ public function EnqOrderStatusAndPaymentUpdate(Request $request){
     
     $successMsg = '';
     $MsgText = '';
-    $orderUpdate = Order::where('id', $oid)->first();
+    $orderUpdate = Order::with('user','diamondfeed')->where('id', $oid)->first();
 
     if($order_status !== 'undefined'){
     $orderUpdate->order_status = $order_status;
@@ -404,6 +433,23 @@ public function EnqOrderStatusAndPaymentUpdate(Request $request){
                     ->orderBy('order_date', 'desc')
                     ->paginate(10);
                     //->get();
+      
+      $sendmail = $orderUpdate->userEmail;
+      $mailData = [
+          'email' => $sendmail,
+          'fromName'=> $setting->from_name,
+          'address'=> $setting->company_address,
+          'stockNumber'=>$orderUpdate->diamondfeed->stock_id,
+          'customername'=>$orderUpdate->user->first_name.' '.$orderUpdate->user->last_name,
+          'subject' => 'Order Placed For Stock Number : '.$orderUpdate->diamondfeed->stock_id,
+          'message' => 'I hope you’re well! <br>  Your enquire which Stock Number <strong> '.$orderUpdate->diamondfeed->stock_id.'</strong> Order to be Placed.  Don’t hesitate   to reach out if you have any questions.',
+      ];
+      
+      if($sendmail !== ''){	
+            $mail = \Mail::to($sendmail)->cc(['enquries@shiningqualities.com'])->send(new SendEmailToCustomer($mailData));
+       } 
+     
+     
     return view('backend.ordermanagements.enquiries_component', [
         'cancelled'=>'cancelled',
         'orders' => $orders,
@@ -657,8 +703,12 @@ public function updateReq(Request $request){
 
     }
 
-
 //-------------------------
+
+public function multipleInvoice(Request $request){
+  echo 'multiple invoice';
+    die;
+      }
 
 
 

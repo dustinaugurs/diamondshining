@@ -4,11 +4,11 @@ return [
 
 	"product" => [
         "tab" => [
-         "certified" => "Certified diamonds",
-         "fancy" => "Fancy coloured diamonds",
-         "canada" => "Canada mark diamonds",
-         "lab" => "Lab Grown Diamonds",
-         "melee" => "Melee diamonds",
+         "certified" => "CERTIFIED DIAMONDS",
+         "fancy" => "FANCY COLOURED DIAMONDS",
+         "canada" => "CANADA MARK DIAMONDS",
+         "lab" => "LAB GROWN DIAMONDS",
+         "melee" => "MELEE DIAMONDS",
         ],
 	"created" => "The Order was successfully created.",
 	"deleted" => "The Order was successfully deleted.",
@@ -26,7 +26,7 @@ return [
             "contactus" => "Contact Us",
             "news" => "News",
             "enqorder" => "Enquiries / Orders",
-            "ourproduct" => "Our Products",
+            "ourproduct" => "DIAMONDS",
             "Edit Profile" => "Edit Profile"
             ],     
     
