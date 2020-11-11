@@ -1020,8 +1020,8 @@ textarea:focus {
 
 /*------- short classes start -------*/
 .section-padding {
-  padding-top: 80px;
-  padding-bottom: 80px;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 @media only screen and (max-width: 767.98px) {

@@ -15,9 +15,14 @@
 </head>
 <body>
    <div class="wrapper">
+    <p> Dear <strong><?php echo $products['username']; ?> ,</strong></p>
        <p><?php echo $products['message']; ?></p>
-       <br><br>
+       <p><strong>regards ,</strong><br>
+        Shining Qualities team
+        </p>
+        <br>
    <table>
+    <tr><td colspan="2"><strong>Diamond Details</strong></td></tr>  
    <tr> <td>Stock Number : </td> <td> <?php echo $products['stock_number']; ?> </td> </tr>  
    <tr> <td>Certificate Number : </td> <td> <?php echo $products['certificate_number']; ?> </td> </tr>  
    <tr> <td>Shape : </td> <td> <?php echo $products['shape']; ?> </td> </tr>  

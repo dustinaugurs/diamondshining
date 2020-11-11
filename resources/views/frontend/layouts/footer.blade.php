@@ -13,14 +13,14 @@
                     <div class="col-md-12">
                     <div class="row">
 
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-7 col-md-7">
                     <div class="footer-logo"><a href=""><img src="{{url('public/assets/img')}}/logo/logo-black.svg"></a></div>
                     <div class="footer-payment">
                         <img src="{{url('public/assets/img')}}/logo/GIA_Logo.png">
                         <img src="{{url('public/assets/img')}}/logo/canada-mark.png">
                     </div>
                     </div>
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-5 col-md-5">
                         <div class="widget-item">
                             <h6 class="widget-title">Contact Us</h6>
                             <div class="widget-body">
@@ -36,7 +36,7 @@
                                             <path d="M115.251,138.757L222.447,35.496c-2.427-1.443-5.252-2.411-8.28-2.411H16.5c-3.943,0-7.556,1.531-10.37,3.866
                                                 L115.251,138.757z"/>
                                             <path d="M0,52.1v128.484c0,1.475,0.339,2.897,0.707,4.256l69.738-67.156L0,52.1z"/>
-                                        </svg> <a href="mailto:enquries@shiningqualities.com ">enquries@shiningqualities.com</a></li>
+                                        </svg> <a href="mailto:enquiries@shiningqualities.com ">enquiries@shiningqualities.com</a></li>
                                         <li><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                         viewBox="0 0 512.001 512.001" style="enable-background:new 0 0 512.001 512.001;" xml:space="preserve">
 
@@ -75,7 +75,7 @@
                                     </g>
 
                                     </svg>
-                                    <a href="tel:0207869525">+44 7969 852535</a></li>
+                                    <a target="_blank" href="https://api.whatsapp.com/send?phone=+447969852535&text=Shining Qualities">+44 7969 852535</a></li>
                                         
                                     </ul>
                                 </address>
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                    
-                    <div class="col-lg-4 col-md-6">
+                    {{-- <div class="col-lg-4 col-md-6">
                         <div class="widget-item">
                             <h6 class="widget-title">Follow Us</h6>
                             <div class="widget-body social-list">
@@ -128,8 +128,8 @@
                             </div>
                             <!-- mailchimp-alerts end -->
                         
-                    </div>
-                    </div>
+                        </div>
+                    </div> --}}
 
                     </div>
                     </div>
@@ -143,7 +143,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="copyright-text text-center">
-                            <p>Powered By <a href="#">shining qualities</a> &copy; 2020</p>
+                            <p>Shining Qualities &copy; 2020</p>
                         </div>
                     </div>
                 </div>

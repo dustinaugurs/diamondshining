@@ -87,47 +87,14 @@
     </th>
     <th>Client</th>
     <th>Reference</th>
-    <th>Order Status  
-    <!-- <div class="changedata">
-            <select name="checkOrderStatus" class="checkOrderStatus">
-                <option value="all">All</option>
-                <option value="1">Enquiry</option>
-                <option value="2">Completed</option>
-                <option value="3">Cancelled</option>
-                <option value="4">Order Request</option>
-                <option value="5">Order Placed</option>
-            </select>
-        </div>  -->
-    </th>
+    <th>Order Status </th>
     <th>Stock No.</th>
     <th>Certificate</th>
     <th>Shape</th>
-    <!-- <th>Tracking ID</th> -->
-    <!--<th>Status  
-     <div class="changedata">
-            <select name="checkStatus" class="checkStatus">
-                <option value="all">All</option>
-                <option value="1">Checking availability</option>
-                <option value="2">Order confirmed</option>
-                <option value="3">Order sent with tracking</option>
-            </select>
-        </div>
-    </th> -->
-        <th>Multiplier</th>
-        <th>Final Price ((Inc VAT))</th>
-     <!---<th>Delivery Cost</th> -->
-    <th>Price (Ex VAT)</th>
-    <th>Actual Price (Ex VAT)</th>
-    <!-- <th>Payment Status
-    <div class="changedata">
-            <select name="paymentStatusOrder" class="paymentStatusOrder">
-                <option value="all">All</option>
-                <option value="1">Pending</option>
-                <option value="2">Deposite Paid</option>
-                <option value="3">Fully Paid</option>
-            </select>
-        </div>
-    </th> -->
+    <th>Cost price</th>
+    <th>Multiplier</th>
+    <th>Sell price ex vat</th>
+    <th>Sell price including vat</th>
     <th>ETA</th>
 </tr>
  </thead>

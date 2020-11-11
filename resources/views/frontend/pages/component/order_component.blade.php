@@ -38,7 +38,14 @@
 <td><a class="view_diamond" target="_blank" href="{{url('printDetails')}}/{{$order->diamondfeed->stock_id}}">{{$order->diamondfeed->stock_id}}</a>
 </td>
 
-<td><a class="view_diamond" target="_blank" href="{{$order->diamondfeed->pdf}}">{{$order->diamondfeed->lab}}</a>
+<td>
+    @if(!empty($order->diamondfeed->pdf_url))
+<a class="view_diamond" target="_blank" href="{{url('public/webscrap/pdf')}}/{{$order->diamondfeed->pdf_url}}">{{$order->diamondfeed->lab}}</a>
+    @else
+<a class="view_diamond" target="_blank" href="{{$order->diamondfeed->pdf}}">{{$order->diamondfeed->lab}}
+</a>
+    @endif
+    
 </td>
 
 <td>{{$order->diamondfeed->shape}}</td>
@@ -67,29 +74,13 @@
 </td>
 
 <td>
-    @if($current_currency !== '')
-    {{$symbol}} {{number_format(floor(($current_currency * ($order->diamondfeed->price  * $order->multiplier_id))*100)/100,2, '.', '')}} 
-    @else
-    $ {{number_format(floor(($order->diamondfeed->price * $order->multiplier_id)*100)/100,2, '.', '')}}
-    @endif
+    {{$order->c_symbol}} {{$order->p_price_without_vat}}
     (Ex. VAT)
     </td>
 
     <td><!---ordered-price----->
     {{$order->c_symbol}} {{$order->p_finalprice}}
     (inc. VAT)
-    </td>
-
-<td> <!----mulipliercost---->
-    @if($current_currency !== '')
-   <?php 
-   $finalprice = ($order->diamondfeed->price * $order->multiplier_id)+($order->diamondfeed->price * $order->multiplier_id)*$setting->VAT/100; 
-   ?>
-    {{$symbol}} {{number_format(floor(($current_currency * ($finalprice))*100)/100,2, '.', '')}} 
-    @else
-    $ {{number_format(floor(($order->diamondfeed->price * $order->multiplier_id)*100)/100,2, '.', '')}}
-    @endif
-    (Inc. VAT)
     </td>
 
 <td>

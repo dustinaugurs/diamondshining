@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'noreply@shiningqualities.com'),
-        'name'    => env('MAIL_FROM_NAME', 'ShiningQualities'),
+        'address' => env('MAIL_FROM_ADDRESS', 'enquiries@shiningqualities.com'),
+        'name'    => env('MAIL_FROM_NAME', 'Shining Qualities'),
     ],
 
     /*
@@ -100,7 +100,6 @@ return [
     */
 
     'sendmail' => '/usr/sbin/sendmail -bs',
-    //'sendmail' => 'D:\xamp7.2.33\sendmail\sendmail.exe -t',
 
     /*
     |--------------------------------------------------------------------------
@@ -120,6 +119,16 @@ return [
             resource_path('views/vendor/mail'),
         ],
     ],
+    
+  
+  //=====Added-by-deepak======  
+//     'stream' => [
+//     'ssl' => [
+//         'verify_peer' => false,
+//         'verify_peer_name' => false,
+//         'allow_self_signed' => true,
+//     ],
+// ],
 
     /*
     |--------------------------------------------------------------------------
@@ -133,7 +142,5 @@ return [
     */
 
     'log_channel' => env('MAIL_LOG_CHANNEL'),
-
-    
 
 ];

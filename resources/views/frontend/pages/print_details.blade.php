@@ -114,7 +114,7 @@
 </tr>
 
 <tr>
-<td><b>Price (Excluding VAT)</b></td>
+<td><b>Sell price ex vat</b></td>
 <td><b>
 @if($current_currency !== '')
     {{$symbol}}{{number_format(floor(($current_currency * ($products->price * $products->multiplier_id))*100)/100,2, '.', '')}} 
@@ -127,7 +127,7 @@
 
 <!-- <tr>
 <td>
-<b>Price (Including VAT)</b></td>
+<b>Sell price including vat</b></td>
 <td><b>
 @if($current_currency !== '')
     {{$symbol}}{{number_format(floor(($current_currency * (($setting->VAT / 100 ) * $products->price + $products->price))*100)/100,2, '.', '')}}
@@ -140,7 +140,7 @@
 
 <tr>
 <td>
-<b>Final Price (Including VAT)</b></td>
+<b>Sell price including vat</b></td>
 <td><b> <!----mulipliercost---->
     @if($current_currency !== '')
    <?php 
@@ -163,7 +163,7 @@
 <div class="col-sm-7 noPrint"><!--start-image-details-->
   <div class="printboximg">
   @if($products->image == '' || $products->image == 'true' )
-    <span><img src="http://diamonds.augurstech.com/public/assets/img/product/No_image.jpg" alt="product" class="sec-img"></span>
+  <span><img src="{{url('/')}}/public/assets/img/product/No_image.jpg" alt="product" class="sec-img"></span>
 @else
  <span><img src="{{$products->image}}" alt="product" class="sec-img"></span>
 @endif

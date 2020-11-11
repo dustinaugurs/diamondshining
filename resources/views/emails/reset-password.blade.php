@@ -6,9 +6,12 @@
             <tr>
                 <td align="left" style="color: #888888; width:20px; font-size: 16px; line-height: 24px;">
                     <!-- section text ======-->
+                    <p style="line-height: 24px; margin-bottom:15px;text-align:center">
+                        <img style="display:block; width:50px; height:50px; margin:0 auto;" src="{{url('public/assets/img/logo')}}/sm-logo-black.png" alt="S Q" title="S Q"> 
+                       </p>
 
                     <p style="line-height: 24px; margin-bottom:15px;">
-                        Hello!
+                        Dear {{$notice->first_name}}
                     </p>
                     
                     <p style="line-height: 24px; margin-bottom:20px;">

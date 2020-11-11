@@ -48,7 +48,7 @@
         {!! Html::style('js/select2/select2.min.css') !!}
         <!-- Bootstrap-->
         {!! Html::style('css/bootstrap2.min.css') !!}
-
+        
         <!-- Rev slider css -->
         {!! Html::style('vendors/revolution/css/settings.css') !!}
         {!! Html::style('vendors/revolution/css/layers.css') !!}
@@ -118,31 +118,29 @@ if (!empty($google_analytics)) {
     <body> 
     <div class="loaderonclick loaderdisplay"> <!----start-loader----->
     <div class="loaderboxforall">
-    <p>Please be patient, It take some seconds ...</p>
+    <p>Thank you! We are now processing your request.</p>
     <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> 
     </div>
     </div> <!----end-loader----->
-
-        <div id="app">      
+    @if($pageName == 'home')
+    <div id="app" class="homepage"> 
+    @else
+    <div id="app">  
+    @endif
+           
             @include('includes.partials.logged-in-as')
             <!--================Header Menu Area =================-->
             @include('frontend.includes.nav')
             <!--================End Header Menu Area =================-->
-            @if(!$logged_in_user)
-            @if(!empty($pageName))
-            @if($pageName == 'contact' || $pageName == 'pages' || $pageName == 'login' || $pageName == 'register')
+           
+           
+           
 			@include('frontend.layouts.header')
-            @endif
-            @endif
-            @endif
+           
+           
+          
 
-            @if($logged_in_user)
-            @if($pageName !== 'home')
-			@include('frontend.layouts.header')
-            @endif
-            @endif
-
-			  @yield('content')
+			<div class="contentSection">@yield('content')</div>
 			@include('frontend.layouts.footer')
 
            
@@ -181,10 +179,10 @@ if (!empty($google_analytics)) {
         {!! Html::script('scripts/smoothscroll.js') !!}
 
         {!! Html::script('scripts/theme.js') !!}
+
 		
 		
-    <!-- JS
-============================================ -->
+    <!-- JS ============================================ -->
 
    
     <!-- slick Slider JS -->
@@ -193,8 +191,9 @@ if (!empty($google_analytics)) {
 	{!! Html::script('assets/js/plugins/countdown.min.js') !!}
     <!-- Nice Select JS -->
 	{!! Html::script('assets/js/plugins/nice-select.min.js') !!}
-    <!-- jquery UI JS -->
+    <!-- jquery UI JS -->  
 	{!! Html::script('assets/js/plugins/jqueryui.min.js') !!}
+    {!! Html::script('assets/js/plugins/jquery.ui.touch-punch.min.js') !!}
     <!-- Image zoom JS -->
 	{!! Html::script('assets/js/plugins/image-zoom.min.js') !!}
     <!-- Imagesloaded JS -->
@@ -225,6 +224,23 @@ if (!empty($google_analytics)) {
 
     <!-------------------------->
     <script type='text/javascript'>
+    $( document ).ready(function() {
+
+        var totalHeight = window.innerHeight;
+        var headerHeight = $('header').height();
+        var footerHeight = $('footer').height();
+        var headfoot = headerHeight + footerHeight;
+        var sectionHeight = totalHeight - headfoot;
+      
+        $('.contentSection').css("min-height", sectionHeight);
+
+        // console.log( secPadd);
+        // console.log( totalHeight);
+        // console.log( headerHeight);
+        // console.log( footerHeight);
+        // console.log( headfoot);
+        // console.log( sectionHeight);
+    });
     $('.carousel').carousel({
         interval: 1000,
         autoplay:true

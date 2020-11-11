@@ -1,6 +1,7 @@
+
 <div class="custom-design">
    <section class="sliderhomepage">
-      <div class="nav">
+      {{-- <div class="nav">
          <div class="container-fluid">
             <div class="row">
                <div class="col-md-3 col-sm-4 col-lg-2">
@@ -39,7 +40,7 @@
                            <ul>
                               <li></li>
                               <li><a href="{{url('/')}}">Home</a></li>
-                              <li><a href="{{url('/about-us')}}" >About</a></li>
+                              <li><a href="{{url('pages')}}/about-us" >About</a></li>
                               @if($logged_in_user) 
                              
                               <li> <a href="{{url('account')}}" class="">{{ trans('frontend.menu.Edit Profile') }}</a></li>
@@ -55,27 +56,33 @@
                </div>
             </div>
          </div>
-      </div>
+      </div> --}}
       <div id="carouselExampleInterval" class="carousel slide carousel-fade" data-ride="carousel">
          <div class="carousel-inner">
             <div class="carousel-item active" data-interval="10000">
-               <img src="assets/img/banner/img1.jpg" />
-               <div class="carousel-caption  d-md-block">
-                  <h1><a href="{{url('/')}}" class="shiningbox"><img src="{{url('/')}}/assets/img/logo/logo-icon-white.svg"></a></h1>
-               </div>
+            <div class="imgdiv">
+               <img src="assets/img/banner/img3.jpg" />
             </div>
-            <div class="carousel-item" data-interval="2000">
-               <img src="assets/img/banner/img2.jpg" />
                <div class="carousel-caption  d-md-block">
                   <h1><a href="{{url('/')}}" class="shiningbox"><img src="{{url('/')}}/assets/img/logo/logo-icon-white.svg"></a></h1>
+               </div> 
+            </div>
+            <!-- <div class="carousel-item" data-interval="2000">
+               <div class="imgdiv">
+                  <img src="assets/img/banner/img2.jpg" />
                </div>
+               <div class="carousel-caption  d-md-block">
+                  <h1><a href="{{url('/')}}" class="shiningbox"><img src="{{url('/')}}/assets/img/logo/logo-icon-white.svg"></a></h1>
+               </div> 
             </div>
             <div class="carousel-item">
-               <img src="assets/img/banner/img3.jpg" />
+               <div class="imgdiv">
+                  <img src="assets/img/banner/img1.jpg" />
+               </div>
                <div class="carousel-caption  d-md-block">
                   <h1><a href="{{url('/')}}" class="shiningbox"><img src="{{url('/')}}/assets/img/logo/logo-icon-white.svg"></a></h1>
-               </div>
-            </div>
+               </div> 
+            </div> -->
          </div>
          <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
          <!-- <span class="carousel-control-prev-icon" aria-hidden="true"></span>

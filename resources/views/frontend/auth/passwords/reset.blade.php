@@ -1,4 +1,6 @@
-
+@php
+$pageName = 'reset';
+@endphp
 
 @extends('frontend.layouts.app')
 @section('content')

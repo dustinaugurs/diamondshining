@@ -17,7 +17,7 @@
    <div class="wrapper">
        <h4>Test Mail</h4>
    <table>
-   <tr> <td class="messagebox">Date & Time : </td> 
+   <tr> <td class="messagebox">Date & Time :</td> 
    <td> 
    <?php echo date("l jS \of F Y h:i:s A"); ?>
    </td> </tr>  

@@ -17,6 +17,7 @@ Route::get('lang/{lang}', 'LanguageController@swap');
 
  //==Start-CSV-file-section==
 Route::get('autouploadcsv', 'CsvAutoUpload\CsvAutoUploadController@index')->name('autouploadcsv');
+Route::get('mailtest', 'CsvAutoUpload\CsvAutoUploadController@mailTest')->name('mailtest');
 //==End-CSV-file-section==
 
 Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {

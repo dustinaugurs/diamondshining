@@ -20,6 +20,8 @@ use App\Http\Requests\Backend\DiamondFeeds\UpdateDiamondFeedRequest;
 use App\Http\Requests\Backend\DiamondFeeds\DeleteDiamondFeedRequest;
 use DB;
 use Auth;
+use File;
+
 
 /**
  * DiamondFeedsController
@@ -86,9 +88,34 @@ class DiamondFeedsController extends Controller
 		//print_r('hello'); die;
         $data = $request->except(['_token']);
         //Create the model using repository create method
-		echo '<pre>'; print_r($input); die;
-        $value=DB::table('diamond_feeds')->where('stock_id', $data['stock_id'])->get();
+		//echo '<pre>'; print_r($input); die;
+        $value = DB::table('diamond_feeds')->where('stock_id', $data['stock_id'])->get();
         if($value->count() == 0){
+            $videoFileName = NULL;
+            $imgFileName = NULL;
+           $pdfFileName = NULL;
+           $stockId = $data['stock_id']; 
+             //video save
+            if(!empty($data['video'])){
+                $videoFileName = 'video_'.$stockId.'.'.\File::extension($data['video']);
+            if(!empty(\File::extension($data['video']))){
+            copy($data['video'], public_path('webscrap/video') . DIRECTORY_SEPARATOR . $videoFileName);
+                }}
+            //pdf save
+            if(!empty($data['pdf']) || $data['pdf'] !== 'TRUE'){
+                if(\File::extension($data['pdf'])=='pdf'){
+            $pdfFileName = 'pdf_'.$stockId.'.'.\File::extension($data['pdf']);
+            copy($data['pdf'], public_path('webscrap/pdf') . DIRECTORY_SEPARATOR . $pdfFileName);
+                }}
+            //image save
+            if(!empty($data['image'])){
+            $imgFileName = 'image_'.$stockId.'.'.\File::extension($data['image']);
+            copy($data['image'], public_path('webscrap/image') . DIRECTORY_SEPARATOR . $imgFileName);
+                }
+            //die;
+            $data['video_url']=$videoFileName;
+            $data['pdf_url'] = $pdfFileName; 
+            $data['img_url']=$imgFileName;
            DB::table('diamond_feeds')->insert($data);
         }
 
@@ -104,7 +131,7 @@ class DiamondFeedsController extends Controller
     public function store(StoreDiamondFeedRequest $request)
     {
         //Input received from the request
-		print_r($request->all()); die;
+		//print_r($request->all()); die;
         $input = $request->except(['_token']);
         //Create the model using repository create method
 		//print_r($input); die;
@@ -139,8 +166,33 @@ class DiamondFeedsController extends Controller
         //echo '<pre>'; print_r($request->all()); die;
         //Input received from the request
         $input = $request->except(['_token']);
+        //echo '<pre>'; print_r($input['stock_id']); die;
         //Update the model using repository update method
-        $this->repository->update( $diamondfeed, $input );
+        $videoFileName = NULL;
+        $imgFileName = NULL;
+       $pdfFileName = NULL;
+       $stockId = $input['stock_id']; 
+         //video save
+        if(!empty($input['video'])){
+            $videoFileName = 'video_'.$stockId.'.'.\File::extension($input['video']);
+        if(!empty(\File::extension($input['video']))){
+        copy($input['video'], public_path('webscrap/video') . DIRECTORY_SEPARATOR . $videoFileName);
+            }}
+        //pdf save
+        if(!empty($input['pdf']) || $input['pdf'] !== 'TRUE'){
+            if(\File::extension($input['pdf'])=='pdf'){
+        $pdfFileName = 'pdf_'.$stockId.'.'.\File::extension($input['pdf']);
+        copy($input['pdf'], public_path('webscrap/pdf') . DIRECTORY_SEPARATOR . $pdfFileName);
+            }}
+        //image save
+        if(!empty($input['image'])){
+        $imgFileName = 'image_'.$stockId.'.'.\File::extension($input['image']);
+        copy($input['image'], public_path('webscrap/image') . DIRECTORY_SEPARATOR . $imgFileName);
+            }
+            $input['video_url']=$videoFileName;
+            $input['pdf_url'] = $pdfFileName; 
+            $input['img_url']=$imgFileName;
+        $this->repository->update($diamondfeed, $input);
         //return with successfull message
         return new RedirectResponse(route('admin.diamondfeeds.index'), ['flash_success' => trans('alerts.backend.diamondfeeds.updated')]);
     }

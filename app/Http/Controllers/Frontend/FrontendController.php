@@ -37,6 +37,11 @@ class FrontendController extends Controller
     /**
      * show page by $page_slug.
      */
+
+     public function getConfirmation(){
+        return view('emails.user-confirmation');
+     }
+
     public function showPage($slug='', PagesRepository $pages)
     {
         $result = $pages->findBySlug($slug);

@@ -60,16 +60,17 @@ class SendMailableProduct extends Mailable
         $price = $symbol.''.number_format(floor(($current_currency * ($mydata->price  * $multipValue))*100)/100,2, '.', ''); 
 
    $finalPrice = $symbol.''.number_format(floor(($current_currency * (($mydata->price * $multipValue)+($mydata->price * $multipValue)*$vat/100))*100)/100,2, '.', ''); 
-   
+               $client = Auth::user(); 
         $pdf = PDF::loadHtml('<html><head><title>'.$this->products['subject'].'</title>'.'<style>
         body{background:#f2f2f2; margin:0px; padding:0px;} 
-        body h1{margin:0px 0 0px 0; font-size:15px; padding:10px 15px; text-transform:uppercase;}
+        body h1{margin:0px 0 0px 0; font-size:15px; padding:10px 15px; text-transform:capitalize;}
+        body h3{margin:0px 0 0px 0; font-size:12px; padding:10px 15px; text-transform:capitalize;}
         table{width:100%; margin:auto; background:#f2f2f2; font-size:11px; border-collapse:collapse;}
         table tr td, table tr th{border:1px solid #ccc; padding:5px 15px; text-align:left}
         table tr td span{height:35px; width:35px; overflow:hidden; display:block; float:left;}
         table tr td span img{max-width:100%;}
         table tr td:first-child, table tr th:first-child{font-weight:700; text-transform: uppercase; font-size:10px;}
-        </style>'.'</head><body><h1>'.$this->products['subject'].'</h1><table>'.
+        </style>'.'</head><body><h1>'.'<strong>Customer Name : </strong>'.$client->first_name.' '.$client->last_name.'</h1><h3>'.$this->products['subject'].'</h3><table>'.
         '<tr>'.'<td>Stock Number </td>'.'<td>'.$mydata->stock_id.'</td>'.'</tr>'.
         '<tr>'.'<td>ReportNo </td>'.'<td>'.$mydata->ReportNo.'</td>'.'</tr>'.
         '<tr>'.'<td>shape </td>'.'<td>'.$mydata->shape.'</td>'.'</tr>'.
@@ -94,18 +95,13 @@ class SendMailableProduct extends Mailable
         '<tr>'.'<td>brown </td>'.'<td>'.$mydata->brown.'</td>'.'</tr>'.
         '<tr>'.'<td>green </td>'.'<td>'.$mydata->green.'</td>'.'</tr>'.
         '<tr>'.'<td>milky </td>'.'<td>'.$mydata->milky.'</td>'.'</tr>'.
-        '<tr>'.'<td>discount </td>'.'<td>'.$mydata->discount.'</td>'.'</tr>'.
-        '<tr>'.'<td>price_per_carat </td>'.'<td>'.$mydata->price_per_carat.'</td>'.'</tr>'.
-        '<tr>'.'<td>video </td>'.'<td>'.'<a target="new" href="'.$mydata->video.'">'.'Click For Watch Video'.'</a>'.'</td>'.'</tr>'.
+        '<tr>'.'<td>video </td>'.'<td>'.'<a target="new" href="'.$mydata->video.'">'.'Click here for the diamond video'.'</a>'.'</td>'.'</tr>'.
         '<tr>'.'<td>video_frames </td>'.'<td>'.$mydata->video_frames.'</td>'.'</tr>'.
         '<tr>'.'<td>image </td>'.'<td>'.'<span><a target="new" href="'.$mydata->image.'"><img src="'.$mydata->image.'"></a></span>'.'</td>'.'</tr>'.
         '<tr>'.'<td>mine_of_origin </td>'.'<td>'.$mydata->mine_of_origin.'</td>'.'</tr>'.
         '<tr>'.'<td>canada_mark_eligble </td>'.'<td>'.$mydata->canada_mark_eligble.'</td>'.'</tr>'.
         '<tr>'.'<td>Dimension(mm) </td>'.'<td>'.$mydata->length.' X '.$mydata->width.' X '.$mydata->height.'</td>'.'</tr>'.
         '<tr>'.'<td>Ratio(%) </td>'.'<td>'.number_format(floor(($mydata->length/$mydata->width)*100)/100,2, '.', '').'</td>'.'</tr>'.
-        '<tr>'.'<td>is_returnable </td>'.'<td>'.$mydata->is_returnable.'</td>'.'</tr>'.
-        '<tr>'.'<th>Price </th>'.'<th>'.$price.' (Ex. VAT)'.'</th>'.'</tr>'.
-        '<tr>'.'<th>Final Price </th>'.'<th>'.$finalPrice.' (Inc. VAT)'.'</th>'.'</tr>'.
         '</table></body></html>');
         //print_r($pdf); die;
         return $this->view('emails.productmail')

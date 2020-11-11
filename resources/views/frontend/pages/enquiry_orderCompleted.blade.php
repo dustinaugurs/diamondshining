@@ -58,9 +58,8 @@ $pageName = 'ordercompleted';
     <th>Tracking ID</th>
     <th>Invoice</th>
     <th>Status</th>
-    <th>Price (Ex VAT)</th>
-    <th>Final Price (Inc VAT)</th>
-    <th>Today Price (Inc VAT)</th>
+    <th>Sell price ex vat</th>
+    <th>Sell price including vat</th>
     <th>Payment Status
     <div class="changedataboxpayment">
             <select name="paymentStatusOrder" class="paymentStatusOrder">

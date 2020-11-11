@@ -271,8 +271,8 @@ return [
                 'zip'                       => 'Post Code',
                 'phone_no'                  => 'Phone Number',
                 'website'                   => 'Website URL',
-                'enquiry'                   => 'Enquire',
-                'find_us'                   => 'Where did you hear about us?',
+                'enquiry'                   => 'Your enquiry',
+                'find_us'                   => 'How did you hear about us?',
                 'vatnumber'                 => 'Company VAT Number',
                 'cregNumber'                => 'Company Registration'
             ],

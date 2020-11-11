@@ -1,3 +1,6 @@
+@php
+$pageName = 'email';
+@endphp
 @extends('frontend.layouts.app')
 
 @section('content')

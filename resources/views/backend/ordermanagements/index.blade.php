@@ -127,11 +127,11 @@
             </select>
         </div>
     </th>
-    <th>Muliplier</th>
-    <th>Final Price(Inc VAT)</th>
-    <th>Delivery Cost</th>
-    <th>Price (Ex VAT)</th>
-    <th>Actual Price (Ex VAT)</th>
+    <th>Cost price</th>
+    <th>Multiplier</th>
+    <th>Sell price ex vat</th>
+    <th>Sell price including vat</th>
+    <th>Delivery cost</th>
     <th>Payment Status
     <div class="changedata">
             <select name="paymentStatusOrder" class="paymentStatusOrder">
@@ -154,11 +154,12 @@
 </tbody>
 <!--------->
 <tr class="paginationblock">
-<td colspan="17">
-{!! $orders->appends(\Request::except('page'))->render() !!}
-</td>
-</tr>
-<!--------->
+    <td colspan="18">
+    {!! $orders->appends(\Request::except('page'))->render() !!}
+    </td>
+    </tr>
+    <!--------->
+
                 </table>
                 
             </div><!--table-responsive-->

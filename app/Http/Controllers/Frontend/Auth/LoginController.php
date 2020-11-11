@@ -235,10 +235,11 @@ class LoginController extends Controller
         $dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
         $newSession = Sessions::where('user_session_id', Session::getId())->first();
         //echo '<pre>'; print_r($newSession); die;
-       
+       if(!empty($newSession)){
         $newSession->logout_time = $dateTime->format("d-m-Y  h:i:s A");
         $newSession->updated_at = Carbon::now();
         $newSession->save();
+          }
           
 
         /*

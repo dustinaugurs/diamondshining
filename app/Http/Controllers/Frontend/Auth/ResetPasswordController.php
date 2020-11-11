@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Repositories\Frontend\Access\User\UserRepository;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
+use App\Models\Access\User\User;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Class ResetPasswordController.
@@ -48,6 +50,22 @@ class ResetPasswordController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function reset(Request $request){
+        //print_r($request->all()); die;
+        //if($request->password==''){
+        $resetuser = User::where('email', $request->email)->first();
+        //print_r(Hash::make($request->password)); die;
+        $resetuser['password'] = Hash::make($request->password);
+        $resetuser->update();
+        toastr()->success('Thank You, Your Password Successfully Reset');
+        return redirect('our-products');
+         // }else{
+        //toastr()->error('Please check your input Credential');
+        //return redirect()->back();    
+          //}
+         //print_r($request->all()); die;
+    }
+
     public function showResetForm($token = null)
     {
         if (!$token) {

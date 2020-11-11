@@ -15,9 +15,15 @@
 </head>
 <body>
    <div class="wrapper">
+      <p> Dear <strong><?php echo $enquiry['username']; ?> ,</strong></p>
        <p><?php echo $enquiry['message']; ?></p>
-       <br><br>
+       <p><strong>regards ,</strong><br>
+        Shining Qualities team
+        </p>
+        <br>
+
    <table>
+   <tr><td colspan="2"><strong>Diamond Details</strong></td></tr>    
    <tr> <td>Stock Number : </td> <td> <?php echo $enquiry['stock_number']; ?> </td> </tr>  
    <tr> <td>Certificate Number : </td> <td> <?php echo $enquiry['certificate_number']; ?> </td> </tr>  
    <tr> <td>Shape : </td> <td> <?php echo $enquiry['shape']; ?> </td> </tr>  

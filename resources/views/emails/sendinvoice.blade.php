@@ -25,7 +25,7 @@ body {
     padding: 8px 12px;
 }
 .header img{
-    width: 232px;
+    width: 120px;
 
 }
 .total-section tr td{
@@ -132,7 +132,7 @@ td.desbox p{ line-height:normal; margin:0px;}
         <td>  <p>INVOICE</p>
         </td>
         <td>
-        <p class="logo"><img src="{{url('public/assets/img/logo')}}/white-inline.png"></p></td>
+        <p class="logo"><img src="{{url('public/assets/img/logo')}}/logo-light.svg"></p></td>
     </tr>
 </table>
 </div>
@@ -194,7 +194,7 @@ td.desbox p{ line-height:normal; margin:0px;}
                     <td><p id="date">{{$invoice_date}}</p></td>
                 </tr>
                 <tr>
-                    <td class="meta-head balance">Total GBP</td>
+                    <td class="meta-head balance">Total {{$order->currency_code}}</td>
                     <td class="balance"><div class="due balance">
                     @php
                     $finalprice = ($order->p_price_without_vat)+($order->p_price_without_vat)*$order->p_vat/100;
@@ -213,8 +213,8 @@ td.desbox p{ line-height:normal; margin:0px;}
 
 
 <div class="wrapinbox"> <!----start-wrapinbox------>
-<h4>Items: </h4>
-<table class="pricesummary">
+<!-- <h4>Items: </h4> -->
+<!-- <table class="pricesummary">
     <thead>
     <tr>
               <th>Stock Number</th>
@@ -239,7 +239,7 @@ td.desbox p{ line-height:normal; margin:0px;}
     </tr>
     </tbody>
    
-</table>
+</table> -->
 <table class="pricesummary" style="margin-top:20px">
     <thead>
     <tr>
@@ -255,8 +255,8 @@ td.desbox p{ line-height:normal; margin:0px;}
     <tbody>
     <tr>
               <td style="border-right:0" class="desbox">
-              <p>{{$order->diamondfeed->carats}}ct {{$order->diamondfeed->col}} color and {{$order->diamondfeed->clar}} clarity</p>
-              <p>This diamond is certificated by {{$order->diamondfeed->lab}} &nbsp; {{$order->diamondfeed->ReportNo}}</p>
+              <p>{{$order->diamondfeed->shape}} , {{$order->diamondfeed->carats}} ct, {{$order->diamondfeed->col}} colour , {{$order->diamondfeed->clar}} clarity.</p>
+              <p>This diamond is certificated by {{$order->diamondfeed->lab}} report number {{$order->diamondfeed->ReportNo}}</p>
               </td>
               <td style="border-left:0"></td>
               <td>{{$order->c_symbol}} {{$order->p_price_without_vat}}</td>
@@ -271,6 +271,26 @@ td.desbox p{ line-height:normal; margin:0px;}
               <td>{{$order->p_price_without_vat * $order->p_vat/100}} </td>
               <td> {{$order->c_symbol}} {{round($finalprice, 2)}}</td>
              
+    </tr>
+    </tbody>
+   
+</table>
+<table class="pricesummary" style="margin-top:20px">
+    <thead>
+    <tr>
+              <th style="border-right:0">For Payment</th>
+              
+             
+		  </tr>
+    </thead>
+
+    <tbody>
+    <tr>
+            <td style="border-right:0" class="desbox">
+            Please remit payment in GBP to: Barclays Bank plc Account Name: Shining Qualities ltd Account Number: 13129713 Sort Code: 209940
+
+            </td>
+              
     </tr>
     </tbody>
    
@@ -300,7 +320,7 @@ td.desbox p{ line-height:normal; margin:0px;}
                 </tr>
 
                 <tr>
-                    <td class="meta-head balance"><strong>Total GBP</strong></td>
+                    <td class="meta-head balance"><strong>Total {{$order->currency_code}}</strong></td>
                     <td class="balance"><div class="due">
                     {{$order->c_symbol}} {{round($finalprice, 2)}}
                     </div></td>
@@ -312,6 +332,8 @@ td.desbox p{ line-height:normal; margin:0px;}
 </table>
 </div>
 </div>
+<p style="text-align:center;margin-top:40px;"> The diamonds on this invoice are non-returnable unless specifically agreed otherwise with Shining Qualities management prior to purchase</p>
+
 
 	
 	

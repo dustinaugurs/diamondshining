@@ -98,6 +98,7 @@ class ProductController extends Controller
 		//$stc = ['LD200110653','LD200110224','G431-138852'];
 		$stockId = $request->search_stock_number;  
 		$sid = explode(",", $stockId);
+		//------------------
 		$price_arr = $this->get_currency();
 		$rate = (array) $price_arr['rates'];
 		if($base == 'EUR' ){
@@ -115,9 +116,17 @@ class ProductController extends Controller
 		$request->session()->put('symbol',$symbol);
 		
 		//$products = DB::table('diamond_feeds')->where('stock_id', $stockId)->get();
-		$products = DB::table('diamond_feeds')->where('active', 1)->whereIn('stock_id', $sid)->paginate(25);
-		//dd($products); die;
-	   $total_diamond_found = DB::table('diamond_feeds')->where('active', 1)->whereIn('stock_id', $sid)->count();
+		$products = DB::table('diamond_feeds')->where('active', 1)
+				   ->whereIn('stock_id', $sid)
+				   ->whereIn('ReportNo', $sid, 'or')
+				   ->whereIn('lab', $sid, 'or')
+				   ->paginate(25);
+		//print_r($products->toArray()); die;
+	   $total_diamond_found = DB::table('diamond_feeds')->where('active', 1)
+							->whereIn('stock_id', $sid)
+							->whereIn('ReportNo', $sid, 'or')
+							->whereIn('lab', $sid, 'or')
+							->count();
 		//print_r($total_diamond_found); die;
        return view('frontend.pages.search_products', compact('products' ,$products , 'multiplier', $multiplier, 'current_currency' , $current_currency ,'symbol' ,$symbol, 'total_diamond_found' , $total_diamond_found, 'stockId', $stockId, 'setting', $setting));
 	  }
@@ -143,8 +152,9 @@ class ProductController extends Controller
 		        $query->whereBetween('carats', [$_GET['min_price1'] , $_GET['max_price1'] ]);
 			}
 
-			if(!empty($_GET['max_price']) && !empty($_GET['min_price']) ){
-		        $query->whereBetween('price', [$_GET['min_price'] , $_GET['max_price'] ]);
+			if($_GET['max_price'] !=='' && $_GET['min_price'] !=='' ){
+			   $query->whereBetween('price', [$_GET['min_price'] , $_GET['max_price'] ]);
+
 			}
 			
 		    if(!empty($_GET['cut_div_val'])){
@@ -212,7 +222,10 @@ class ProductController extends Controller
     		
 			 $total_diamond_found = $query->where('active', 1)->count();
 			$products = $query->where('active', 1)->orderBy('price', 'asc')->paginate(25);
-			
+			 
+			// echo 'Min_'.number_format((float)$_GET['min_price'], 2, '.', '').'<br>';
+			// echo 'Min_'.number_format((float)$_GET['max_price'], 2, '.', '').'<br>';
+			// print_r($total_diamond_found); die;
 	    	
 		    return view('frontend.pages.component.product_component', compact('products' ,$products , 'multiplier', $multiplier, 'current_currency' , $current_currency ,'symbol' ,$symbol, 'total_diamond_found' , $total_diamond_found, 'setting', $setting));
 
@@ -225,6 +238,7 @@ class ProductController extends Controller
 		$symbol = $request->session()->get('symbol');
         return view('frontend.pages.products_details', compact('product_details' ,$product_details , 'multiplier', $multiplier, 'current_currency' ,$current_currency , 'symbol' , $symbol, 'setting', $setting));
 	}
+
 
 	public function EnquirySend(Request $request){
 		//echo '<pre>'; print_r($request->all()); die; 
@@ -260,6 +274,10 @@ class ProductController extends Controller
 	//--------------- 
 		$multiplier = $this->multiplier(); 
 		$setting = Setting::first();
+		$diamond = DiamondFeed::where('id', $request->diamondFeed_id)->first();
+		$price_arr = $this->get_currency();
+		$rate = (array) $price_arr['rates'];
+        $current_currency = $rate[Auth::user()->currency_code];
 		//print_r($request->diamondFeed_id); die; 
 		$dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
 		$order = new Order();
@@ -277,6 +295,8 @@ class ProductController extends Controller
 		$order->p_price_without_vat = $request->p_price_without_vat;
 		$order->p_vat = $request->p_vat;
 		$order->VATnumber = $request->vatnumber;
+		$order->currency_code = Auth::user()->currency_code;
+		$order->p_costprice = number_format(floor(($current_currency * ($diamond->price))*100)/100,2, '.', '');
 		if(!empty($deliveryaddress)){
 			if($deliveryaddress == 'otherAddress'){
 				$order->delivery_location = 'otherAddress'; 
@@ -295,7 +315,7 @@ class ProductController extends Controller
 			$statusCode = '';
 			$status = '';
 			if($order->save()){
-				$message = 'Enquiry Successfully Sent';
+				$message = 'We have received your enquiry. Thank you.';
 				$statusCode = 200;
 				$status = 'Success';
 			}else{
@@ -304,13 +324,15 @@ class ProductController extends Controller
 				$status = 'Failed';
 			}
 		//---------start-mail-section-------------
+		$client = Auth::user()->first_name;
+		$clientCompany = Auth::user()->company;
 		$diamondfeed = DiamondFeed::where('id', $request->diamondFeed_id)->where('stock_id', $request->stock_number)->first();
 		if($request->userEmail !== ''){	
             $enquiry = [
-				'username'=> Auth::user()->name,
+				'username'=> Auth::user()->first_name,
 				'productid'=> $request->diamondFeed_id, 
-				'subject' => 'ENQUIRY - CHRIS POTHECARY ( '.Auth::user()->name.' ) - '.$diamondfeed->lab.' '.$diamondfeed->ReportNo,
-				'message' => 'We have received your enquiry for the following diamond. We will check the availability and quality of this diamond and revert back to you as soon at the earliest opportunity.',
+				'subject' => 'ENQUIRY - '.$clientCompany.' - '.$diamondfeed->lab.' '.$diamondfeed->ReportNo,
+				'message' => 'We’ve received your enquiry for the diamond listed below. We’re currently checking the  availability and quality of this diamond and will revert back to you at the earliest opportunity.',
 				'stock_number' => $request->stock_number,
 				'certificate_number' => '<a href="'.$diamondfeed->pdf.'">'.$diamondfeed->ReportNo.'</a>',
 				'shape' => $diamondfeed->shape,
@@ -320,7 +342,7 @@ class ProductController extends Controller
 				'price' => $request->c_symbol.''.$request->p_finalprice,
 				'setting'=> $setting,
             ];
-            $mail = Mail::to($request->userEmail)->cc(['enquries@shiningqualities.com'])->send(new SendMailable($enquiry));
+            $mail = Mail::to($request->userEmail)->cc(['enquiries@shiningqualities.com'])->send(new SendMailable($enquiry));
 			   }	
 	   //---------End-mail-section-------------		   
 		//$order->save();
@@ -339,7 +361,7 @@ class ProductController extends Controller
 
 
 
-	  public function OrderSend(Request $request){
+	public function OrderSend(Request $request){
 		//echo '<pre>'; print_r($request->all()); die;
 		
 	$deliveryaddress = $request->deliveryaddress;  // otherAddress, sameAddress
@@ -374,6 +396,10 @@ class ProductController extends Controller
 	//---------------     
 		$multiplier = $this->multiplier(); 
 		$setting = Setting::first();
+		$diamond = DiamondFeed::where('id', $request->diamondFeed_ido)->first();
+		$price_arr = $this->get_currency();
+		$rate = (array) $price_arr['rates'];
+        $current_currency = $rate[Auth::user()->currency_code];
 		//print_r($request->diamondFeed_ido); die; 
 		$dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
 		$order = new Order();
@@ -391,6 +417,8 @@ class ProductController extends Controller
 		$order->p_price_without_vat = $request->p_price_without_vato;
 		$order->p_vat = $request->p_vato;
 		$order->VATnumber = $request->vatnumbero;
+		$order->currency_code = Auth::user()->currency_code;
+		$order->p_costprice = number_format(floor(($current_currency * ($diamond->price))*100)/100,2, '.', '');
 		if(!empty($deliveryaddress)){
 			if($deliveryaddress == 'otherAddress'){
 				$order->delivery_location = 'otherAddress'; 
@@ -409,7 +437,7 @@ class ProductController extends Controller
 			$statusCode = '';
 			$status = '';
 		if($order->save()){
-			$message = 'Order Successfully Sent';
+			$message = 'We have received your order . Thank you';
 			$statusCode = 200;
 			$status = 'Success';
 		}else{
@@ -418,13 +446,15 @@ class ProductController extends Controller
 			$status = 'Failed';
 		}
 		//---------start-mail-section-------------
+		$client = Auth::user()->first_name.' '.Auth::user()->last_name;
+		$clientCompany = Auth::user()->company;
 		$diamondfeed = DiamondFeed::where('id', $request->diamondFeed_ido)->where('stock_id', $request->stock_numbero)->first();
 		if($request->userEmailo !== ''){	
             $enquiry = [
-				'username'=> Auth::user()->name,
+				'username'=> Auth::user()->first_name,
 				'productid'=> $request->diamondFeed_ido, 
-				'subject' => 'ORDER REQUEST - CHRIS POTHECARY ( '.Auth::user()->name.' ) - '.$diamondfeed->lab.' '.$diamondfeed->ReportNo,
-				'message' => 'We have received your order request for the following diamond. We will check the availability and quality of this diamond and revert back to you as soon at the earliest opportunity.',
+				'subject' => 'ORDER REQUEST - '.$clientCompany.' - '.$diamondfeed->lab.' '.$diamondfeed->ReportNo,
+				'message' => 'We’ve received your order request for the following diamond listed below - Thank you! We’re currently checking the availability and quality of this diamond and will revert back to you at the earliest opportunity.',
 				'stock_number' => $request->stock_numbero,
 				'certificate_number' => '<a href="'.$diamondfeed->pdf.'">'.$diamondfeed->ReportNo.'</a>',
 				'shape' => $diamondfeed->shape,
@@ -434,7 +464,7 @@ class ProductController extends Controller
 				'price' => $request->c_symbolo.''.$request->p_finalpriceo,
 				'setting'=> $setting,
             ];
-            $mail = Mail::to($request->userEmailo)->cc(['enquries@shiningqualities.com'])->send(new SendMailable($enquiry));
+            $mail = Mail::to($request->userEmailo)->cc(['enquiries@shiningqualities.com'])->send(new SendMailable($enquiry));
 			   }	
 	   //---------End-mail-section-------------		   
 		//$order->save();
@@ -478,11 +508,12 @@ class ProductController extends Controller
    $finalPrice = $symbol.''.number_format(floor(($current_currency * ($price))*100)/100,2, '.', '');
 
    //print_r($finalPrice); die;
-
+			 $client = Auth::user()->first_name.' '.Auth::user()->last_name;
+			 $clientCompany = Auth::user()->company;
 		$products = [
-			'username'=> Auth::user()->name,
+			'username'=> Auth::user()->first_name,
 			'productid'=> $request->diamondFeed_idc, 
-			'subject' => 'DETAILS SHARED - CHRIS POTHECARY - '.$mydata->lab.' '.$mydata->ReportNo,
+			'subject' => 'DETAILS SHARED - '.$clientCompany.' - '.$mydata->lab.' '.$mydata->ReportNo,
 			'message' => 'Please find attached a PDF document containing details for the diamond requested.',
 			'stock_number' => $request->stock_numberc,
 			'certificate_number' => '<a href="'.$mydata->pdf.'">'.$mydata->ReportNo.'</a>',
@@ -503,8 +534,8 @@ class ProductController extends Controller
 			$statusCode = '';
 			$status = '';
 		if($request->userEmailc !== ''){	
-			$mail = Mail::to($request->userEmailc)->cc(['enquries@shiningqualities.com'])->send(new SendMailableProduct($products));
-			$message = 'Product Details Successfully Sent on '.$request->userEmailc.'';
+			$mail = Mail::to($request->userEmailc)->cc(['enquiries@shiningqualities.com'])->send(new SendMailableProduct($products));
+			$message = 'Product Details Successfully Share on '.$request->userEmailc.'';
 			$statusCode = 200;
 			$status = 'Success';
 			   }else{

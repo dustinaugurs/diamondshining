@@ -102,7 +102,7 @@ class UserRepository extends BaseRepository
         $user->website           = $data['website'];
         $user->address_line1     = $data['address_line1'];
         $user->address_line2     = $data['address_line2'];
-        $user->address_line3     = $data['address_line3'];
+        //$user->address_line3     = $data['address_line3'];
         $user->country           = $data['country'];
         $user->state             = $data['state'];
         $user->city              = $data['city'];

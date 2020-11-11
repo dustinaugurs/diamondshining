@@ -114,20 +114,8 @@
 </tr>
 
 <tr>
-<td><b>Actual Price (Excluding VAT)</b></td>
-<td><b>
-@if($current_currency !== '')
-    {{$symbol}}{{number_format(floor(($current_currency * ($products->diamondfeed->price))*100)/100,2, '.', '')}} 
-    @else
-    $ {{number_format(floor(($products->diamondfeed->price)*100)/100,2, '.', '')}}
-    @endif
-    (Ex. VAT)
-</b></td>
-</tr>
-
-<tr>
 <td>
-<b>Price (Including VAT)</b></td>
+<b>Sell price ex vat</b></td>
 <td><b>
 @if($current_currency !== '')
     {{$symbol}}{{number_format(floor(($current_currency * ($products->diamondfeed->price * $products->multiplier_id))*100)/100,2, '.', '')}} 
@@ -140,7 +128,7 @@
 
 <tr>
 <td>
-<b>Final Price (Including VAT)</b></td>
+<b>Sell price including vat</b></td>
 <td><b>
  <!----mulipliercost---->
     @if($current_currency !== '')
@@ -165,7 +153,7 @@
 <div class="col-sm-7 noPrint"><!--start-image-details-->
   <div class="printboximg">
   @if($products->image == '' || $products->image == 'true' )
-    <span><img src="http://diamonds.augurstech.com/public/assets/img/product/No_image.jpg" alt="product" class="sec-img"></span>
+  <span><img src="{{url('/')}}/public/assets/img/product/No_image.jpg" alt="product" class="sec-img"></span>
 @else
  <span><img src="{{$products->image}}" alt="product" class="sec-img"></span>
 @endif

@@ -23,9 +23,11 @@ use App\Repositories\BaseRepository;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 
 use File;
 use PDF;
+use App;
 
 
 
@@ -47,6 +49,20 @@ class CsvAutoUploadController extends Controller
       $day             = $time->day;
       $this->feed_path = 'feed' . DIRECTORY_SEPARATOR . $year . DIRECTORY_SEPARATOR . $month . DIRECTORY_SEPARATOR . $day . DIRECTORY_SEPARATOR;
       $this->storage   = Storage::disk('public');
+  }
+
+  public function mailTest(){
+    $data = array('name'=>"shiningqualities");
+     $mailsend = Mail::send('emails.testmail', $data, function($message) {
+         $message->to('augurstest@gmail.com', 'AutoloadCSV')->subject
+            ('Laravel HTML Testing Mail');
+         $message->from('enquiries@shiningqualities.com','Shining qualities');
+      });
+      if($mailsend){
+       echo 'mail sent successfully';
+      }else{
+        echo 'Mail Not Sent';
+      }
   }
 
 
@@ -91,14 +107,16 @@ class CsvAutoUploadController extends Controller
 
               
 	  public function index(Request $request){
-      //$url1 = 'https://www.igi.org/viewpdf.php?r=425072875';
-      // $filename = time().'.pdf'; 
-      // $file = $this->pdfWithoutExtension($url1, $filename);
-
-      // $url = 'https://www.gia.edu/report-check?reportno=1349200880';
-      // $filename1 = time().'.pdf'; 
-      // $file = $this->scrapingfromhtmlpdf($url1, $filename1);
-      //  echo $file; die;
+	      //echo ini_get('max_execution_time');
+	      //die;
+    $data = array('name'=>"shiningqualities");
+      Mail::send('emails.testmail', $data, function($message) {
+         $message->to('augurstest@gmail.com', 'AutoloadCSV')->subject
+            ('Laravel HTML Testing Mail');
+         $message->from('deepak@gmail.com','Shiningqualities');
+      });
+      //echo 'mail sent successfully'; die;
+    
 //-----checking-internet--------
 $host_name = 'www.google.com';
 $port_no = '80';
@@ -137,7 +155,7 @@ $file = file_get_contents($downloadUrl);
   
       if (!empty($input) && $ext === 'csv' || $ext = 'xlsx') {
         
-          if (($handle = fopen(public_path('csvautoupload\\') . $input, 'r')) !== false) {
+          if (($handle = fopen(public_path('csvautoupload/') . $input, 'r')) !== false) {
 
            //echo '<pre>'; print_r(fgetcsv($handle, 1000, ',')); die;
 
@@ -167,21 +185,21 @@ $file = file_get_contents($downloadUrl);
                 $imgFileName = NULL;
                $pdfFileName = NULL;
                 //video save
-               if(!empty($importData[28])){
+              if(!empty($importData[28])){
                 $videoFileName = 'video_'.$importData[1].'.'.\File::extension($importData[28]);
-               if(!empty(\File::extension($importData[28]))){
-               copy($importData[28], public_path('webscrap/video') . DIRECTORY_SEPARATOR . $videoFileName);
+              if(!empty(\File::extension($importData[28]))){
+              copy($importData[28], public_path('webscrap/video') . DIRECTORY_SEPARATOR . $videoFileName);
                   }}
                //pdf save
-               if(!empty($importData[31]) || $importData[31] !== 'TRUE'){
+              if(!empty($importData[31]) || $importData[31] !== 'TRUE'){
                 if(\File::extension($importData[31])=='pdf'){
-               $pdfFileName = 'pdf_'.$importData[1].'.'.\File::extension($importData[31]);
-               copy($importData[31], public_path('webscrap/pdf') . DIRECTORY_SEPARATOR . $pdfFileName);
-                   }}
+              $pdfFileName = 'pdf_'.$importData[1].'.'.\File::extension($importData[31]);
+              copy($importData[31], public_path('webscrap/pdf') . DIRECTORY_SEPARATOR . $pdfFileName);
+                  }}
                //image save
-               if(!empty($importData[30])){
-               $imgFileName = 'image_'.$importData[1].'.'.\File::extension($importData[30]);
-               copy($importData[30], public_path('webscrap/image') . DIRECTORY_SEPARATOR . $imgFileName);
+              if(!empty($importData[30])){
+              $imgFileName = 'image_'.$importData[1].'.'.\File::extension($importData[30]);
+              copy($importData[30], public_path('webscrap/image') . DIRECTORY_SEPARATOR . $imgFileName);
                  }
                 //die;
 

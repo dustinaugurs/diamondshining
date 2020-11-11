@@ -3,7 +3,7 @@
   <div class="modal-dialog modal-sm maxwidth650" role="document">
     <div class="modal-content enquiryboxmodel">
       <div class="modal-header">
-        <h1><strong>Product Enquire :</strong> Hi <strong><i>{{Auth::user()->name}}</i></strong> Check Your Details</h1>
+        <h1><strong>Product Enquiry :</strong> Hi <strong><i>{{Auth::user()->name}}</i></strong> Please Check Your Details</h1>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -70,12 +70,12 @@
           </div>
 
            <!------------------------------->
-           <div class="col-md-12 col-sm-12 col-xs-12 qaddressradio">
+           <div class="col-md-12 col-sm-12 col-xs-12 qaddressradio divhidden">
           <div class="form-group margin0">
           <div class="row">
           <div class="col-sm-4"><label>Check Delivery Address</label></div>
           <div class="col-sm-4">
-          <input id="sameaddress" type="radio" name="qdeliveryaddress" value="sameAddress" required>
+          <input id="sameaddress" checked type="radio" name="qdeliveryaddress" value="sameAddress" required>
           <span>Same Address</span>
           </div>
           <div class="col-sm-4">
@@ -88,7 +88,7 @@
 
            <!---start-sameaddress---->
            @php $user = Auth::user(); @endphp
-          <div class="">
+          <div class="divhidden">
             <div class="" id="qsameaddressbox">
             <div class="col-md-12 col-sm-12 col-xs-12">
               <p class="addressheading">Please Check & Update Your Same Address</p>
@@ -228,7 +228,7 @@
   <div class="modal-dialog modal-sm maxwidth650" role="document">
     <div class="modal-content enquiryboxmodel">
       <div class="modal-header">
-        <h1><strong>Product Order :</strong> Hi <strong><i>{{Auth::user()->name}}</i></strong> Check Your Details</h1>
+        <h1><strong>Product Order :</strong> Hi <strong><i>{{Auth::user()->name}}</i></strong> Please Check Your Details</h1>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -294,12 +294,12 @@
           </div>
 
           <!------------------------------->
-          <div class="col-md-12 col-sm-12 col-xs-12 addressradio">
+          <div class="col-md-12 col-sm-12 col-xs-12 addressradio divhidden">
           <div class="form-group margin0">
           <div class="row">
           <div class="col-sm-4"><label>Check Delivery Address</label></div>
           <div class="col-sm-4">
-          <input id="sameaddress" type="radio" name="deliveryaddress" value="sameAddress" required>
+          <input id="sameaddress" checked type="radio" name="deliveryaddress" value="sameAddress" required>
           <span>Same Address</span>
           </div>
           <div class="col-sm-4">
@@ -312,7 +312,7 @@
 
           <!---start-sameaddress---->
           @php $user = Auth::user(); @endphp
-          <div class="">
+          <div class="divhidden">
             <div class="" id="sameaddressbox">
             <div class="col-md-12 col-sm-12 col-xs-12">
               <p class="addressheading">Please Check & Update Your Same Address</p>
@@ -506,7 +506,7 @@
 
              </div>
    <div id="copysubmit">         
-  <button type="submit" class="btn btn-primary custombtn">Send</button>
+  <button type="submit" class="btn btn-primary custombtn">Submit</button>
   </div> 
 </form>
       </div>

@@ -30,6 +30,7 @@ class OrderRepository
         $orders = Order::with('user','diamondfeed', 'multiplierprice')
                     ->where('order_status', $orderStatus)
                     ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
+                    ->where('user_id', Auth::user()->id)
                     ->orderBy('order_date', 'desc')
                     ->paginate(9);
                     //->get();
@@ -48,6 +49,7 @@ class OrderRepository
       $orders = Order::with('user','diamondfeed','multiplierprice')
                   ->where('order_status', $orderStatus)
                   ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
+                  ->where('user_id', Auth::user()->id)
                   ->orderBy('order_date', 'desc')
                   ->where('date', $date) 
                   ->paginate(9);
@@ -60,6 +62,7 @@ class OrderRepository
                 ->where('id', $oid)
                 ->where('order_status', $orderStatus)
                 ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
+                ->where('user_id', Auth::user()->id)
                 ->orderBy('order_date', 'desc')
                 ->where('date', $date) 
                 ->paginate(9);
@@ -71,6 +74,7 @@ class OrderRepository
   $orders = Order::with('user','diamondfeed','multiplierprice')
               ->where('order_status', $orderStatus)
               ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
+              ->where('user_id', Auth::user()->id)
               ->orderBy('order_date', 'desc')
               ->paginate(9);
               //->get();
@@ -82,6 +86,7 @@ public function OrdersearchInvoice($invoice_number = ''){
   $orders = Order::with('user','diamondfeed','multiplierprice')
               ->whereIn('invoice_number', $invoice_number)
               ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
+              ->where('user_id', Auth::user()->id)
               ->whereIn('checkStatus', [2,3])
               ->orderBy('order_date', 'desc')
               ->get();

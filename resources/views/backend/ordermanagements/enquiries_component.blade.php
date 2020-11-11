@@ -61,76 +61,23 @@
 <span class="changests  checkStatus_{{$order->id}} checkstatusOrder_{{$order->id}}"><a class="getcheckstatusOrder" href="javascript:void(0);" checkOrder="{{$order->id}}" chStatus="{{$order->checkStatus}}">Change</a></span>
 </td> -->
 
-<td>{{$order->multiplier_id}} X</td>
+<td><!--Cost price-->
+    {{$order->c_symbol}} {{$order->p_costprice}} 
+    (Ex. VAT)
+    </td>
 
-<td> <!----mulipliercost---->
-    @if($current_currency !== '')
-   <?php 
-   $finalprice = ($order->diamondfeed->price * $order->multiplier_id)+($order->diamondfeed->price * $order->multiplier_id)*$setting->VAT/100; 
-   
-   ?>
-    {{$symbol}}{{number_format(floor(($current_currency * ($finalprice))*100)/100,2, '.', '')}} 
-    @else
-    $ {{number_format(floor(($order->diamondfeed->price * $order->multiplier_id)*100)/100,2, '.', '')}}
-    @endif
+<td>{{$order->multiplier_id}} X</td> <!--Multiplier-->
+
+<td><!--Sell price ex vat-->
+    {{$order->c_symbol}} {{$order->p_price_without_vat}} 
+    (Ex. VAT)
+    </td>
+
+<td> <!---Sell price including vat---->
+    {{$order->c_symbol}} {{$order->p_finalprice}} 
     (Inc. VAT)
     </td>
 
-<!-- <td>
-    @if($current_currency !== '')
-    {{$symbol}}{{number_format(floor(($current_currency * ($order->deliverycost_from_admin * $order->user->template->multiplier_usd))*100)/100,2, '.', '')}} 
-    @else
-    $ {{number_format(floor(($order->deliverycost_from_admin)*100)/100,2, '.', '')}}
-    @endif
-    (Ex. VAT)
-    </td> -->
-
-
-
-    <td>
-    @if($current_currency !== '')
-    {{$symbol}}{{number_format(floor(($current_currency * ($order->diamondfeed->price * $order->multiplier_id))*100)/100,2, '.', '')}} 
-    @else
-    $ {{number_format(floor(($order->diamondfeed->price*$order->multiplier_id)*100)/100,2, '.', '')}}
-    @endif
-    (Ex. VAT)
-    </td>
-
-    <td>
-    @if($current_currency !== '')
-    {{$symbol}}{{number_format(floor(($current_currency * ($order->diamondfeed->price))*100)/100,2, '.', '')}} 
-    @else
-    $ {{number_format(floor(($order->diamondfeed->price)*100)/100,2, '.', '')}}
-    @endif
-    (Ex. VAT)
-    </td>
-
-    <!-- <td>
-    @if($order->user->currency_code !== '')
-    {{$order->user->currency_symbol}}{{number_format(floor(($current_currency[$order->user->currency_code] * (($setting->VAT / 100 ) * $order->diamondfeed->price + $order->diamondfeed->price))*100)/100,2, '.', '')}}
-    @else
-    $ {{number_format(floor((($setting->VAT / 100 ) * $order->diamondfeed->price + $order->diamondfeed->price)*100)/100,2, '.', '')}}
-    @endif
-    (inc. VAT)
-    </td> -->
-
-<!-- <td>
-@switch($order->payment_status)
-    @case(1)
-        Pending
-        @break
-    @case(2)
-        Deposit Paid
-        @break
-    @case(3)
-       Fully Paid
-        @break
-    @default
-       Pending
-@endswitch
-
-<span class="changests paymentOrder_{{$order->id}} paystatusOrder_{{$order->id}}"><a class="getpaystatusOrder" href="javascript:void(0);" payOrder="{{$order->id}}">Change</a></span>
-</td> -->
 
 <td>{{$order->ETA}}</td>
 </tr>

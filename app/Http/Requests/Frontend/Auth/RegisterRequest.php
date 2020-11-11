@@ -33,8 +33,8 @@ class RegisterRequest extends Request
             'email'                => ['required', 'email', 'max:255', Rule::unique('users')],
             'password'             => 'required|min:8|confirmed|regex:"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$"',
             'company'              => 'required|max:255',
-            'VATnumber'            => 'required|max:255',
-            'designation'          => 'required|max:255',
+            //'VATnumber'            => 'required|max:255',
+            //'designation'          => 'required|max:255',
             'phone_no'             => 'required|min:11|numeric',
             'address_line1'       => 'required|max:255',
             'address_line2'       => 'required|max:255',
@@ -42,7 +42,7 @@ class RegisterRequest extends Request
             'state'               => 'required|max:255',
             'city'                => 'required|max:255',
             'zip'                 => 'required|max:255',
-            'website'             => 'required|max:255',   //'url|max:255'
+            //'website'             => 'required|max:255',
             'is_term_accept'       => 'required',
             'g-recaptcha-response' => 'required_if:captcha_status,true|captcha',
         ];

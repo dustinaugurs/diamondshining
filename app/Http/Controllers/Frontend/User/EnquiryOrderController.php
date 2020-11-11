@@ -241,20 +241,29 @@ public function EnquiryToOrderSend(Request $request){
   $order->order_status = 4; //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5 
   $order->order_date = $dateTime->format("d/m/Y  h:i A");		   
   $order->date = date('m_Y');
-  $order->c_symbol = $request->c_symbol; 
-  $order->p_finalprice = $request->p_finalprice; 
+  //$order->c_symbol = $request->c_symbol; 
+  //$order->p_finalprice = $request->p_finalprice; 
   $order->save();
   //---------start-mail-section-------------
-  if($request->userEmailo !== ''){	
-          $enquiry = [
-      'username'=> Auth::user()->name,
-      'productid'=> $order->diamondFeed_id, 
-      'subject' => 'Product Order',
-      'stock_number' => $order->diamondfeed->stock_id,
-      'setting'=> $setting,
-          ];
-          $mail = Mail::to($order->userEmail)->cc(['enquries@shiningqualities.com'])->send(new SendMailable($enquiry));
-       }	
+  $client = Auth::user()->first_name.' '.Auth::user()->last_name;
+		$diamondfeed = DiamondFeed::where('id', $order->diamondFeed_id)->first();
+		if($order->userEmail !== ''){	
+            $enquiry = [
+				'username'=> Auth::user()->name,
+				'productid'=> $diamondfeed->id, 
+				'subject' => 'Order Request - '.$client.' - '.$diamondfeed->lab.' '.$diamondfeed->ReportNo,
+				'message' => 'We have received your Order Request for the following diamond. We will check the availability and quality of this diamond and revert back to you at the earliest opportunity.',
+				'stock_number' => $diamondfeed->stock_id,
+				'certificate_number' => '<a href="'.$diamondfeed->pdf.'">'.$diamondfeed->ReportNo.'</a>',
+				'shape' => $diamondfeed->shape,
+				'carat' => $diamondfeed->carats,
+				'colour' => $diamondfeed->col,
+				'clarity'=> $diamondfeed->clar,
+				'price' => $order->c_symbol.''.$order->p_finalprice,
+				'setting'=> $setting,
+            ];
+            $mail = Mail::to($order->userEmail)->cc(['enquiries@shiningqualities.com'])->send(new SendMailable($enquiry));
+          }
    //---------End-mail-section-------------	
    $orderStatus = 1 ; //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5 	   
     $orders = $this->orders->order($orderStatus);

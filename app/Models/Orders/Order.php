@@ -17,7 +17,7 @@ class Order extends BaseModel
     protected $table = 'orders';
   
     protected $fillable = [
-        'user_id', 'userEmail', 'diamondFeed_id', 'order_status', 'orderTrackingId', 'checkStatus', 'payment_status',  'status_from_admin', 'deliverycost_from_admin', 'multiplier_id', 'ref_name_contact', 'client', 'ETA', 'order_date', 'date'
+        'user_id', 'userEmail', 'diamondFeed_id', 'order_status', 'orderTrackingId', 'checkStatus', 'payment_status',  'status_from_admin', 'deliverycost_from_admin', 'multiplier_id', 'ref_name_contact', 'client', 'ETA', 'order_date', 'date',
     ];
 
     public $sortable = [

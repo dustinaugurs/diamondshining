@@ -13,7 +13,7 @@
 </div>
 
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 totaldimondbox">
-<h5><span>Diamond Found:</span> <span><i class="fa fa-diamond" aria-hidden="true"></i></span> 
+<h5><span>Diamonds Found:</span> <span><i class="fa fa-diamond" aria-hidden="true"></i></span> 
 <span>{{$total_diamond_found}}</span> </h5>
 </div>
 
@@ -22,7 +22,7 @@
 <div class="form-group">
   <div class="row">
     <div class="col-sm-8" style="padding-right:0px;">
-<input type="text" class="form-control" style="border-radius: 5px 0px 0px 5px;" id="search_stock_number" name="search_stock_number" placeholder="Search Stock Number" required>
+<input type="text" class="form-control" style="border-radius: 5px 0px 0px 5px;" id="search_stock_number" name="search_stock_number" placeholder="Stock No. / Cert. No." required>
 </div>
 <div class="col-sm-2" style="padding-left:0px; padding-right:0px;">
 <button class="searchbtn" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
@@ -75,17 +75,28 @@
 	  <p><img src="{{url('/')}}/public/assets/img/product/No_image.jpg" alt="product" class="sec-img img33"></p>
 	@else
 	 <p>
+      @if(!empty($product->video_url))
+      <video width="75" height="75" controls>
+        <source src="{{url('public/webscrap/video')}}/{{$product->video_url}}">
+      </video>
+      @else
       <video width="75" height="75" controls>
         <source src="{{$product->video}}">
       </video>
+      @endif
 	     
     </p>
 	@endif</td>
     <td>
 	@if($product->image == '' || $product->image == 'true' )
 	  <p><img src="{{url('/')}}/public/assets/img/product/No_image.jpg" alt="product" class="sec-img img33"></p>
-	@else
-	 <p><img src="{{$product->image}}" alt="product" class="sec-img img33"></p>
+  @else
+  @if(!empty($product->img_url))
+  <p><img src="{{url('public/webscrap/image')}}/{{$product->img_url}}" alt="product" class="sec-img img33"></p>
+  @else
+   <p><img src="{{$product->image}}" alt="product" class="sec-img img33"></p>
+   @endif
+
 	@endif
 	</td>
     <td>{{$product->shape}}</td>
@@ -234,7 +245,13 @@
             <td><strong>Certificate:</strong></td>  
             <td>
             @if(!empty($product->pdf))
-            <a target="new" href="{{$product->pdf}}">{{$product->lab}}</a>
+
+            @if(!empty($product->pdf_url))
+         <a target="new" href="{{url('public/webscrap/pdf')}}/{{$product->pdf_url}}">{{$product->lab}}</a>
+            @else
+             <a target="new" href="{{$product->pdf}}">{{$product->lab}}</a>
+             @endif
+           
 @else
 <div class="m-0  p-0 requestbox certifform">
 <form action="{{url('imageVideoRequest')}}" method="post">
@@ -381,7 +398,7 @@
 
 
 
-      <div class="enquire-btn-wrp" onclick="enquiryPopup({{$product->id}})" ><a href="#" data-toggle="modal" data-target="#EnquiryModal" class="enquire-btn"> Enquire </a>    
+<div class="enquire-btn-wrp" onclick="enquiryPopup({{$product->id}})" ><a href="#" data-toggle="modal" data-target="#EnquiryModal" class="enquire-btn"> Enquire </a>    
    
 
 <input type="hidden" class="stocknum_{{$product->id}}" value="{{$product->stock_id}}">
@@ -430,7 +447,7 @@
 <!----------------------------->
 
 <tr>  
-<p>There are no data match !.</p>
+<p>It seems we don't have anything on our site in those given specs. If you let us know exactly what you’re looking for we’ll get back to you shortly with an option.</p>
 </tr>  
 
 @endforelse

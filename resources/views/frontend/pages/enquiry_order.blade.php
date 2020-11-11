@@ -56,9 +56,8 @@ $pageName = 'enquiryorder';
     <th>Certificate</th>
     <th>Shape</th>
     <th>Status</th>
-    <th>Price (Ex VAT)</th>
-    <!-- <th>Price (Inc VAT)</th> -->
-    <th>Final Price (Inc VAT)</th>
+    <th>Sell price ex vat</th>
+    <th>Sell price including vat</th>
     <th>ETA</th>
 </tr>
  </thead>
@@ -146,6 +145,7 @@ $('body').on('click', '.getstatusvalue', function(){
 //---------------------------------
 
 $('body').on('change', '.orderstatupt', function(){
+ 
       var  payment_status='',  order_status='', date='', check_status='', prid=''  ;
          prid = $(this).attr('prID');
          c_symbol = $(".c_symbol_"+prid).val();
@@ -153,7 +153,7 @@ $('body').on('change', '.orderstatupt', function(){
          order_status = $(this).find("option:selected").val();
 
       var data = 'pid='+prid+'&order_status='+order_status+'&c_symbol='+c_symbol+'&p_finalprice='+p_finalprice+'&_token={{ csrf_token() }}';
-     // console.log('Enquiry to Order : '+data); return false;
+      //console.log('Enquiry to Order : '+data); return false;
             $.ajax({
                 type:"POST",
                 url:"{{ url('EnquiryToOrderSend') }}",
@@ -164,8 +164,9 @@ $('body').on('change', '.orderstatupt', function(){
                     $("#dataafterfilter").html('<tr><td colspan="16"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
                 },
                 success: function(result) {
-              toastr.success('Your Order Successfully');
-					$('#dataafterfilter').html(result);	
+                  //console.log(result);
+              toastr.success('We have received your order . Thank you');
+				    	$('#dataafterfilter').html(result);	
                 } 
             });
 		});

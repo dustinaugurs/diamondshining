@@ -16,15 +16,11 @@
 <body>
    <div class="wrapper">
    <p><strong>Dear <?php echo $products['customername'] ?>, </strong></p>
-
-<p>I hope you’re well! Please see attached invoice number <strong><?php echo $products['invoiceNumber'] ?></strong> for <strong>Stock Number <?php echo $products['stockNumber'] ?></strong>, due on <strong> <?php echo $products['duedate'] ?></strong>. Don’t hesitate   to reach out if you have any questions.</p>
-       <br>
-       <br>
-      
-       <p><strong>Kind regards , </strong><br><br>
-       {{Auth::user()->first_name}} {{Auth::user()->last_name}} <br>
+   
+<p>Please find attached Shining Qualities invoice number <strong><?php echo $products['invoiceNumber'] ?></strong>. You can also view all of your invoices online. If you’ve got any questions please let us know.</p>
+<br>
+       <p><strong>Many thanks ,</strong><br>
        <?php echo $products['fromName'] ?> <br>
-       <?php echo $products['address'] ?>
        </p>
        
    </div> 

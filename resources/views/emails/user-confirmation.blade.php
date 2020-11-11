@@ -8,14 +8,17 @@
                 <td align="left" style="color: #888888; width:20px; font-size: 16px; line-height: 24px;">
                     <!-- section text ======-->
 
+                    <p style="line-height: 24px; margin-bottom:15px;text-align:center">
+                     <img style="display:block; width:50px; height:50px; margin:0 auto;" src="{{url('public/assets/img/logo')}}/sm-logo-black.png" alt="S Q" title="S Q"> 
+                    </p>
                     <p style="line-height: 24px; margin-bottom:15px;">
-                        Hello!
+                        Dear {{$userFirstName}}
                     </p>
                     
                     <p style="line-height: 24px; margin-bottom:20px;">
                         Click here to confirm your account:
                     </p>
-                    <table border="0" align="center" width="180" cellpadding="0" cellspacing="0" bgcolor="5caad2" style="margin-bottom:20px; background: #003bd7; border-radius: 5px;">
+                    <table border="0" align="center" width="180" cellpadding="0" cellspacing="0" bgcolor="5caad2" style="margin-bottom:20px; background: #435570; border-radius: 5px;">
 
                         <tr>
                             <td height="10" style="font-size: 10px; line-height: 10px;">&nbsp;</td>

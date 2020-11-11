@@ -1,4 +1,5 @@
 
+
 @if(!$orders->isEmpty())
  @foreach($orders as $order)
 <tr id="rowupdateOrder_{{$order->id}}">
@@ -63,68 +64,30 @@
 @endif
 </td>
 
-<td>{{$order->multiplier_id}} X</td>
+<td><!--Cost price-->
+    {{$order->c_symbol}} {{$order->p_costprice}} 
+    (Ex. VAT)
+    </td>
 
-<td> <!----mulipliercost---->
-    @if($current_currency !== '')
-   <?php 
-   $finalprice = ($order->diamondfeed->price * $order->multiplier_id)+($order->diamondfeed->price * $order->multiplier_id)*$setting->VAT/100; 
-   
-   ?>
-    {{$symbol}}{{number_format(floor(($current_currency * ($finalprice))*100)/100,2, '.', '')}} 
-    @else
-    $ {{number_format(floor(($order->diamondfeed->price * $order->multiplier_id)*100)/100,2, '.', '')}}
-    @endif
+<td>{{$order->multiplier_id}} X</td> <!--Multiplier-->
+
+<td><!--Sell price ex vat-->
+    {{$order->c_symbol}} {{$order->p_price_without_vat}} 
+    (Ex. VAT)
+    </td>
+
+<td> <!---Sell price including vat---->
+    {{$order->c_symbol}} {{$order->p_finalprice}} 
     (Inc. VAT)
     </td>
 
-<td>
+<td> <!--Delivery cost-->
     @if($current_currency !== '')
-    {{$symbol}}{{number_format(floor(($current_currency * ($order->deliverycost_from_admin * $order->user->template->multiplier_usd))*100)/100,2, '.', '')}} 
+    {{$symbol}}{{number_format(floor(($current_currency * $order->deliverycost_from_admin)*100)/100,2, '.', '')}} 
     @else
     $ {{number_format(floor(($order->deliverycost_from_admin)*100)/100,2, '.', '')}}
     @endif
-    (Ex. VAT)
     </td>
-
-
-
-    <td>
-    @if($current_currency !== '')
-    {{$symbol}}{{number_format(floor(($current_currency * ($order->diamondfeed->price * $order->multiplier_id))*100)/100,2, '.', '')}} 
-    @else
-    $ {{number_format(floor(($order->diamondfeed->price*$order->multiplier_id)*100)/100,2, '.', '')}}
-    @endif
-    (Ex. VAT)
-    </td>
-
-    <td>
-    @if($current_currency !== '')
-    {{$symbol}}{{number_format(floor(($current_currency * ($order->diamondfeed->price))*100)/100,2, '.', '')}} 
-    @else
-    $ {{number_format(floor(($order->diamondfeed->price)*100)/100,2, '.', '')}}
-    @endif
-    (Ex. VAT)
-    </td>
-
-
-<!-- <td>
-    @if($order->user->currency_code !== '')
-    {{$order->user->currency_symbol}} {{number_format(floor(($current_currency[$order->user->currency_code] * ($order->diamondfeed->price * 1))*100)/100,2, '.', '')}} 
-    @else
-    $ {{number_format(floor(($order->diamondfeed->price)*100)/100,2, '.', '')}}
-    @endif
-    (Ex. VAT)
-    </td>
-
-    <td>
-    @if($order->user->currency_code !== '')
-    {{$order->user->currency_symbol}}{{number_format(floor(($current_currency[$order->user->currency_code] * (($setting->VAT / 100 ) * $order->diamondfeed->price + $order->diamondfeed->price))*100)/100,2, '.', '')}}
-    @else
-    $ {{number_format(floor((($setting->VAT / 100 ) * $order->diamondfeed->price + $order->diamondfeed->price)*100)/100,2, '.', '')}}
-    @endif
-    (inc. VAT)
-    </td> -->
 
 <td>
 @switch($order->payment_status)
@@ -157,4 +120,8 @@
 @else
 <tr><td colspan="18">No Data Found</td></tr>
 @endif
+
+
+
+
 

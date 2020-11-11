@@ -54,6 +54,6 @@ class UserNeedsPasswordReset extends Notification
         $reset_password_route = route('frontend.auth.password.reset.form', $this->token);
 
         return (new MailMessage())
-            ->view('emails.reset-password', ['reset_password_url' => $reset_password_route]);
+            ->view('emails.reset-password', ['reset_password_url' => $reset_password_route, 'notice' => $notifiable]);
     }
 }

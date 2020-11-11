@@ -1,5 +1,4 @@
 
-
 /*====Deepak Kumar Custom CSS=====*/
 
 .dkfilter {
@@ -34,7 +33,6 @@
 	text-align: right;
 	padding-left: 0px !important;
 }
-
 
 /*.dkresetfilter .dkreset{padding: 10px 20px;}*/
 
@@ -192,7 +190,8 @@ h4.reportheading span {
 }
 
 .Search-for-Diamonds-wrp .shape-filter-btn .checkmark {
-	border: 2px solid #002853;
+	border: 2px solid #435570;
+	cursor: pointer;
 }
 
 .Search-for-Diamonds-wrp .price-range-block #searchResults1,
@@ -240,7 +239,7 @@ h4.reportheading span {
 }
 
 .requestbox button.requestform {
-	background: #002853;
+	background: #435570;
 	font-size: 12px;
 	padding: 3px 10px;
 	border: none;
@@ -381,7 +380,7 @@ a.ordermsg:before{content: 'Your Product Price Not Matched with Multiplier Price
 .table-accordion-wrp .table-responsive .table th {
 	padding: 10px 5px;
 	font-size: 15px;
-	background: #002853;
+	background: #435570;
 	color: #f2f2f2;
 	font-weight: 500;
 }
@@ -403,7 +402,7 @@ a.ordermsg:before{content: 'Your Product Price Not Matched with Multiplier Price
 }
 
 .diamondheading h1{color: #f2f2f2; text-transform: uppercase;}
-.is-sticky .diamondheading h1{color: #002853}
+.is-sticky .diamondheading h1{color: #435570}
 .boxsize .tox.tox-tinymce{width:87% !important}
 
 .table-accordion-wrp .table-responsive .table td a.detail-order-btn {
@@ -413,8 +412,8 @@ a.ordermsg:before{content: 'Your Product Price Not Matched with Multiplier Price
   border-radius:0px;
 }
 .page-item.active .page-link {
-  background-color: #002853;
-  border-color: #002853;
+  background-color: #435570;
+  border-color: #435570;
 }
 .dkpsearchbox {
 	margin: 10px 0 !important
@@ -457,7 +456,7 @@ a.ordermsg:before{content: 'Your Product Price Not Matched with Multiplier Price
 
 .totaldimondbox h5 span:nth-child(2),
 .totaldimondbox h5 span:last-child {
-	color: #002853;
+	color: #435570;
 	font-weight: 900;
 }
 
@@ -528,7 +527,7 @@ a.ordermsg:before{content: 'Your Product Price Not Matched with Multiplier Price
 }
 
 .header-top.topheader {
-	background: #002853;
+	background: #435570;
 	padding: 5px 0;
 }
 
@@ -578,7 +577,7 @@ a.ordermsg:before{content: 'Your Product Price Not Matched with Multiplier Price
 }
 
 .mobile-header.headermobile {
-	background: #002853;
+	background: #435570;
 	padding: 5px 0;
 }
 
@@ -590,10 +589,12 @@ a.ordermsg:before{content: 'Your Product Price Not Matched with Multiplier Price
 
 .footerbox .footer-bottom {
 	padding: 10px 0;
-	background: #002853;
-	color: #f2f2f2;
+	background: #DBE2E9;
+	color: #444;
 }
-
+.footerbox .footer-bottom p{
+	opacity: 0.6;
+}
 .contentbox {
 	min-height: 38.59vh;
 }
@@ -639,7 +640,7 @@ a.ordermsg:before{content: 'Your Product Price Not Matched with Multiplier Price
 	width: 100%;
 	margin: 25px;
 	padding: 20px 20px;
-	box-shadow: 0px 0px 0px 2px #002853;
+	box-shadow: 0px 0px 0px 2px #435570;
 	background: #f2f2f2;
 	/* border-radius: 5px; */
 	position: relative;
@@ -648,7 +649,7 @@ a.ordermsg:before{content: 'Your Product Price Not Matched with Multiplier Price
 
 .signupbox .signup h2,
 .signupbox .signup2 h2 {
-	background: #002853;
+	background: #435570;
 	position: absolute;
 	left: 0;
 	right: 0;
@@ -657,7 +658,7 @@ a.ordermsg:before{content: 'Your Product Price Not Matched with Multiplier Price
 	color: #f2f2f2;
 	text-transform: uppercase;
 	font-size: 25px;
-	background-image: linear-gradient(to right, #002853, #f2f2f2);
+	background-image: linear-gradient(to right, #435570, #f2f2f2);
 	z-index: 9;
 }
 
@@ -749,14 +750,14 @@ a.ordermsg:before{content: 'Your Product Price Not Matched with Multiplier Price
 }
 
 .changecurrencybox .nice-select {
-	background: #042e5f;
+	background: #435570;
 	border: none;
 	position: relative;
 	width: 100px;
 }
 
 .changecurrencybox .nice-select ul.list li {
-	color: #002853;
+	color: #435570;
 }
 
 .changecurrencybox .-select ul.list li.option.selected.focus {
@@ -764,9 +765,9 @@ a.ordermsg:before{content: 'Your Product Price Not Matched with Multiplier Price
 	padding-right: 18px;
 }
 
-.header-top-settings .changecurrencybox ul.list li:first-child {
+/* .header-top-settings .changecurrencybox ul.list li:first-child {
 	padding-left: 38px !important;
-}
+} */
 
 .txtareadisplay {
 	display: none;
@@ -826,7 +827,7 @@ a.ordermsg:before{content: 'Your Product Price Not Matched with Multiplier Price
 }
 
 .btn.custombtn {
-	background: #002853;
+	background: #435570;
 	padding: 12px 15px;
 	color: #fff;
 	text-transform: uppercase;
@@ -992,14 +993,14 @@ span.changests span select>option {
 	padding: 8px 20px;
 	font-size: 16px;
 	width: auto;
-	background: #002853;
+	background: #435570;
 	border-radius: 30px;
 	border-right: 1px solid #ccc;
 	margin-right: 10px;
 }
 
 button.urlbutton {
-	background: #002853;
+	background: #435570;
 	color: #fff;
 	font-size: 11px;
 	padding: 2px 10px;
@@ -1063,7 +1064,7 @@ button.urlbutton:hover {
 }
 
 .msgshow{padding:15px}
-.msgshow p{color: #002853;
+.msgshow p{color: #435570;
     font-size: 20px;
     line-height: normal;
     text-align: justify;}
@@ -1076,7 +1077,7 @@ button.urlbutton:hover {
   left: 0;
   right: 0;
   z-index: 9999999;
-  color: #002853;
+  color: #435570;
   top: 30%;
   box-shadow: 0 0 6px #001225;
   border-radius: 10px;
@@ -1155,7 +1156,7 @@ button.clsbutton.close {
 }
 
 .off-canvas-wrapper .btn-close-off-canvas {
-	background-color: #002853 !important;
+	background-color: #435570 !important;
 }
 
 .nice-select.open span.current,
@@ -1165,6 +1166,7 @@ button.clsbutton.close {
 
 .mobile-main-header.mobileMenu {
 	position: relative;
+	
 }
 
 .mobile-main-header.mobileMenu .mobile-menu-toggler {
@@ -1173,7 +1175,7 @@ button.clsbutton.close {
 }
 
 .off-canvas-wrapper .off-canvas-inner-content {
-	background: #002853 !important;
+	background: #435570 !important;
 }
 
 .frontusersection .frontuser {
@@ -1197,6 +1199,8 @@ button.clsbutton.close {
 	right: 0;
 }
 
+.divhidden{display:none;}
+
 .frontusersection .frontuser span:first-child {
 	position: relative;
 	border: 1px solid #f2f2f2;
@@ -1215,9 +1219,9 @@ button.clsbutton.close {
 	color: #f2f2f2;
 	text-transform: uppercase;
 	font-size: 15px;
-	padding: 10px 0;
+	padding: 7px 0;
 	display: block;
-	border-bottom: 1px dashed #f2f2f2;
+	/* border-bottom: 1px dashed #f2f2f2; */
 }
 
 .frontusersection ul li.logoutuser a {
@@ -1285,7 +1289,7 @@ button.clsbutton.close {
 .sliderhomepage .menu {
 	z-index: 0;
 	position: fixed;
-	background: #002853;
+	background: #435570;
 	height: 100vh;
 	width: 100%;
 	top: -100%;
@@ -1358,7 +1362,7 @@ button.clsbutton.close {
 	background: #f7f7f7;
   }
   .contact-message input:foucs{
-	border-color: #002853 !important;
+	border-color: #435570 !important;
   background-color: #fff !important;
   }
   .black_logo{
@@ -1376,3 +1380,10 @@ button.clsbutton.close {
   .is-sticky .mobile-main-header .mobile-menu-toggler .mobile-menu-btn span {
     background: #000 !important;
 }
+.homepage .mobile-header{
+	background: transparent;
+	padding: 5px 0;
+	position: absolute;
+	z-index: 99;
+	width: 100%;
+  }

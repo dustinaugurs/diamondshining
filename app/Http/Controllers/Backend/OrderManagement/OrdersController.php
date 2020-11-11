@@ -64,7 +64,7 @@ class OrdersController extends Controller
         $orders = Order::with('user','diamondfeed')
                     ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
                     ->whereIn('order_status', $orderStatus)
-                    ->orderBy('order_date', 'desc')
+                    ->orderBy('id', 'DESC')
                     ->paginate(10);
                     //->get();
     
@@ -73,7 +73,7 @@ class OrdersController extends Controller
         //  echo '<pre>'; print_r($orders->user->tid); 
         //     die;            
 
-        return new ViewResponse('backend.ordermanagements.index',[
+        return view('backend.ordermanagements.index',[
                'ordervalue'=>'OrderValue',
                //'orders'=>$this->repository->order($orderStatus),
                'orders'=>$this->repository->ordersAdmin($orderStatus),
@@ -133,9 +133,15 @@ class OrdersController extends Controller
           
   //--------------------------------------------
   public function generateInvoicePDF($oid = ''){
-      $lastinvid = Order::orderBy('id', 'DESC')->first(); 
-      $invoice = ((int)$lastinvid->id)+'1';
-    //print_r($invoiceNumber);
+      $lastinvid = Order::orderBy('invoice_number', 'DESC')->first();
+      $invoice = ''; 
+      if(((int)$lastinvid->invoice_number)==0){
+        $invoice = 1001;
+      }else{
+        $invoice = ((int)$lastinvid->invoice_number)+'1';
+      }
+     
+    //print_r(((int)$lastinvid->invoice_number));
     //die;
        //-------Generate-Invoice-Section-------
         $order = Order::with('user','diamondfeed')->where('id', $oid)->first();
@@ -143,7 +149,7 @@ class OrdersController extends Controller
         $dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
         $date = $dateTime->format("d-m-Y");
         $uID = 'UID'.$order->user->id;
-        $invoiceNumber = $uID.'F'.$invoice.time();
+        $invoiceNumber = $invoice;
         $invoice_date = $dateTime->format("d-m-Y h:i A"); 
         $uipStockid = $order->diamondfeed->stock_id;
         $filename = $uipStockid.'-'.$uID.'-'.$date.'-'.time().'.pdf'; 	
@@ -166,7 +172,7 @@ class OrdersController extends Controller
               'fileName' => $pdf_invoice_file_path,
               'address' => $setting->company_address,
               'fromName' => $setting->from_name, 
-              'customername'=> $order->user->first_name.' '.$order->user->last_name,
+              'customername'=> $order->user->first_name,
               'invoiceNumber' => $order->invoice_number,
               'stockNumber' => $order->diamondfeed->stock_id,
               'duedate' => $order->order_date, 
@@ -175,7 +181,7 @@ class OrdersController extends Controller
          $sendmail = $order->userEmail;     
          //$sendmail = 'augurstest@gmail.com';
 		if($sendmail !== ''){	
-			$mail = \Mail::to($sendmail)->cc(['enquries@shiningqualities.com'])->send(new SendInvoice($products));
+			$mail = Mail::to($sendmail)->cc(['enquiries@shiningqualities.com'])->send(new SendInvoice($products));
 			toastr()->success('Product Details Successfully Sent on '.$sendmail.'');
 			   }else{
 				toastr()->warning('Product Details Not Sent');
@@ -196,7 +202,7 @@ class OrdersController extends Controller
         $deliverycost = $request->deliveryCost;
         $etadate = $request->etadate;
         $invoiceDate = $dateTime->format("d-m-Y h:i A");
-
+          
         //$orderTrackingId = strtoupper(substr(sha1(mt_rand() . microtime()), mt_rand(0,15), 15));
 
         $orderTrackingId = $request->trackingid;
@@ -250,12 +256,13 @@ class OrdersController extends Controller
           $orders = Order::with('user','diamondfeed','multiplierprice')
                         ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
                         ->whereIn('order_status',  $allordstatus)
-                        ->orderBy('order_date', 'desc')
+                        ->orderBy('id', 'DESC')
                         ->paginate(10);
                         //->get();
         $sendmail = $orderUpdate->userEmail;
         $message = '';
         $subjectmsg = '';
+        if($order_status !== 'undefined'){
         if($order_status==5){  // order placed
             $subjectmsg = 'Order Placed';
             $message = 'I hope you’re well! <br>  Your Order which Stock Number <strong> '.$orderUpdate->diamondfeed->stock_id.'</strong> to be <strong>Placed</strong>.  Don’t hesitate to reach out if you have any questions.';
@@ -266,6 +273,7 @@ class OrdersController extends Controller
             $subjectmsg = 'Order Completed';
             $message = 'Your Order which Stock Number <strong> '.$orderUpdate->diamondfeed->stock_id.'</strong>  to be <strong>Completed</strong>.  Don’t hesitate   to reach out if you have any questions.';
            }
+        }
 
         $mailData = [
             'email' => $sendmail,
@@ -276,11 +284,14 @@ class OrdersController extends Controller
             'subject' => $subjectmsg.' For Stock Number : '.$orderUpdate->diamondfeed->stock_id,
             'message' => $message,
         ];
+        
         if($check_status !==2 || $check_status !==3){
+        if($order_status==5 || $order_status==3 || $order_status==2){
         if($sendmail !== ''){	
-                $mail = \Mail::to($sendmail)->cc(['enquries@shiningqualities.com'])->send(new SendEmailToCustomer($mailData));
+                $mail = Mail::to($sendmail)->cc(['enquiries@shiningqualities.com'])->send(new SendEmailToCustomer($mailData));
             } 
-        }                
+        }  
+         }              
         
         return view('backend.ordermanagements.order_component', [
             'cancelled'=>'cancelled',
@@ -333,7 +344,7 @@ class OrdersController extends Controller
         
         $orders = $query->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
                         ->whereIn('order_status', $allordstatus)
-                        ->orderBy('order_date', 'desc')
+                        ->orderBy('id', 'DESC')
                         ->paginate(10);
                         //->get();
          
@@ -430,7 +441,7 @@ public function EnqOrderStatusAndPaymentUpdate(Request $request){
       $orders = Order::with('user','diamondfeed','multiplierprice')
                     ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
                     ->whereIn('order_status',  $allordstatus)
-                    ->orderBy('order_date', 'desc')
+                    ->orderBy('id', 'DESC')
                     ->paginate(10);
                     //->get();
       
@@ -446,7 +457,7 @@ public function EnqOrderStatusAndPaymentUpdate(Request $request){
       ];
       
       if($sendmail !== ''){	
-            $mail = \Mail::to($sendmail)->cc(['enquries@shiningqualities.com'])->send(new SendEmailToCustomer($mailData));
+            $mail = \Mail::to($sendmail)->cc(['enquiries@shiningqualities.com'])->send(new SendEmailToCustomer($mailData));
        } 
      
      

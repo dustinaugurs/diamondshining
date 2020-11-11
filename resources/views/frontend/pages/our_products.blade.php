@@ -164,9 +164,9 @@ $pageName = 'ourproduct';
 							<div class="price-range-box">
 								<div class="Min-Price">Min</div><div class="Max-Price">Max</div>
 
-								<input type="number" readonly step="any" min=0 max="9900" oninput="validity.valid||(value='0');" id="min_price" class="price-range-field Min-Price-in" />
+								<input type="number" readonly step="any" min="0" max="9900" oninput="validity.valid||(value='0');" id="min_price" class="price-range-field Min-Price-in" />
 
-								<input type="number"  readonly step="any" min=0 max="10000" oninput="validity.valid||(value='10000');" id="max_price" class="price-range-field Max-Price-in" />
+								<input type="number"  readonly step="any" min="0" max="1000000" oninput="validity.valid||(value='1000000');" id="max_price" class="price-range-field Max-Price-in" />
 								<div class="clear"></div>
 							</div>
 							<div id="slider-range" class="price-filter-range" name="rangeInput"></div>
@@ -647,7 +647,7 @@ $(document).ready(function(){
 	});
 
 	
-$(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
+$(document).on('click touchstart', '#nav-tab.nav.nav-tabs > a', function(){
 	 var href = $(this).attr('href');
 		if('#melee-diamonds' ==  href){
 						// $('.btn-primary.btn-new2').hide();
@@ -827,8 +827,8 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 		range: true,
 		orientation: "horizontal",
 		min: 0,
-		max: 10000,
-		values: [0, 10000],
+		max: 1000000,
+		values: [0, 1000000],
 		step: 100,
 
 		slide: function (event, ui) {
@@ -910,7 +910,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 
 		
 				// Carat //
-				$(document).on('click touchstart','#slider-range1',function(e){
+				$(document).on('click','#slider-range1',function(e){
 					 var price_range  = $("#js_carat_filter");
 						min_price1 = price_range.children().find('#min_price1').val();
 						max_price1 = price_range.children().find('#max_price1').val();
@@ -922,7 +922,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 });
 
 			 // Price //
-			 $(document).on('click touchstart','#slider-range',function(e){
+			 $(document).on('click','#slider-range',function(e){
 					 var price_range  = $("#js_price_filter");
 						min_price = price_range.children().find('#min_price').val();
 						max_price = price_range.children().find('#max_price').val();
@@ -934,7 +934,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 });
 
 					//Depth
-					 $(document).on('click touchstart','#depth_search',function(e){
+					 $(document).on('click','#depth_search',function(e){
 						//alert(scdscd)
 					 var price_range  = $("#js_depth_filter");
 						min_depth = price_range.children().find('#min_depth').val();
@@ -946,7 +946,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 });
 				
 				 //Table
-				$(document).on('click touchstart','#table_search',function(e){
+				$(document).on('click','#table_search',function(e){
 					 var price_range  = $("#js_table_filter");
 						min_table = price_range.children().find('#min_table').val();
 						max_table = price_range.children().find('#max_table').val();
@@ -957,7 +957,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 });
 			 
 			 //Ratio 
-				 $(document).on('click touchstart','#ratio_search',function(e){
+				 $(document).on('click','#ratio_search',function(e){
 					 var price_range  = $("#js_ratio_filter");
 						min_ratio = price_range.children().find('#min_ratio').val();
 						max_ratio = price_range.children().find('#max_ratio').val();
@@ -970,7 +970,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 //-----------------------------
 			 
 			 // Shape
-				$(document).on('click touchstart','.div_color',function(e){
+				$(document).on('click','.div_color',function(e){
 						 shape_arr =  return_shape_filter();
 					 // console.log(shape_arr);
 						var colorArray = [];
@@ -989,7 +989,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 //-----------------------------
 
 			 //Clarity 
-				$(document).on('click touchstart','.div_cla',function(e){
+				$(document).on('click','.div_cla',function(e){
 						shape_arr = return_shape_filter();
 						var clarityArray = [];
 						!$(this).is('.active') ? $(this).addClass('active') : $(this).removeClass('active');
@@ -1005,7 +1005,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 
 			 // Cetificate //
 			 //cut_div_val = '';
-				$(document).on('click touchstart','.div_certi',function(e){
+				$(document).on('click','.div_certi',function(e){
 					shape_arr = return_shape_filter();
 					var certificatArray = [];
 					!$(this).is('.active') ? $(this).addClass('active') : $(this).removeClass('active');
@@ -1023,7 +1023,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 //-----------------------
 			// skss-- Cut
 
-			 $(document).on('click touchstart','.div_cut',function(e){
+			 $(document).on('click','.div_cut',function(e){
 				shape_arr = return_shape_filter();
 				var cutArray = [];
 					!$(this).is('.active') ? $(this).addClass('active') : $(this).removeClass('active');
@@ -1039,7 +1039,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 });
 
 					// skss-- Polish
-				$(document).on('click touchstart','.div_pol',function(e){
+				$(document).on('click','.div_pol',function(e){
 					shape_arr = return_shape_filter();
 					var polishArray = [];
 					!$(this).is('.active') ? $(this).addClass('active') : $(this).removeClass('active');
@@ -1056,7 +1056,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 });
 			 
 				 // skss-- Symmetry
-				$(document).on('click touchstart','.div_sym',function(e){
+				$(document).on('click','.div_sym',function(e){
 					shape_arr = return_shape_filter();
 					var symmetryArray = [];
 					!$(this).is('.active') ? $(this).addClass('active') : $(this).removeClass('active');
@@ -1071,7 +1071,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 			 });
 
 			 // skss-- Fluorescence
-				$(document).on('click touchstart','.div_flo',function(e){
+				$(document).on('click','.div_flo',function(e){
          			 shape_arr =  return_shape_filter(); 
 					var fluorArray = [];
 					!$(this).is('.active') ? $(this).addClass('active') : $(this).removeClass('active');
@@ -1129,8 +1129,9 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
     //------------------------------
 	$('#sameaddressbox').css('display', 'none');
     $('#otheraddressbox').css('display', 'none');
-    $('.addressradio input[type="radio"]').on('click', function() {
-        var id = $(this).val();
+    //$('.addressradio input[type="radio"]').on('click', function() {
+        //var id = $(this).val();
+        var id = $('.addressradio input[type="radio"]:checked').val();
         console.log('value_'+id );
         if (id == "sameAddress") {
 			$('.othervalidate').removeAttr('required');
@@ -1148,20 +1149,21 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 		} 
 
 
-	});
+	//});
 	//---------------------------
 
 	$('#qsameaddressbox').css('display', 'none');
     $('#qotheraddressbox').css('display', 'none');
-    $('.qaddressradio input[type="radio"]').on('click', function() {
-        var id = $(this).val();
-        console.log('value_'+id );
+    //$('.qaddressradio input[type="radio"]').on('click', function() {
+        //var id = $(this).val();
+		var id2 = $('.qaddressradio input[type="radio"]:checked').val();
+        console.log('value2_'+id2 );
         if (id == "sameAddress") {
 			$('.qothervalidate').removeAttr('required');
 			$('.qsamevalidate').attr('required','true');
             $('#qsameaddressbox').css('display', 'block');
 			$('#qotheraddressbox').css('display', 'none');
-        }else if(id == "otherAddress"){
+        }else if(id2== "otherAddress"){
 			$('.qsamevalidate').removeAttr('required');
 			$('.qothervalidate').attr('required','true');
             $('#qotheraddressbox').css('display', 'block');
@@ -1172,7 +1174,7 @@ $(document).on('click', '#nav-tab.nav.nav-tabs > a', function(){
 		} 
 
 		
-	});
+	//});
 	
 
  //----------------------
