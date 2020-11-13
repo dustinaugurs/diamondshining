@@ -91,6 +91,7 @@ class DiamondFeedsController extends Controller
 		//echo '<pre>'; print_r($input); die;
         $value = DB::table('diamond_feeds')->where('stock_id', $data['stock_id'])->get();
         if($value->count() == 0){
+            try{
             $videoFileName = NULL;
             $imgFileName = NULL;
            $pdfFileName = NULL;
@@ -117,6 +118,15 @@ class DiamondFeedsController extends Controller
             $data['pdf_url'] = $pdfFileName; 
             $data['img_url']=$imgFileName;
            DB::table('diamond_feeds')->insert($data);
+
+             } catch(\Illuminate\Database\QueryException $e){
+               $errorCode = $e->errorInfo[1];
+               if($errorCode == '1062'){
+                toastr()->warning('Duplicate Entry');
+               return back();
+                }
+            }
+
         }
 
         return new RedirectResponse(route('admin.diamondfeeds.index'), ['flash_success' => trans('alerts.backend.diamondfeeds.created')]);

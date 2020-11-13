@@ -10,7 +10,7 @@
 <td class="reftd_{{$order->id}}">
 {{$order->ref_name_contact}}
 </td>
-<td>
+<!---<td>
 @switch($order->order_status)
     @case(1)
         Enquiry
@@ -30,10 +30,8 @@
     @default
         Enquiry
 @endswitch
-<!-- @if(!($order->order_status==2 || $order->order_status==3))
-<span class="changests changestsOrder_{{$order->id}} upstatusOrder_{{$order->id}}"><a class="getstatusvalueOrder" href="javascript:void(0);" idsOrder="{{$order->id}}">Change</a></span>
-@endif -->
-</td>
+
+</td>--->
 
 <td><a class="view_diamond" target="_blank" href="{{url('printDetails')}}/{{$order->diamondfeed->stock_id}}">{{$order->diamondfeed->stock_id}}</a>
 </td>
@@ -66,8 +64,14 @@
         Order confirmed
         @break
     @case(3)
-        Order sent with tracking
+        Order sent 
         @break
+    @case(4)
+        Order Not Confirm 
+        @break 
+    @case(5)
+        Not Available 
+        @break   
     @default
        Checking availability
 @endswitch
@@ -79,8 +83,10 @@
     </td>
 
     <td><!---ordered-price----->
+        @if($order->checkStatus == 2 || $order->checkStatus == 3)
     {{$order->c_symbol}} {{$order->p_finalprice}}
     (inc. VAT)
+    @endif
     </td>
 
 <td>
@@ -92,7 +98,7 @@
         Deposit Paid
         @break
     @case(3)
-       Fully Paid
+       Paid
         @break
     @default
        Pending
@@ -101,7 +107,20 @@
 <!-- <span class="changests paymentOrder_{{$order->id}} paystatusOrder_{{$order->id}}"><a class="getpaystatusOrder" href="javascript:void(0);" payOrder="{{$order->id}}">Change</a></span> -->
 </td>
 
-<td>{{$order->ETA}}</td>
+<td>@if($order->ETA !== '0000-00-00'){{date_format(date_create($order->ETA),"d/m/Y")}}@endif</td>
+
+<td>
+    @switch($order->diamondType)
+    @case(1)
+        Certified
+        @break
+    @case(2)
+        Melee
+        @break
+    @default
+       Certified
+@endswitch
+</td>
 </tr>
 @endforeach
 @else

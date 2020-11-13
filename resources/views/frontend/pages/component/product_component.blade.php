@@ -60,8 +60,8 @@
     <th>@sortablelink('pol')</th>
     <th>@sortablelink('symm')</th>
     <th>@sortablelink('flo')</th>
-    <th>@sortablelink('price')(Ex. VAT)</th>
-    <th>Final Price(inc. VAT)</th>
+    <th>Sell price ex vat</th>
+    {{-- <th>Final Price(inc. VAT)</th> --}}
     <!-- <th>Final Price(inc. VAT)</th> -->
     <th>Ratio(%)</th>
     <th>Enquire / Order</th>
@@ -76,11 +76,11 @@
 	@else
 	 <p>
       @if(!empty($product->video_url))
-      <video width="75" height="75" controls>
+      <video width="30" height="30" controls>
         <source src="{{url('public/webscrap/video')}}/{{$product->video_url}}">
       </video>
       @else
-      <video width="75" height="75" controls>
+      <video width="30" height="30" controls>
         <source src="{{$product->video}}">
       </video>
       @endif
@@ -127,7 +127,7 @@
     </td>
 
 
-    <td> <!----mulipliercost---->
+    <!---<td> 
     @foreach($multiplier as $mlusd)
  			@if($product->price >= $mlusd->vat_from_usd && $product->price <= $mlusd->vat_to_usd)
        @if($current_currency !== '')
@@ -142,7 +142,7 @@
        @endforeach
       
     (Inc. VAT)
-    </td>
+    </td>--->
 
     <!-- <td>
     @if($current_currency !== '')
@@ -196,10 +196,25 @@
 </div>
   <div class="tab-pane imgbox container" id="menu{{$product->id}}">
 @if(!empty($product->video))
-<button data-toggle="modal" data-target="#videopopup_{{$product->id}}">
-  <video height="200" controls>
-  <source src="{{$product->video}}" >
-</video></button>
+   @if(!empty($product->video_url))
+   @if(File::extension($product->video_url)=='mp4' || File::extension($product->video_url)=='mp3')
+    <button data-toggle="modal" data-target="#videopopup_{{$product->id}}">
+      <video height="200" controls controls>
+        <source src="{{url('public/webscrap/video')}}/{{$product->video_url}}">
+      </video>
+    </button>
+    @else
+    <!--start-360---><div class="m-0  p-0 requestbox"><img src="{{url('/')}}/public/assets/img/product/No_image.jpg" alt="video" class="sec-img w-100">
+      <a class="vidblck" target="_blank" href="{{$product->video}}"> <strong><i class="fa fa-external-link" aria-hidden="true"></i></strong> <strong>360 Video click Here to Play</strong></a>
+    </div><!--End-360--->
+    @endif
+      @else
+      <!--start-360---><div class="m-0  p-0 requestbox"><img src="{{url('/')}}/public/assets/img/product/No_image.jpg" alt="video" class="sec-img w-100">
+    <a class="vidblck" target="_blank" href="{{$product->video}}"> <strong><i class="fa fa-external-link" aria-hidden="true"></i></strong> <strong>360 Video click Here to Play</strong></a>
+  </div><!--End-360--->
+      @endif
+
+
 @else
 <div class="m-0  p-0 requestbox"><img src="{{url('/')}}/public/assets/img/product/No_image.jpg" alt="video" class="sec-img w-100">
 <form action="{{url('imageVideoRequest')}}" method="post">
@@ -219,10 +234,18 @@
         </div>
         <div class="modal-body">
           <div class="videopopupbox">
-        <video controls>
-          <source src="{{$product->video}}" >
-        </video>
-</div>
+            @if(!empty($product->video_url))
+            @if(File::extension($product->video_url)=='mp4' || File::extension($product->video_url)=='mp3')
+            <video controls>
+              <source src="{{url('public/webscrap/video')}}/{{$product->video_url}}">
+            </video>
+            @else
+            <a target="_blank" href="{{$product->video}}">External Url</a>
+            @endif
+            @else
+            <a target="_blank" href="{{$product->video}}">External Url</a>
+            @endif
+      </div>
         </div>
       </div>
     </div>
@@ -447,13 +470,13 @@
 <!----------------------------->
 
 <tr>  
-<p>It seems we don't have anything on our site in those given specs. If you let us know exactly what you’re looking for we’ll get back to you shortly with an option.</p>
+<td colspan="15" style="border-bottom: 0; padding:0px !im">It seems we don't have anything on our site in those given specs. If you let us know exactly what you’re looking for we’ll get back to you shortly with an option.</td>
 </tr>  
 
 @endforelse
 <!--------->
 <tr>
-<td colspan="16">
+<td colspan="15">
 {!! $products->appends(\Request::except('page'))->render() !!}
 </td>
 </tr>

@@ -37,10 +37,10 @@
 <td><a class="view_diamond" target="_blank" href="{{url('admin/adprintDetails')}}/{{$order->diamondfeed->id}}">{{$order->diamondfeed->stock_id}}</a>
 </td>
 
-<td><a class="view_diamond" target="_blank" href="{{$order->diamondfeed->pdf}}">{{$order->diamondfeed->lab}}</a>
+{{-- <td><a class="view_diamond" target="_blank" href="{{$order->diamondfeed->pdf}}">{{$order->diamondfeed->lab}}</a>
 </td>
 
-<td>{{$order->diamondfeed->shape}}</td>
+<td>{{$order->diamondfeed->shape}}</td> --}}
 
 <!-- <td class="trackingid">{{$order->orderTrackingId}}</td> -->
 
@@ -73,15 +73,15 @@
     (Ex. VAT)
     </td>
 
-<td> <!---Sell price including vat---->
+ <!---Sell price including vat----> <!--<td>
     {{$order->c_symbol}} {{$order->p_finalprice}} 
     (Inc. VAT)
-    </td>
+    </td>-->
 
 
-<td>{{$order->ETA}}</td>
+<!---<td>@if($order->ETA !== '0000-00-00'){{date_format(date_create($order->ETA),"d/m/Y")}}@endif</td>--->
 </tr>
 @endforeach
 @else
-<tr><td colspan="16">No Data Found</td></tr>
+<tr><td colspan="9">No Data Found</td></tr>
 @endif

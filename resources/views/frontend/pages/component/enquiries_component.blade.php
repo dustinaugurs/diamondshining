@@ -49,7 +49,7 @@
 
 <td>{{$order->diamondfeed->shape}}</td>
 
-<td class="status">
+<!---<td class="status">
 @switch($order->checkStatus)
     @case(1)
         Checking availability
@@ -63,19 +63,19 @@
     @default
        Checking availability
 @endswitch
-</td>
+</td>--->
 
 <td>
     {{$order->c_symbol}} {{$order->p_price_without_vat}} 
     (Ex. VAT)
     </td>
 
-    <td> <!----mulipliercost---->
+    <!---<td> 
     {{$order->c_symbol}} {{$order->p_finalprice}} 
     (Inc. VAT)
-    </td>
+    </td>--->
 
-<td>{{$order->ETA}}</td>
+<!---<td>@if($order->ETA !== '0000-00-00'){{date_format(date_create($order->ETA),"d/m/Y")}}@endif</td>--->
 </tr>
 @endforeach
 @else

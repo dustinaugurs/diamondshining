@@ -15,10 +15,22 @@
 </head>
 <body>
    <div class="wrapper">
-       <h4>Hi I am  <?php echo $contact['name']; ?>,</h4>
-       <p>Please Find My Conatct Details From Here : </p>
-       <br><br>
+       <!---start-header--><p style="border-bottom: 1px solid #ccc; padding-bottom: 10px; width:100%; float:left;">
+      <span style="display:block; width:120px; float:left"><img style="max-width:100%" src="http://www.shiningqualities.com/public/assets/img/logo/logomail.png"></span>
+
+      <span style="display:block; width:120px; float:right">
+        Date : {{date('d/m/Y')}}
+      </span>
+     </p><!---End-header-->
+
+       <p> Dear <strong><?php echo $contact['name']; ?> ,</strong></p>
+       <p>Thank You !!! , we shall contact you soon.</p>
+       <p><strong>Kind regards ,</strong><br>
+        Shining Qualities team
+        </p>
+        <br>
    <table>
+   <tr><td class="messagebox" colspan="2">Contact Details </td> </tr> 
    <tr> <td class="messagebox">Email Address : </td> <td> <?php echo $contact['email']; ?> </td> </tr>  
    <tr> <td class="messagebox">Subject : </td> <td> <?php echo $contact['subject']; ?> </td> </tr>  
    <tr> <td class="messagebox" colspan="2">Important Message : </td></tr> 

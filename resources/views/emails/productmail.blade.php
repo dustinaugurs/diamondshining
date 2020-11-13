@@ -15,9 +15,16 @@
 </head>
 <body>
    <div class="wrapper">
+      <!---start-header--><p style="border-bottom: 1px solid #ccc; padding-bottom: 10px; width:100%; float:left;">
+         <span style="display:block; width:120px; float:left"><img style="max-width:100%" src="http://www.shiningqualities.com/public/assets/img/logo/logomail.png"></span>
+
+         <span style="display:block; width:120px; float:right">
+           Date : {{date('d/m/Y')}}
+         </span>
+        </p><!---End-header-->
     <p> Dear <strong><?php echo $products['username']; ?> ,</strong></p>
        <p><?php echo $products['message']; ?></p>
-       <p><strong>regards ,</strong><br>
+       <p><strong>Kind regards ,</strong><br>
         Shining Qualities team
         </p>
         <br>

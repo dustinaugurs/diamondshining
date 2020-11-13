@@ -169,6 +169,8 @@ class OrdersController extends Controller
          $order->save();
         //---------Mail-Section-------------
         $products = [ 
+              'username'=> $order->user->first_name, 
+              'subject' => 'Order confirmation - ('.$order->user->company.') - '.$order->diamondfeed->lab.' '.$order->diamondfeed->ReportNo,
               'fileName' => $pdf_invoice_file_path,
               'address' => $setting->company_address,
               'fromName' => $setting->from_name, 
@@ -190,28 +192,206 @@ class OrdersController extends Controller
         //----------------------------    
     }
     //-----------------
-    
-    public function OrderStatusAndPaymentUpdate(Request $request){
+
+    public function trackingIdUpdate(Request $request){
         $dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
         $allordstatus = explode(',', $request->allordstatus);
         $date = $request->date;
         $oid = $request->pid;
+        $orderUpdate = Order::with('user','diamondfeed')->where('id', $oid)->first();
+        $payment_status = $request->payment_status;
+        $etadate = $request->etadate;
+        $orderTrackingId = $request->trackingid;
+        //echo '<pre>'; print_r($request->all()); die;
+        $orderTracking = '';
+        if($orderTrackingId == ''){
+            $orderTracking = NULL;
+        }else{
+            $orderTracking = $request->trackingid;
+         }
+        $successMsg = '';
+        $MsgText = '';
+        //print_r($orderTracking); die;
+        if($payment_status !== 'undefined'){
+        $orderUpdate->payment_status = $payment_status;
+        if($payment_status == 3){
+         $orderUpdate->orderTrackingId = $orderTracking;
+         //$orderUpdate->ETA = $etadate;  
+         }
+         $orderUpdate->save(); 
+        }
+       
+       $currency = DB::table('currencies')->where('code', Auth::user()->currency_code)->first();
+          $price_arr = $this->repository->get_currency();
+          $rate = (array) $price_arr['rates'];
+          $baserate = (array) $price_arr['base'];
+          $current_currency = $rate[$currency->code];
+          $symbol = $currency->symbol;
+          $setting = Setting::first();
+          $orders = Order::with('user','diamondfeed','multiplierprice')
+                        ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
+                        ->whereIn('order_status',  $allordstatus)
+                        ->orderBy('id', 'DESC')
+                        ->paginate(10);
+                        //->get();
+        $sendmail = $orderUpdate->userEmail;
+        $message = '';
+        $subjectmsg = '';
+        
+        if($payment_status !== 'undefined'){
+        if($payment_status==3){  // order placed
+            $subjectmsg = 'Tracking Number';
+            $message = 'Your Tracking Number is <strong> '.$orderUpdate->orderTrackingId.'</strong> For Order <strong>'.$orderUpdate->invoice_number.'</strong>';
+           }}
+       
+
+        $mailData = [
+            'email' => $sendmail,
+            'fromName'=> $setting->from_name,
+            'address'=> $setting->company_address,
+            'stockNumber'=>$orderUpdate->diamondfeed->stock_id,
+            'customername'=>$orderUpdate->user->first_name,
+            'subject' => $subjectmsg.' For Order '.$orderUpdate->invoice_number,
+            'message' => $message,
+        ];
+        if($orderTrackingId !== ''){
+        if($payment_status==3){
+        if($sendmail !== ''){	
+                $mail = Mail::to($sendmail)->cc(['enquiries@shiningqualities.com'])->send(new SendEmailToCustomer($mailData));
+            } 
+        } 
+            } 
+                      
+        
+        return view('backend.ordermanagements.order_component', [
+            'cancelled'=>'cancelled',
+            'orders' => $orders,
+            'current_currency'=>$current_currency,
+            'setting' => $setting,
+            'symbol'=>$symbol,
+            'successMsg'=> $successMsg,
+            ]);
+
+        //return response()->json(['data'=>$order, 'setting' => $setting, 'current_currency'=>$rate, 'successMsg'=> $successMsg]);
+
+    }
+
+    //------------------
+    public function paymentStatusUpdate(Request $request){
+        $dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
+        $allordstatus = explode(',', $request->allordstatus);
+        $date = $request->date;
+        $oid = $request->pid;
+        $orderUpdate = Order::with('user','diamondfeed')->where('id', $oid)->first();
+        $payment_status = $request->payment_status;
+        $etadate = $request->etadate;
+        $orderTrackingId = $request->trackingid;
+        
+        $orderTracking = '';
+        if($orderTrackingId == ''){
+            $orderTracking = NULL;
+        }else{
+            $orderTracking = $request->trackingid;
+         }
+        $successMsg = '';
+        $MsgText = '';
+        //print_r($orderTracking); die;
+        if($payment_status !== 'undefined'){
+        $orderUpdate->payment_status = $payment_status;
+        if($payment_status == 3){
+         $orderUpdate->orderTrackingId = $orderTracking;
+         $orderUpdate->ETA = $etadate;  
+         }
+         $orderUpdate->save(); 
+        }
+       
+       $currency = DB::table('currencies')->where('code', Auth::user()->currency_code)->first();
+          $price_arr = $this->repository->get_currency();
+          $rate = (array) $price_arr['rates'];
+          $baserate = (array) $price_arr['base'];
+          $current_currency = $rate[$currency->code];
+          $symbol = $currency->symbol;
+          $setting = Setting::first();
+          $orders = Order::with('user','diamondfeed','multiplierprice')
+                        ->where('status_from_admin', 1)    //Confirm=1, Unconfirm=2
+                        ->whereIn('order_status',  $allordstatus)
+                        ->orderBy('id', 'DESC')
+                        ->paginate(10);
+                        //->get();
+        $sendmail = $orderUpdate->userEmail;
+        $message = '';
+        $subjectmsg = '';
+        
+        if($payment_status !== 'undefined'){
+        if($payment_status==3){  // order placed
+            $subjectmsg = 'Tracking Number';
+            $message = 'Your Tracking Number is <strong> '.$orderUpdate->orderTrackingId.'</strong> For Order <strong>'.$orderUpdate->invoice_number.'</strong>';
+           }}
+       
+
+        $mailData = [
+            'email' => $sendmail,
+            'fromName'=> $setting->from_name,
+            'address'=> $setting->company_address,
+            'stockNumber'=>$orderUpdate->diamondfeed->stock_id,
+            'customername'=>$orderUpdate->user->first_name,
+            'subject' => $subjectmsg.' For Stock Number : '.$orderUpdate->diamondfeed->stock_id,
+            'message' => $message,
+        ];
+        
+        if($orderTrackingId !== ''){
+        if($payment_status==3){
+        if($sendmail !== ''){	
+                $mail = Mail::to($sendmail)->cc(['enquiries@shiningqualities.com'])->send(new SendEmailToCustomer($mailData));
+            } 
+        } } 
+                      
+        
+        return view('backend.ordermanagements.order_component', [
+            'cancelled'=>'cancelled',
+            'orders' => $orders,
+            'current_currency'=>$current_currency,
+            'setting' => $setting,
+            'symbol'=>$symbol,
+            'successMsg'=> $successMsg,
+            ]);
+
+        //return response()->json(['data'=>$order, 'setting' => $setting, 'current_currency'=>$rate, 'successMsg'=> $successMsg]);
+
+    }
+    
+    public function OrderStatusAndPaymentUpdate(Request $request){
+        //echo '<pre>'; print_r($request->all()); die;
+        $dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
+        $allordstatus = explode(',', $request->allordstatus);
+        $date = $request->date;
+        $oid = $request->pid;
+        $orderUpdate = Order::with('user','diamondfeed')->where('id', $oid)->first();
+
+        $price_arr_rate = $this->repository->get_currency();
+          $crate = (array) $price_arr_rate['rates'];
+          $current_currency_rate = $crate[$orderUpdate->currency_code]; 
+
         $payment_status = $request->payment_status;
         $order_status = $request->order_status;
         $check_status = $request->check_status;
-        $deliverycost = $request->deliveryCost;
+        $deliverycost = round($current_currency_rate*($request->deliveryCost), 2);
         $etadate = $request->etadate;
         $invoiceDate = $dateTime->format("d-m-Y h:i A");
+        $vat = $request->vat;
+         if($vat !== 'undefined'){
+            $vat = $request->vat;
+           }
           
+        
+          //print_r($vat); die;
         //$orderTrackingId = strtoupper(substr(sha1(mt_rand() . microtime()), mt_rand(0,15), 15));
-
+        
         $orderTrackingId = $request->trackingid;
-        
-        
         
         $successMsg = '';
         $MsgText = '';
-        $orderUpdate = Order::with('user','diamondfeed')->where('id', $oid)->first();
+        
 
         if($order_status !== 'undefined'){
         $orderUpdate->order_status = $order_status;
@@ -220,25 +400,40 @@ class OrdersController extends Controller
 
         if($payment_status !== 'undefined'){
         $orderUpdate->payment_status = $payment_status;
+        if($payment_status == 3){
+         $orderUpdate->orderTrackingId = $orderTrackingId;
+         $orderUpdate->ETA = $etadate;   
+         }
         $MsgText = 'Payment Status Successfully Changed';
         }
-
+       
+        
+        
         if($check_status !== 'undefined'){
             if($check_status==2 || $check_status==3){
-                $this->generateInvoicePDF($oid);
+                $finalprice = round((($orderUpdate->p_price_without_vat)+($orderUpdate->p_price_without_vat)*$vat/100), 2);
             $orderUpdate->checkStatus = $check_status;
             $orderUpdate->deliverycost_from_admin = $deliverycost;
-            $orderUpdate->orderTrackingId = $orderTrackingId;
-            $orderUpdate->ETA = $etadate;
+            $orderUpdate->p_vat = $vat;
+            $orderUpdate->p_finalprice = $finalprice;
+            //$orderUpdate->orderTrackingId = $orderTrackingId;
+            //$orderUpdate->ETA = $etadate;
+            //print_r($vat); die;
             $orderUpdate->invoice_date = $invoiceDate;
+            $orderUpdate->save();
+            $this->generateInvoicePDF($oid); 
             $MsgText = 'Status Successfully Changed'.'trackid: '.$orderTrackingId;
-        }else if($check_status==1){
+        }else if($check_status==1 || $check_status==4 || $check_status==5){
         $orderUpdate->checkStatus = $check_status; 
+        $orderUpdate->save();
         //$orderUpdate->deliverycost_from_admin = '0.00';
        // $orderUpdate->orderTrackingId = NULL; 
         $MsgText = 'Status Successfully Changed';
         }
         }
+
+       
+       
 
         if($orderUpdate->save()){
         $successMsg = $MsgText;
@@ -286,7 +481,7 @@ class OrdersController extends Controller
         ];
         
         if($check_status !==2 || $check_status !==3){
-        if($order_status==5 || $order_status==3 || $order_status==2){
+        if($order_status==3 || $order_status==2){
         if($sendmail !== ''){	
                 $mail = Mail::to($sendmail)->cc(['enquiries@shiningqualities.com'])->send(new SendEmailToCustomer($mailData));
             } 
@@ -451,9 +646,9 @@ public function EnqOrderStatusAndPaymentUpdate(Request $request){
           'fromName'=> $setting->from_name,
           'address'=> $setting->company_address,
           'stockNumber'=>$orderUpdate->diamondfeed->stock_id,
-          'customername'=>$orderUpdate->user->first_name.' '.$orderUpdate->user->last_name,
-          'subject' => 'Order Placed For Stock Number : '.$orderUpdate->diamondfeed->stock_id,
-          'message' => 'I hope you’re well! <br>  Your enquire which Stock Number <strong> '.$orderUpdate->diamondfeed->stock_id.'</strong> Order to be Placed.  Don’t hesitate   to reach out if you have any questions.',
+          'customername'=>$orderUpdate->user->first_name,
+          'subject' => 'ORDER REQUEST - '.$orderUpdate->user->company.' - '.$orderUpdate->diamondfeed->lab.' '.$orderUpdate->diamondfeed->ReportNo,
+		 'message' => 'We’ve received your order request for the following diamond listed below - Thank you! We’re currently checking the availability and quality of this diamond and will revert back to you at the earliest opportunity.',
       ];
       
       if($sendmail !== ''){	

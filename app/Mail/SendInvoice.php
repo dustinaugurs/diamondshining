@@ -37,7 +37,7 @@ class SendInvoice extends Mailable
     {   
         //print_r($pdf); die;
         return $this->view('emails.sendinvoiceinstruction')
-                   ->subject('Product Details')
+                   ->subject($this->products['subject'])
                    ->attach($this->products['fileName'])
                    ->with([
                     'name' => 'xyz',

@@ -12,6 +12,8 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'as' => 'admin.', '
         Route::get('cusorders', 'OrdersTableController@getjsondata')->name('cusorders');
 
         Route::post('adOrderStatusAndPaymentUpdate', 'OrdersController@OrderStatusAndPaymentUpdate')->name('adOrderStatusAndPaymentUpdate');
+        Route::post('paymentStatusUpdate', 'OrdersController@paymentStatusUpdate')->name('paymentStatusUpdate');
+        Route::post('trackingIdUpdate', 'OrdersController@trackingIdUpdate')->name('trackingIdUpdate');
         Route::get('addateAndPaymentFilter', 'OrdersController@dateAndPaymentFilter')->name('addateAndPaymentFilter');
         Route::get('adprintDetails/{stockID}', 'OrdersController@printDetails')->name('adprintDetails');
         

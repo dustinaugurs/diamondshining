@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+   <?php header("Content-Type: image/png"); ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -15,17 +16,21 @@
 </head>
 <body>
    <div class="wrapper">
+     <!---start-header--><p style="border-bottom: 1px solid #ccc; padding-bottom: 10px; width:100%; float:left;">
+      <span style="display:block; width:120px; float:left"><img style="max-width:100%" src="http://www.shiningqualities.com/public/assets/img/logo/logomail.png"></span>
+
+      <span style="display:block; width:120px; float:right">
+        Date : {{date('d/m/Y')}}
+      </span>
+     </p><!---End-header-->
    <p><strong>Dear <?php echo $mailData['customername'] ?>, </strong></p>
 
-<p><?php echo $mailData['message'] ?></p>
+      <p><?php echo $mailData['message'] ?></p>
        <br>
-       <br>
-      
-       <p><strong>Kind regards , </strong><br><br>
-       {{Auth::user()->first_name}} {{Auth::user()->last_name}} <br>
-       <?php echo $mailData['fromName'] ?> <br>
-       <?php echo $mailData['address'] ?>
-       </p>
+    
+       <p><strong>Kind regards ,</strong><br>
+        Shining Qualities team
+        </p>
        
    </div> 
 </body>

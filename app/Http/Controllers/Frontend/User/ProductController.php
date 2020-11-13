@@ -291,9 +291,9 @@ class ProductController extends Controller
 		$order->order_date = $dateTime->format("d/m/Y  h:i A");		   
 		$order->date = date('m_Y');
 		$order->c_symbol = $request->c_symbol; 
-		$order->p_finalprice = $request->p_finalprice; 
+		//$order->p_finalprice = $request->p_finalprice; 
 		$order->p_price_without_vat = $request->p_price_without_vat;
-		$order->p_vat = $request->p_vat;
+		//$order->p_vat = $request->p_vat;
 		$order->VATnumber = $request->vatnumber;
 		$order->currency_code = Auth::user()->currency_code;
 		$order->p_costprice = number_format(floor(($current_currency * ($diamond->price))*100)/100,2, '.', '');
@@ -413,9 +413,9 @@ class ProductController extends Controller
 		$order->order_date = $dateTime->format("d/m/Y  h:i A");		   
 		$order->date = date('m_Y');
 		$order->c_symbol = $request->c_symbolo; 
-		$order->p_finalprice = $request->p_finalpriceo; 
+		//$order->p_finalprice = $request->p_finalpriceo; 
 		$order->p_price_without_vat = $request->p_price_without_vato;
-		$order->p_vat = $request->p_vato;
+		//$order->p_vat = $request->p_vato;
 		$order->VATnumber = $request->vatnumbero;
 		$order->currency_code = Auth::user()->currency_code;
 		$order->p_costprice = number_format(floor(($current_currency * ($diamond->price))*100)/100,2, '.', '');

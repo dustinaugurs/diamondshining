@@ -15,13 +15,24 @@
 </head>
 <body>
    <div class="wrapper">
-   <p><strong>Dear <?php echo $products['customername'] ?>, </strong></p>
+       <!---start-header--><p style="border-bottom: 1px solid #ccc; padding-bottom: 10px; width:100%; float:left;">
+      <span style="display:block; width:120px; float:left"><img style="max-width:100%" src="http://www.shiningqualities.com/public/assets/img/logo/logomail.png"></span>
+
+      <span style="display:block; width:120px; float:right">
+        Date : {{date('d/m/Y')}}
+      </span>
+     </p><!---End-header-->
+     
+   <p> Dear <strong><?php echo $products['customername']; ?> ,</strong></p>
    
-<p>Please find attached Shining Qualities invoice number <strong><?php echo $products['invoiceNumber'] ?></strong>. You can also view all of your invoices online. If you’ve got any questions please let us know.</p>
+   <p>Thank you for your order! We’ve attached the invoice to this email for your reference.  Please make the payment at the earliest opportunity so we can deliver the diamond to you as soon as possible.</p>
+    
+   <p>This invoice is also available to view online in your account.</p>
+   
 <br>
-       <p><strong>Many thanks ,</strong><br>
-       <?php echo $products['fromName'] ?> <br>
-       </p>
+    <p><strong>Kind regards,</strong><br>
+    Shining Qualities team
+    </p>
        
    </div> 
 </body>

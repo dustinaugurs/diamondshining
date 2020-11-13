@@ -89,13 +89,13 @@
     <th>Reference</th>
     <th>Order Status </th>
     <th>Stock No.</th>
-    <th>Certificate</th>
-    <th>Shape</th>
+    {{-- <th>Certificate</th>
+    <th>Shape</th> --}}
     <th>Cost price</th>
     <th>Multiplier</th>
     <th>Sell price ex vat</th>
-    <th>Sell price including vat</th>
-    <th>ETA</th>
+    {{-- <th>Sell price including vat</th>
+    <th>ETA</th> --}}
 </tr>
  </thead>
  <tbody id="dataafterfilterOrder">
@@ -106,7 +106,7 @@
 </tbody>
 <!--------->
 <tr class="paginationblock">
-<td colspan="17">
+<td colspan="9">
 {!! $orders->appends(\Request::except('page'))->render() !!}
 </td>
 </tr>
@@ -262,7 +262,7 @@ $('body').on('click', '.getcheckstatusOrder', function(){
                 cache:false,
 				       // dataType:'json',
                 beforeSend: function(){
-                    $("#dataafterfilterOrder").html('<tr><td colspan="16"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
+                    $("#dataafterfilterOrder").html('<tr><td colspan="9"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
                 },
                 success: function(result) {
                   //console.log('htmdata _'+resultJSON)
@@ -323,7 +323,7 @@ $('body').on('click', '.getcheckstatusOrder', function(){
                 cache:false,
 				        //dataType:'json',
                 beforeSend: function(){
-                    $("#dataafterfilterOrder").html('<tr><td colspan="16"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
+                    $("#dataafterfilterOrder").html('<tr><td colspan="9"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
                 },
                 success: function(result) {
                 toastr.success('Your Data Successfully Updated');
@@ -359,7 +359,7 @@ $('body').on('click', '.checkstatupdatetwothree', function(){
                 cache:false,
 				       // dataType:'json',
                 beforeSend: function(){
-                    $(".dataafterfilterOrder").html('<tr><td colspan="16"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
+                    $(".dataafterfilterOrder").html('<tr><td colspan="9"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
                 },
                 success: function(result) {
               toastr.success('Your Data Successfully Updated');

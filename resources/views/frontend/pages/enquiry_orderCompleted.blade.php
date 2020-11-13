@@ -51,7 +51,7 @@ $pageName = 'ordercompleted';
     </th>
     <th>Client</th>
     <th>Reference</th>
-    <th>Order Status</th>
+    <!---<th>Order Status</th>---->
     <th>Stock No.</th>
     <th>Certificate</th>
     <th>Shape</th>
@@ -71,6 +71,7 @@ $pageName = 'ordercompleted';
         </div>
     </th>
     <th>ETA</th>
+    <th>Diamond</th>
 </tr>
  </thead>
  <tbody id="dataafterfilter">

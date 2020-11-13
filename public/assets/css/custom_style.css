@@ -1,5 +1,25 @@
 
 /*====Deepak Kumar Custom CSS=====*/
+.trackingbtn{border-radius: 3px;
+    padding: 2px 5px;
+    font-size: 12px;
+    height: 20px;
+    width: 24px;
+	text-align: center;
+	background: #404040;
+    color: #fff;
+    display: block;
+}
+a.vidblck{display: block;
+    position: absolute;
+    top: 150px;
+    left: 0;
+    right: 0;
+	color: #000;}
+ a.vidblck strong{display: block;}
+ a.vidblck:hover{opacity: 0.8;}
+
+a.trackingbtn:hover{opacity: 0.7; color: #fff;}
 
 .dkfilter {
 	text-align: left

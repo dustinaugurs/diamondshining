@@ -21,7 +21,8 @@
           </div>
 
           <input type="hidden" id="multiplier_usd" class="form-control" name="multiplier_usd" value="">
-          <input type="hidden" id="p_price_without_vat" class="form-control" name="p_price_without_vat" value="" required>
+          
+          <input id="p_finalprice" class="pprice" type="hidden" name="p_finalprice" class="form-control" readonly value="">
           <input type="hidden" id="p_vat" class="form-control" name="p_vat" value="">
         
           <div class="col-md-6 col-sm-6 col-xs-12">
@@ -33,10 +34,10 @@
 
           <div class="col-md-6 col-sm-6 col-xs-12" style="display:none;">
           <div class="input-group finalpricebox">
-          <span class="input-group-addon">Final Price (Inc. VAT)</span>
+          <span class="input-group-addon">Sell price ex vat</span>
          
           <input id="c_symbol" class="symb" type="text" name="c_symbol" class="form-control" readonly value="">
-          <input id="p_finalprice" class="pprice" type="text" name="p_finalprice" class="form-control" readonly value="">
+          <input type="text" id="p_price_without_vat" class="form-control pprice" name="p_price_without_vat" value="" required>
          
           </div>
           </div>
@@ -246,7 +247,7 @@
           </div>
 
           <input type="hidden" id="multiplier_usdo" class="form-control" name="multiplier_usdo" value="">
-          <input type="hidden" id="p_price_without_vato" class="form-control" name="p_price_without_vato" value="" required>
+          <input id="p_finalpriceo" class="pprice" type="hidden" name="p_finalpriceo" class="form-control" readonly value="">
           <input type="hidden" id="p_vato" class="form-control" name="p_vato" value="">
           <div class="col-md-6 col-sm-6 col-xs-12">
           <div class="input-group">
@@ -257,10 +258,10 @@
 
           <div class="col-md-6 col-sm-6 col-xs-12">
           <div class="input-group finalpricebox">
-          <span class="input-group-addon">Final Price (Inc. VAT)</span>
+          <span class="input-group-addon">Sell price ex vat</span>
          
           <input id="c_symbolo" class="symb" type="text" name="c_symbolo" class="form-control" readonly value="">
-          <input id="p_finalpriceo" class="pprice" type="text" name="p_finalpriceo" class="form-control" readonly value="">
+          <input type="text" id="p_price_without_vato" class="form-control pprice" name="p_price_without_vato" value="" required>
          
           </div>
           </div>

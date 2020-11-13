@@ -22,7 +22,7 @@ $pageName = 'enquiryorder';
 <!-------Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5--------->
 <div class="tab">   
   <button class="tablinks active"><a href="{{url('enquiry-order')}}">Enquiries</a></button>
-  <button class="tablinks"><a href="{{url('enquiry-order/ordersPlaced')}}">Orders Placed</a></button>
+  <button class="tablinks"><a href="{{url('enquiry-order/ordersPlaced')}}">Orders</a></button>
   <button class="tablinks"><a href="{{url('enquiry-order/ordersCompleted')}}">Orders Completed</a></button>
   <button class="tablinks"><a href="{{url('enquiry-order/SearchInvoice')}}">Search Invoice</a></button>
 </div>
@@ -51,14 +51,14 @@ $pageName = 'enquiryorder';
     </th>
     <th>Client</th>
     <th>Reference</th>
-    <th>Order Status</th>
+    <th>Status</th>
     <th>Stock No.</th>
     <th>Certificate</th>
     <th>Shape</th>
-    <th>Status</th>
+    <!--<th>Status</th>--->
     <th>Sell price ex vat</th>
-    <th>Sell price including vat</th>
-    <th>ETA</th>
+    <!--<th>Sell price including vat</th>--->
+    <!---<th>ETA</th>--->
 </tr>
  </thead>
  <tbody id="dataafterfilter">

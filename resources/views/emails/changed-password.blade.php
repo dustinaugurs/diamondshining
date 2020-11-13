@@ -7,9 +7,14 @@
             <tr>
                 <td align="left" style="color: #888888; width:20px; font-size: 16px; line-height: 24px;">
                     <!-- section text ======-->
-                    <p style="line-height: 24px; margin-bottom:15px;text-align:center">
-                        <img style="display:block; width:50px; height:50px; margin:0 auto;" src="{{url('public/assets/img/logo')}}/sm-logo-black.png" alt="S Q" title="S Q"> 
-                       </p>
+
+                   <!---start-header--><p style="border-bottom: 1px solid #ccc; padding-bottom: 10px; width:100%; float:left;">
+      <span style="display:block; width:120px; float:left"><img style="max-width:100%" src="http://www.shiningqualities.com/public/assets/img/logo/logomail.png"></span>
+
+      <span style="display:block; width:120px; float:right">
+        Date : {{date('d/m/Y')}}
+      </span>
+     </p><!---End-header-->
 
                     <p style="line-height: 24px; margin-bottom:15px;">
                         Dear

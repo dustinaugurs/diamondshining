@@ -22,7 +22,7 @@ $pageName = 'orderplaced';
 <!-------Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5--------->
 <div class="tab">   
   <button class="tablinks"><a href="{{url('enquiry-order')}}">Enquiries</a></button>
-  <button class="tablinks active"><a href="{{url('enquiry-order/ordersPlaced')}}">Orders Placed</a></button>
+  <button class="tablinks active"><a href="{{url('enquiry-order/ordersPlaced')}}">Orders</a></button>
   <button class="tablinks"><a href="{{url('enquiry-order/ordersCompleted')}}">Orders Completed</a></button>
   <button class="tablinks"><a href="{{url('enquiry-order/SearchInvoice')}}">Search Invoice</a></button>
 </div>
@@ -51,7 +51,7 @@ $pageName = 'orderplaced';
     </th>
     <th>Client</th>
     <th>Reference</th>
-    <th>Order Status</th>
+    <!--<th>Order Status</th>-->
     <th>Stock No.</th>
     <th>Certificate</th>
     <th>Shape</th>
@@ -65,12 +65,13 @@ $pageName = 'orderplaced';
             <select name="paymentStatusOrder" class="paymentStatusOrder">
                 <option value="0">All</option>
                 <option value="1">Pending</option>
-                <option value="2">Deposite Paid</option>
-                <option value="3">Fully Paid</option>
+                <!--<option value="2">Deposite Paid</option>-->
+                <option value="3">Paid</option>
             </select>
         </div>
     </th>
     <th>ETA</th>
+    <th>Diamond</th>
 </tr>
  </thead>
  <tbody id="dataafterfilter">
