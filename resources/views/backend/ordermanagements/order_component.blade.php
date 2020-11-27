@@ -1,9 +1,9 @@
 
-
 @if(!$orders->isEmpty())
  @foreach($orders as $order)
 <tr id="rowupdateOrder_{{$order->id}}">
 <td>{{ $loop->iteration }}</td>
+<td><input type="checkbox" value="{{$order->id}}" name="multipleinvoice[]" /></td>
 <td>{{$order->order_date}}</td>
 <td>{{$order->client}}</td>
 <td class="reftd_{{$order->id}}">
@@ -30,7 +30,11 @@
         Enquiry
 @endswitch
 
+<<<<<<< HEAD
+@if($order->order_status !== 2)
+=======
 @if($order->payment_status !== 3)
+>>>>>>> ae3b59b112dba3aec89c8b5004770b3d0aa3321f
 <span class="changests changestsOrder_{{$order->id}} upstatusOrder_{{$order->id}}"><a class="getstatusvalueOrder" href="javascript:void(0);" idsOrder="{{$order->id}}">Change</a></span>
 @endif
 </td>

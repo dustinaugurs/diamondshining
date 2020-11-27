@@ -56,6 +56,7 @@
 </td>
 
 <td class="status">
+@if($order->order_status==5)
 @switch($order->checkStatus)
     @case(1)
         Checking availability
@@ -75,6 +76,29 @@
     @default
        Checking availability
 @endswitch
+@endif
+
+@if($order->order_status==2)
+@switch($order->order_status)
+    @case(1)
+        Enquiry
+        @break
+    @case(2)
+        Completed
+        @break
+    @case(3)
+        Cancelled
+        @break
+    @case(4)
+        Order Request
+        @break
+    @case(5)
+        Order Placed
+        @break
+    @default
+        Enquiry
+@endswitch
+@endif
 </td>
 
 <td>

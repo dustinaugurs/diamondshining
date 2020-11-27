@@ -333,10 +333,42 @@
           </tr>
          
           <tr>
-          <td><strong>Video/Image/Certificate URL</strong> <button onclick="copyToAll('#allurl')" class="urlbutton">Copy All</button></td>  
+          <td><strong>Video/Image/Certificate URL</strong> 
+          <span id="allurl_{{$product->id}}" style="display:none;">
+          @if(!empty($product->video))
+          @if(!empty($product->video_url))
+          Video : {{url('public/webscrap/video')}}/{{$product->video_url}}
+          @else
+          Video : {{$product->video}}
+          @endif
+          @endif
+
+          @if(!empty($product->image))
+          @if(!empty($product->img_url))
+          Image : {{url('public/webscrap/image')}}/{{$product->img_url}} 
+          @else
+          Image : {{$product->image}} 
+          @endif
+          @endif
+
+          @if(!empty($product->pdf))
+          @if(!empty($product->pdf_url))
+          Certificate : {{url('public/webscrap/pdf')}}/{{$product->pdf_url}}
+          @else
+          Certificate : {{$product->pdf}}
+          @endif
+          @endif
+
+         </span>
+         <button onclick="copyToAll('#allurl_{{$product->id}}')" class="urlbutton">Copy All</button>
+          </td>  
           <td>
+          @if(!empty($product->video))
           @if(!empty($product->video_url))
           <a id="vidurl" target="_blank" href="{{url('public/webscrap/video')}}/{{$product->video_url}}">Video</a> <button onclick="copyToClipboard('#vidurl')" class="urlbutton">copy</button>
+          @else
+          <a id="vidurl" target="_blank" href="{{$product->video}}">Video</a> <button onclick="copyToClipboard('#vidurl')" class="urlbutton">copy</button>
+          @endif
           @else
           No Video
           @endif
@@ -357,13 +389,7 @@
           </td> 
           </tr>
 
-          <tr style="display:none;"> <!---start-all-copy-url--->
-         <td colspan="4" id="allurl">
-         <p>Video : {{url('public/webscrap/video')}}/{{$product->video_url}}</p>
-         <p>Image : {{url('public/webscrap/video')}}/{{$product->img_url}} </p>
-         <p>Certificate : {{url('public/webscrap/video')}}/{{$product->img_url}} </p>
-         </td>
-         </tr> <!---End-all-copy-url--->
+          
           <!-- <tr>
               
           </tr>		 -->

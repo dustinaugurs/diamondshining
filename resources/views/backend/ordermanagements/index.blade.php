@@ -9,9 +9,9 @@
 @section('content')
     <div class="box box-info">
         <div class="box-header with-border">
-            <h3 class="box-title">{{ trans('labels.backend.orders.management') }}</h3>
-
-            
+            <h3 style="display:inline-block" class="box-title">{{ trans('labels.backend.orders.management') }}
+            </h3>
+            <button style="float:right" disabled="disabled" class="btn btn-sm btn-primary" id="multipleinvoicebtn" type="button">Generate Invoice for Multiple Diamonds</button>
         </div><!--box-header with-border-->
 
 
@@ -155,6 +155,7 @@
                 <thead>
 <tr>
 <th>#</th>
+<th><input id="togglecheck" type="checkbox" /></th>
 <th>Date
         <div class="changedatabox">
             <select name="changedatetimeOrder" class="changedatetimeOrder">
@@ -169,7 +170,16 @@
             </select>
         </div>
     </th>
-    <th>Client</th>
+    <th>Client
+    <div class="changedata">
+            <select name="clients" class="clients">
+                <option value="all">All</option>
+                @foreach($users as $user)
+                <option value="{{$user->id}}">{{$user->first_name}}</option>
+                @endforeach
+            </select>
+        </div>
+    </th>
     <th>Reference</th>
     <th>Order Status  
     <div class="changedata">
@@ -287,7 +297,37 @@
 <script>
 //=================
 $(document).ready(function(){
+//----start-multiple-checkbox-----
+    var tmp = [];
+    $('body').on('change', 'input[name="multipleinvoice[]"]', function(){
+  //$("input[name='multipleinvoice']").change(function() {
+  var checked = $(this).val();
+    if ($(this).is(':checked')) {
+      tmp.push(checked);
+    }else{
+    tmp.splice($.inArray(checked, tmp),1);
+    }
 
+    if(tmp.length > 0){
+    $('#multipleinvoicebtn').removeAttr('disabled');    
+  }else{
+    $('#multipleinvoicebtn').attr('disabled', 'disabled'); 
+  }
+  });
+
+  $('body').on('change', '#togglecheck', function(){
+    $('input[name="multipleinvoice[]').trigger('click');
+    if(tmp.length > 0){
+    $('#multipleinvoicebtn').removeAttr('disabled');    
+  }else{
+    $('#multipleinvoicebtn').attr('disabled', 'disabled'); 
+  }
+  });
+
+  $('body').on('click', '#multipleinvoicebtn', function(){
+		alert(tmp);
+  });
+//----End-multiple-checkbox-----
 
 			// Pagination data Tag //
 			$(document).find('.pagination a').each(function(){
@@ -385,16 +425,17 @@ $('body').on('click', '.getcheckstatusOrder', function(){
 
 //--------------------------------------
     //----------------filter-DATE-AND-Payment--status-----------------
-    $('body').on('change', '.changedatetimeOrder, .paymentStatusOrder, .checkStatus, .checkOrderStatus', function(){
-      var jsondata='', symbol='', currency='', i, outputdata='', orderStatus='', cost_ex_VAT='', salePrice_ex_VAT='', salePrice_inc_VAT='', paymentStatus='' , payment_status='', date='', get_order_status='', checkStatus='', check_status='' ;
+    $('body').on('change', '.changedatetimeOrder, .paymentStatusOrder, .checkStatus, .checkOrderStatus, .clients', function(){
+      var jsondata='', symbol='', currency='', i, outputdata='', orderStatus='', cost_ex_VAT='', salePrice_ex_VAT='', salePrice_inc_VAT='', paymentStatus='' , payment_status='', date='', get_order_status='', checkStatus='', check_status=''; clients='' ;
           //console.log('date value_'+$(this).val());
            date = $(".changedatetimeOrder").find("option:selected").val();
            payment_status = $(".paymentStatusOrder").find("option:selected").val();
            check_status = $(".checkStatus").find("option:selected").val();
            get_order_status = $(".checkOrderStatus").find("option:selected").val();
+           clients = $(".clients").find("option:selected").val();
 
            var allordstatus = [2,3,4,5];
-			var data = 'date='+date+'&payment_status='+payment_status+'&get_order_status='+get_order_status+'&check_status='+check_status+'&allordstatus='+allordstatus+'&_token={{ csrf_token() }}';
+			var data = 'date='+date+'&payment_status='+payment_status+'&get_order_status='+get_order_status+'&check_status='+check_status+'&clients='+clients+'&allordstatus='+allordstatus+'&_token={{ csrf_token() }}';
             //console.log('mydatat_'+data); return false;
             $.ajax({
                 type:"GET",
@@ -403,7 +444,7 @@ $('body').on('click', '.getcheckstatusOrder', function(){
                 cache:false,
 				       // dataType:'json',
                 beforeSend: function(){
-                    $("#dataafterfilterOrder").html('<tr><td colspan="16"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
+                    $("#dataafterfilterOrder").html('<tr><td colspan="17"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
                 },
                 success: function(result) {
                   //console.log('htmdata _'+resultJSON)
@@ -431,7 +472,7 @@ $('body').on('click', '.getcheckstatusOrder', function(){
                 cache:false,
 				        //dataType:'json',
                 beforeSend: function(){
-                    $("#dataafterfilterOrder").html('<tr><td colspan="16"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
+                    $("#dataafterfilterOrder").html('<tr><td colspan="17"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
                 },
                 success: function(result) {
               toastr.success('Your Data Successfully Updated');
@@ -477,7 +518,7 @@ $('body').on('click', '.getcheckstatusOrder', function(){
                 cache:false,
 				        //dataType:'json',
                 beforeSend: function(){
-                    $("#dataafterfilterOrder").html('<tr><td colspan="16"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
+                    $("#dataafterfilterOrder").html('<tr><td colspan="17"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
                 },
                 success: function(result) {
                 toastr.success('Your Data Successfully Updated');
@@ -509,6 +550,8 @@ $('.checkstatupdatetwothree2').on('submit', function(event){
       
 			var data = 'date='+date+'&pid='+prid+'&payment_status='+payment_status+'&order_status='+order_status+'&check_status='+check_status+'&deliveryCost='+deliveryCost+'&allordstatus='+allordstatus+'&vat='+vat+'&_token={{ csrf_token() }}';
             // console.log('clickupdatedata_'+data); return false;
+<<<<<<< HEAD
+=======
             $.ajax({
                 type:"POST",
                 url:"{{ url('admin/adOrderStatusAndPaymentUpdate') }}",
@@ -550,6 +593,7 @@ $('body').on('change', '.paystatupdateOrder', function(){
 
          var allordstatus = [2,3,4,5];
 			var data = 'date='+date+'&pid='+prid+'&payment_status='+payment_status+'&order_status='+order_status+'&trackingid='+trackingID+'&check_status='+check_status+'&allordstatus='+allordstatus+'&_token={{ csrf_token() }}';
+>>>>>>> ae3b59b112dba3aec89c8b5004770b3d0aa3321f
             $.ajax({
                 type:"POST",
                 url:"{{ url('admin/adOrderStatusAndPaymentUpdate') }}",
@@ -558,6 +602,135 @@ $('body').on('change', '.paystatupdateOrder', function(){
 				        //dataType:'json',
                 beforeSend: function(){
                     $("#dataafterfilterOrder").html('<tr><td colspan="16"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
+                },
+                success: function(result) {
+              toastr.success('Your Data Successfully Updated');
+					$('#dataafterfilterOrder').html(result);	
+                } 
+            });
+		});
+    //-----------------payment-status-update-------------------------
+$('.checkstatupdatetwothree3').on('submit', function(event){
+    event.preventDefault()
+      var payment_status='', order_status='', date='', check_status='', deliveryCost='', prid='', etadate='', trackingid='', allordstatus = '', vat='';
+
+      $('#myPayment').modal('hide');
+      
+         prid = $('.checkid23p').val();
+         date = $(".changedatetimeOrder").find("option:selected").val();
+         payment_status = $(".paystatupdateOrder").find("option:selected").val();
+         order_status = $(".orderstatuptOrder").find("option:selected").val();
+         
+         check_status = $(".checkstatustt").find("option:selected").val();
+         trackingid = $('#trackingid').val();
+         etadate = $('#etadate').val();
+         vat = '';
+
+          allordstatus = [2,3,4,5];
+      
+			var data = 'date='+date+'&pid='+prid+'&payment_status='+payment_status+'&order_status='+order_status+'&check_status='+check_status+'&deliveryCost='+deliveryCost+'&etadate='+etadate+'&allordstatus='+allordstatus+'&trackingid='+trackingid+'&_token={{ csrf_token() }}';
+             //console.log('checkstatusupdate_'+data); return false;
+            $.ajax({
+                type:"POST",
+                url:"{{ url('admin/paymentStatusUpdate') }}",
+                data:data,
+                cache:false,
+				       // dataType:'json',
+                beforeSend: function(){
+                    $("#dataafterfilterOrder").html('<tr><td colspan="18"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
+                },
+                success: function(result) {
+              toastr.success('Your Data Successfully Updated');
+					$('#dataafterfilterOrder').html(result);	
+                }
+               
+            });
+        });
+        
+        //-----------------payment-status-update-------------------------
+        $('.trackingbtn').on('click', function(event){
+            event.preventDefault()
+            var prid = $(this).attr('payorder');
+            var paymentStatus = $(this).attr('paymentstatus'); 
+            var trackingidupdate = $(this).attr('trackingidupdate'); 
+            $('#checkid23t').val(prid);
+            $("#paystatupdateTracking").val(paymentStatus);
+            $("#trackingidupdate").val(trackingidupdate);
+            $('#myTracking').modal({
+           show: 'show'
+            });
+            return false;
+        });
+
+$('.checkstatupdatetwothree4').on('submit', function(event){
+    event.preventDefault()
+      var payment_status='', order_status='', date='', check_status='', deliveryCost='', prid='', etadate='', trackingid='', allordstatus = '', vat='';
+
+      $('#myTracking').modal('hide');
+      
+         prid = $('#checkid23t').val();
+         date = $(".changedatetimeOrder").find("option:selected").val();
+         payment_status = $("#paystatupdateTracking").val();
+         order_status = $(".orderstatuptOrder").find("option:selected").val();
+         
+         check_status = $(".checkstatustt").find("option:selected").val();
+         trackingid = $('#trackingidupdate').val();
+         etadate = $('#etadate').val();
+         vat = '';
+
+          allordstatus = [2,3,4,5];
+      
+			var data = 'date='+date+'&pid='+prid+'&payment_status='+payment_status+'&order_status='+order_status+'&check_status='+check_status+'&deliveryCost='+deliveryCost+'&etadate='+etadate+'&allordstatus='+allordstatus+'&trackingid='+trackingid+'&_token={{ csrf_token() }}';
+             //console.log('trackingidupdate_'+data); return false;
+            $.ajax({
+                type:"POST",
+                url:"{{ url('admin/trackingIdUpdate') }}",
+                data:data,
+                cache:false,
+				       // dataType:'json',
+                beforeSend: function(){
+                    $("#dataafterfilterOrder").html('<tr><td colspan="18"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
+                },
+                success: function(result) {
+              toastr.success('Your Tracking Id Successfully Updated');
+					$('#dataafterfilterOrder').html(result);	
+                }
+               
+            });
+		});
+//===========---End-Order-Section---===============
+//--------------Start--update-paymentSatatus-2AND3-------------------
+$('body').on('change', '.paystatupdateOrder', function(){
+      var  payment_status='',  order_status='', date='', check_status='', prid='', trackingID='', etadate=''  ;
+         prid = $(this).attr('prID');
+         date = $(".changedatetimeOrder").find("option:selected").val();
+         payment_status = $(".paystatupdateOrder").find("option:selected").val();
+         check_status = $(".checkstatupdateOrder").find("option:selected").val();
+         order_status = $(".orderstatuptOrder").find("option:selected").val();
+         trackingID = $('#trackingid').val();
+         etadate = $('#etadate').val();
+          //alert(); return false;
+         if($('.paystatupdateOrder').click()){
+        if(payment_status != 1){
+            $('#checkid23p').val(prid);
+            //$('.checkstatustt').html(options);
+            //$('#trackingid').val(trackingID); 
+            $('#myPayment').modal({
+           show: 'show'
+            });
+            return false;
+        }}
+
+         var allordstatus = [2,3,4,5];
+			var data = 'date='+date+'&pid='+prid+'&payment_status='+payment_status+'&order_status='+order_status+'&trackingid='+trackingID+'&check_status='+check_status+'&allordstatus='+allordstatus+'&_token={{ csrf_token() }}';
+            $.ajax({
+                type:"POST",
+                url:"{{ url('admin/adOrderStatusAndPaymentUpdate') }}",
+                data:data,
+                cache:false,
+				        //dataType:'json',
+                beforeSend: function(){
+                    $("#dataafterfilterOrder").html('<tr><td colspan="17"><div class="dkprealoader"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span> </div></td></tr>');	
                 },
                 success: function(result) {
               toastr.success('Your Data Successfully Updated');

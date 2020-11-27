@@ -7,15 +7,23 @@
                 <td align="left" style="color: #888888; width:20px; font-size: 16px; line-height: 24px;">
                     <!-- section text ======-->
                     <!---start-header--><p style="border-bottom: 1px solid #ccc; padding-bottom: 10px; width:100%; float:left;">
+<<<<<<< HEAD
+         <span style="display:block; width:120px; float:left"><img style="max-width:100%" src="http://www.shiningqualities.com/public/assets/img/logo/logowhite.png"></span>
+         <span style="display:block; width:120px; float:right">
+           {{date('d/m/Y')}}
+         </span>
+        </p><!---End-header-->
+=======
       <span style="display:block; width:120px; float:left"><img style="max-width:100%" src="http://www.shiningqualities.com/public/assets/img/logo/logomail.png"></span>
 
       <span style="display:block; width:120px; float:right">
         Date : {{date('d/m/Y')}}
       </span>
      </p><!---End-header-->
+>>>>>>> ae3b59b112dba3aec89c8b5004770b3d0aa3321f
 
                     <p style="line-height: 24px; margin-bottom:15px;">
-                        Dear {{$notice->first_name}}
+                        Dear {{$notice->first_name}},
                     </p>
                     
                     <p style="line-height: 24px; margin-bottom:20px;">
@@ -47,7 +55,11 @@
                     </p>
 
                     <p style="line-height: 24px">
+<<<<<<< HEAD
+                        Kind Regards,</br><br>
+=======
                         Kind Regards,</br>
+>>>>>>> ae3b59b112dba3aec89c8b5004770b3d0aa3321f
                         @yield('title', app_name())
                     </p>
 

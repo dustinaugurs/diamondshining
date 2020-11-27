@@ -72,7 +72,7 @@ class OrdersController extends Controller
          
         //  echo '<pre>'; print_r($orders->user->tid); 
         //     die;            
-
+        $users = DB::table('users')->where('id', '!=', 1)->get();
         return view('backend.ordermanagements.index',[
                'ordervalue'=>'OrderValue',
                //'orders'=>$this->repository->order($orderStatus),
@@ -80,6 +80,7 @@ class OrdersController extends Controller
                'current_currency'=>$current_currency,
                'setting' => $setting,
                'symbol'=>$symbol,
+               'users'=> $users,
              ]);
     }
 
@@ -503,11 +504,12 @@ class OrdersController extends Controller
     public function dateAndPaymentFilter(Request $request){
         $allordstatus = explode(',', $request->allordstatus);
        // $allordstatus = explode(',', $allordstatus);
-        //print_r($ddde); die;
+        //echo '<pre>'; print_r($request->all()); die;
         $date = $request->date;
         $payment_status = $request->payment_status;
         $orderStatus = $request->get_order_status;  //Enquiry=1, Completed=2, Cancelled=3, Order Request=4, Order Placed=5
         $checkStatus = $request->check_status;
+        $clients = $request->clients;
        
         $currency = DB::table('currencies')->where('code', Auth::user()->currency_code)->first();
         $price_arr = $this->repository->get_currency();
@@ -533,6 +535,10 @@ class OrdersController extends Controller
         }
         if($checkStatus !== "all"){
             $query->where('checkStatus', $checkStatus);
+        }
+
+        if($clients !== "all"){
+            $query->where('user_id', $clients);
         }
 
         
@@ -651,9 +657,9 @@ public function EnqOrderStatusAndPaymentUpdate(Request $request){
 		 'message' => 'We’ve received your order request for the following diamond listed below - Thank you! We’re currently checking the availability and quality of this diamond and will revert back to you at the earliest opportunity.',
       ];
       
-      if($sendmail !== ''){	
-            $mail = \Mail::to($sendmail)->cc(['enquiries@shiningqualities.com'])->send(new SendEmailToCustomer($mailData));
-       } 
+    //   if($sendmail !== ''){	
+    //         $mail = \Mail::to($sendmail)->cc(['enquiries@shiningqualities.com'])->send(new SendEmailToCustomer($mailData));
+    //    } 
      
      
     return view('backend.ordermanagements.enquiries_component', [

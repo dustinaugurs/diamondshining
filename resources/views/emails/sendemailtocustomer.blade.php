@@ -17,6 +17,14 @@
 <body>
    <div class="wrapper">
      <!---start-header--><p style="border-bottom: 1px solid #ccc; padding-bottom: 10px; width:100%; float:left;">
+<<<<<<< HEAD
+     <span style="display:block; width:120px; float:left"><img style="max-width:100%" src="http://www.shiningqualities.com/public/assets/img/logo/logowhite.png"></span>
+         <span style="display:block; width:120px; float:right">
+           {{date('d/m/Y')}}
+         </span>
+        </p><!---End-header-->
+   <p>Dear <?php echo $mailData['customername'] ?>, </p>
+=======
       <span style="display:block; width:120px; float:left"><img style="max-width:100%" src="http://www.shiningqualities.com/public/assets/img/logo/logomail.png"></span>
 
       <span style="display:block; width:120px; float:right">
@@ -24,11 +32,16 @@
       </span>
      </p><!---End-header-->
    <p><strong>Dear <?php echo $mailData['customername'] ?>, </strong></p>
+>>>>>>> ae3b59b112dba3aec89c8b5004770b3d0aa3321f
 
       <p><?php echo $mailData['message'] ?></p>
        <br>
     
+<<<<<<< HEAD
+       <p>Kind regards ,<br><br>
+=======
        <p><strong>Kind regards ,</strong><br>
+>>>>>>> ae3b59b112dba3aec89c8b5004770b3d0aa3321f
         Shining Qualities team
         </p>
        
